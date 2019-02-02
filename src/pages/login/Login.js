@@ -10,11 +10,13 @@ class Login extends Component {
       error: null
     };
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
     e.persist();
     this.setState({redirectToReferrer: true, error: null});
   };
+
   render() {
     if (this.state.redirectToReferrer === true) {
       return (<Redirect to="/dashboard"/>);

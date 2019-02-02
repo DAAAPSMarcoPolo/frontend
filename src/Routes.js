@@ -4,7 +4,7 @@ import Login from './pages/login/Login';
 import RequestPasswordReset from './pages/login/RequestPasswordReset';
 import PasswordReset from './pages/login/PasswordReset';
 import Register from './pages/login/Register';
-import ProfileParent from './pages/profile/ProfileParent';
+import Settings from './pages/profile/Settings';
 import Dashboard from './pages/Dashboard';
 
 const Routes = () => (
@@ -14,7 +14,7 @@ const Routes = () => (
     <Route path="/request-password-reset" component={RequestPasswordReset}/>
     <Route path="/password-reset" component={PasswordReset}/>
     <Route path="/register" component={Register}/>
-    <Route path="/profile" component={ProfileParent}/>
+    <Route path="/profile" component={Settings}/>
     <Route path="/dashboard" component={Dashboard}/>
     />
   </Switch>
