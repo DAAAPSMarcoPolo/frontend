@@ -18,7 +18,8 @@ Yarn start serves up the react and live reloads.
 This means you can edit code and the react will automatically reloads at localhost :)
 You can now view your app at localhost
 
-* add your env variables which will be pulled from `src/utils/config.js`  the backend
+* To have your local frontend communicate with the dev server: configure your api base url like so: `export const API_BASE_URL = 'http://api.dev.marcopolo.com';`
+* or just edit your env file variables which will be pulled from `src/utils/config.js`  the backend
 * your env files are ignored from git! so don't worry ;)
 * make sure you have the [backend](https://?) running
 * run `something` to serve the site :)
