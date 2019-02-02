@@ -1,7 +1,7 @@
 // frontend/src/InitialApp.js
 
 import React, { Component } from "react";
-import Modal from "./components/Modal";
+import Modal from "./components/pages/Modal";
 import axios from "axios";
 
 class InitialApp extends Component {
