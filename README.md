@@ -15,11 +15,11 @@ Running yarn checks all the dependency and wraps around npm to download the spec
 ### `yarn start`
 
 Yarn start serves up the react and live reloads.
-This means you can edit code and the react will automatically reload and reserve at localhost :)
+This means you can edit code and the react will automatically reloads at localhost :)
 You can now view your app at localhost
 
 * add your env variables which will be pulled from `src/utils/config.js`  the backend
-* your env files are ignored from git! so don't worry ;) 
+* your env files are ignored from git! so don't worry ;)
 * make sure you have the [backend](https://?) running
 * run `something` to serve the site :)
 
