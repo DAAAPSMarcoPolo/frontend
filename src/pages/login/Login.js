@@ -1,20 +1,37 @@
 import React, { Component } from 'react';
 import LoginForm from './LoginForm';
 import { Redirect } from 'react-router-dom';
+import apiFetch from '../../utils/api';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirectToReferrer: false,
-      error: null
+      error: null,
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     e.persist();
     this.setState({redirectToReferrer: true, error: null});
+    console.log(`username: ${e.target.username.value}`)
+    console.log(`password: ${e.target.password.value}`)
+    const formData = {
+      body: JSON.stringify({
+        "username": e.target.username.value,
+        "password": e.target.password.value
+      }),
+      method: 'POST'
+    }
+    const data = await apiFetch('/auth/login/', formData)
+      .then(res => {
+        return res.json().then(data => {
+          return { data }
+        })
+    });
+    console.log(data);
   };
 
   render() {
