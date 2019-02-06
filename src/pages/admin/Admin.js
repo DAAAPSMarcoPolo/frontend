@@ -21,7 +21,8 @@ class Admin extends Component {
             error: null,
             showAdd: true
         };
-        this.handleShowAddUser = this.handleShowAddUser.bind(this);
+        this.showAddUser = this.showAddUser.bind(this);
+        this.hideAddUser = this.hideAddUser.bind(this);
     }
 
     handleSubmit = async (e) => {
@@ -33,7 +34,11 @@ class Admin extends Component {
         <li>{user}</li>
     );
 
-    handleShowAddUser() {
+    showAddUser() {
+        this.setState({showAdd: true})
+    };
+
+    hideAddUser() {
         this.setState({showAdd: false})
     };
 
@@ -42,10 +47,15 @@ class Admin extends Component {
             return (<Redirect to="/dashboard"/>);
         }
         let adduseroption;
-        if (this.state.showAdd === true) {
-            adduseroption = <button onClick={this.handleShowAddUser}>Add new user</button>
+        if (this.state.showAdd === false) {
+            adduseroption = <button onClick={this.showAddUser}>Add new user</button>
         } else {
-            adduseroption = <AddUserForm/>
+            adduseroption = (
+                <div>
+                    <AddUserForm/>
+                    <button onClick={this.hideAddUser}>Hide</button>
+                </div>
+            )
         }
         return (
             <div className="page bgorange temptext">
