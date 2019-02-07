@@ -1,16 +1,23 @@
 import React from 'react';
 
-const AddUserForm =  ({ addUser, error }) => (
+const AddUserForm = ({addUser, error}) => (
     <form onSubmit={addUser}>
-        <div className = "errorClass">
+        <div className="errorClass">
             {error ? {error} : null}
         </div>
-        <label htmlFor="email">New user email:</label>
-        <input type="email" name="username" required/>
-        <br/>
-        <label htmlFor="password">New user password:</label>
-        <input type="password" name="password" required/>
-        <input className="btn" type="submit" name="submit" value="submit" />
+        <div id="addFormParent">
+            <div>
+                <label className="form-item" htmlFor="email">New user email:</label>
+                <br/>
+                <label className="form-item" htmlFor="password">New user password:</label>
+            </div>
+            <div>
+                <input className="addform form-item" type="email" name="username" required/>
+                <br/>
+                <input className="addform form-item" type="password" name="password" required/>
+            </div>
+        </div>
+        <input className="addbtn" type="submit" name="submit" value="submit"/>
     </form>
 );
 

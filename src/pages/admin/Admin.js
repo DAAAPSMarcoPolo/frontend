@@ -28,6 +28,9 @@ class Admin extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         e.persist();
+        console.log(`${e.target.username.value}`);
+        console.log(`${e.target.password.value}`);
+        // TODO: complete ajax calls for adding new user
     };
 
     userList = mockUsers.map((user) =>
@@ -52,7 +55,7 @@ class Admin extends Component {
         } else {
             adduseroption = (
                 <div>
-                    <AddUserForm/>
+                    <AddUserForm addUser={this.handleSubmit} error={this.state.error}/>
                     <button onClick={this.hideAddUser}>Hide</button>
                 </div>
             )
