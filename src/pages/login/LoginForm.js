@@ -6,7 +6,7 @@ const LoginForm = ({ login , error }) => (
       {error ? {error} : null}
     </div>
     <label htmlFor="email">email </label>
-    <input type="email" name="email" required />
+    <input type="email" name="username" required />
     <label htmlFor="password">password </label>
     <input type="password" name="password" required />
     <br/>
