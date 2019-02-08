@@ -1,3 +1,38 @@
+body {
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 20px;
+  background-color: #282828;
+  color: white;
+}
+
+button {
+  border-radius: 30px;
+}
+
+input, input:hover, input:focus, input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected {
+    outline: none;
+    background-color: #3ECC9A !important;
+    border-radius: 30px;
+    outline-offset: 0px;
+    border: none;
+}
+
+input, label {
+  display: flex;
+  font-family: 10px;
+  position: relative;
+  margin: 20px;
+  text-transform: uppercase;
+  text-align:center;
+  color: white;
+  width: 100%;
+}
+
+input::placeholder {
+  color: white;
+  text-align: center;
+}
+
 .App {
   text-align: center;
 }
@@ -8,18 +43,18 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: none;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
-  color: #61dafb;
+  color: white;
 }
 
 @keyframes App-logo-spin {

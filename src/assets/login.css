@@ -1,0 +1,26 @@
+.login {
+  display: inline-block;
+  display: flex;
+  height: 100vh;
+}
+.side {
+  background: #44E8AE;
+  flex: 5.4 1;
+  text-align: center;
+  max-width: 50vw;
+  overflow: auto;
+  height: 100vh;
+}
+
+.login .link {
+  text-decoration: underline;
+  font-size: 10px;
+}
+
+form {
+  text-align: center;
+  display: inline-block;
+}
+.login button {
+  border-radius: 30px;
+}

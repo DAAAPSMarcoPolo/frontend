@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LoginForm from './LoginForm';
 import { Redirect } from 'react-router-dom';
 import apiFetch from '../../utils/api';
+import '../../assets/login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -39,14 +40,17 @@ class Login extends Component {
       return (<Redirect to="/dashboard"/>);
     }
     return (
-      <div className="page bgorange">
-        <div className="logo">
-          simplif.ai
+      <div className="login">
+        <div className="side">
+          <div className="logo">
+          marcopolo
+          </div>
+          <h1>Login</h1>
+          <div className="registerbox">
+              <LoginForm login={this.handleSubmit} error={this.state.error} />
+          </div>
         </div>
-        <h1>Login</h1>
-        <div className="registerbox">
-            <LoginForm login={this.handleSubmit} error={this.state.error} />
-        </div>
+        <div className="right"/>
       </div>
     );
   }

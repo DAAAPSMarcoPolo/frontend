@@ -5,10 +5,8 @@ const LoginForm = ({login, error}) => (
         <div className="errorClass">
             {error ? {error} : null}
         </div>
-        <label htmlFor="email">email </label>
-        <input type="email" name="username" required/>
-        <label htmlFor="password">password </label>
-        <input type="password" name="password" required/>
+        <input type="email" placeholder="email" name="username" required/>
+        <input type="password" placeholder="password" name="password" required/>
         <br/>
         <input className="btn" type="submit" name="submit" value="submit"/>
         <a href="/request-password-reset">Forgot your password?</a>
