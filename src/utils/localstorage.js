@@ -12,3 +12,10 @@ export function saveToLocalStorage(obj) {
     localStorage.setItem(key, str);
   }
 }
+
+export function deleteFromLocalStorage(dataName) {
+  if (typeof dataName === 'undefined' || typeof localStorage.getItem(dataName) === 'undefined') {
+    return;
+  }
+  return localStorage.removeItem(dataName);
+}
