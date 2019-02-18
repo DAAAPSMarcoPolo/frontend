@@ -83,7 +83,7 @@ class Admin extends Component {
                 </div>
             )
         }
-        
+
         let alpacaApiSettings;
         if (this.state.showAlpaca === false) {
             alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca Preferences</button>
