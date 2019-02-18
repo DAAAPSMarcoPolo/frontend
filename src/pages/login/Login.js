@@ -3,6 +3,7 @@ import LoginForm from './LoginForm';
 import { Redirect } from 'react-router-dom';
 import apiFetch from '../../utils/api';
 import '../../assets/login.css';
+import logo from '../../assets/images/logo.png';
 
 class Login extends Component {
   constructor(props) {
@@ -42,16 +43,17 @@ class Login extends Component {
     return (
       <div className="login">
         <div className="side">
-          <div className="logo">
-          MarcoPolo
-          </div>
-          <h1>Login</h1>
-          <div className="registerbox">
-              <LoginForm login={this.handleSubmit} error={this.state.error} />
-          </div>
+            <div className="grow">
+              <div className="logotype">
+                MarcoPolo
+              </div>
+              <div className="registerbox">
+                <LoginForm login={this.handleSubmit} error={this.state.error} />
+              </div>
+            </div>
         </div>
         <div className="right">
-
+          <img className="logo" src={logo}/>
         </div>
       </div>
     );

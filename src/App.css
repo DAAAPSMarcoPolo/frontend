@@ -30,6 +30,12 @@ input, label {
   width: 100%;
 }
 
+.logotype {
+    font-family: 'Rufina', sans-serif;
+    font-size: 55px;
+    color: #282828;
+}
+
 input::placeholder {
   color: white;
   text-align: center;

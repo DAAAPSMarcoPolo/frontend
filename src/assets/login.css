@@ -3,6 +3,10 @@
   display: flex;
   height: 100vh;
 }
+
+.grow {
+    margin: 32% auto;
+}
 .side {
   background: #44E8AE;
   flex: 5.4 1;
@@ -26,4 +30,17 @@ form {
 }
 .login button {
   border-radius: 30px;
+}
+
+.login a {
+  font-size: 14px;
+}
+
+.right {
+  text-align: center;
+  display: inline;
+  margin: auto;
+}
+.logo {
+  max-width: 100%
 }
