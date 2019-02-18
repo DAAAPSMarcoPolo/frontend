@@ -49,7 +49,7 @@ class Login extends Component {
         })
     });
   };
-  
+
   handleFactorSubmit = async (e) => {
     e.preventDefault();
     e.persist();
@@ -86,22 +86,17 @@ class Login extends Component {
               <h1 className="logotype">
                 MarcoPolo
               </h1>
-              <div className="registerbox">
-                <LoginForm login={this.handleSubmit} error={this.state.error} />
-              </div>
+              {/* login form disappears when codeSent is true */}
+              {/* 2-factor form appears when codeSent is true */}
+              {!this.state.codeSent && <LoginForm login={this.handleSubmit} error={this.state.error} />}
+              {this.state.codeSent && <FactorForm login={this.handleFactorSubmit} error={this.state.error} />}
             </div>
         </div>
-        <h1>Login</h1>
-        {/* login form disappears when codeSent is true */}
-        <div className="registerbox">
-          {!this.state.codeSent && <LoginForm login={this.handleSubmit} error={this.state.error} />}
-          {this.state.codeSent && <FactorForm login={this.handleFactorSubmit} error={this.state.error} />}
+        <div className="right">
+          <img className="logo" src={logo}/>
         </div>
-        {/* 2-factor form appears when codeSent is true */}
       </div>
     );
   }
 }
-
-
 export default Login;
