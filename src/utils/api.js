@@ -1,4 +1,5 @@
 import { API_BASE_URL } from './config';
+import { getFromLocalStorage, } from './localstorage';
 
 export default function apiFetch(endpoint, options = {}) {
   //
@@ -9,7 +10,8 @@ export default function apiFetch(endpoint, options = {}) {
     'Content-Type': 'application/json',
   }
 
-  const token = localStorage.getItem('token');
+  const token = getFromLocalStorage('token');
+
   if (token) {
     options.headers['Authorization'] = `Token ${token}`;
   }

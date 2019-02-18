@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import AddUserForm from './AddUserForm'
 import {Redirect} from 'react-router-dom';
+import apiFetch from '../../utils/api';
 import './admin.css';
 
 /*TODO: Remove this for production*/
@@ -28,6 +29,23 @@ class Admin extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         e.persist();
+        this.setState({redirectToReferrer: true, error: null});
+        console.log(`username: ${e.target.username.value}`)
+        console.log(`password: ${e.target.password.value}`)
+        const formData = {
+          body: JSON.stringify({
+            "username": e.target.username.value,
+            "password": e.target.password.value
+          }),
+          method: 'POST'
+        }
+        const data = await apiFetch('/auth/adduser/', formData)
+          .then(res => {
+            return res.json().then(data => {
+              return { data }
+            })
+        });
+        console.log(data);
     };
 
     userList = mockUsers.map((user) =>
@@ -52,7 +70,7 @@ class Admin extends Component {
         } else {
             adduseroption = (
                 <div>
-                    <AddUserForm/>
+                    <AddUserForm addUser={this.handleSubmit} />
                     <button onClick={this.hideAddUser}>Hide</button>
                 </div>
             )
