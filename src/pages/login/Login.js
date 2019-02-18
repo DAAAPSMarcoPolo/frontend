@@ -3,6 +3,8 @@ import LoginForm from './LoginForm';
 import { Redirect } from 'react-router-dom';
 import apiFetch from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
+import '../../assets/login.css';
+import logo from '../../assets/images/logo.png';
 
 class Login extends Component {
   constructor(props) {
@@ -44,13 +46,19 @@ class Login extends Component {
       return (<Redirect to="/dashboard"/>);
     }
     return (
-      <div className="page bgorange">
-        <div className="logo">
-          simplif.ai
+      <div className="login">
+        <div className="side">
+            <div className="grow">
+              <h1 className="logotype">
+                MarcoPolo
+              </h1>
+              <div className="registerbox">
+                <LoginForm login={this.handleSubmit} error={this.state.error} />
+              </div>
+            </div>
         </div>
-        <h1>Login</h1>
-        <div className="registerbox">
-            <LoginForm login={this.handleSubmit} error={this.state.error} />
+        <div className="right">
+          <img className="logo" src={logo}/>
         </div>
       </div>
     );
