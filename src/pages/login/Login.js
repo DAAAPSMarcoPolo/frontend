@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LoginForm from './LoginForm';
 import { Redirect } from 'react-router-dom';
 import apiFetch from '../../utils/api';
+import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 
 class Login extends Component {
   constructor(props) {
@@ -28,7 +29,11 @@ class Login extends Component {
     const data = await apiFetch('/auth/login/', formData)
       .then(res => {
         return res.json().then(data => {
-          return { data }
+          if (res.status === 200 && data.token) {
+            saveToLocalStorage({token: data.token});
+          } else if (res.status === 401) {
+            deleteFromLocalStorage('token');
+          }
         })
     });
     console.log(data);
