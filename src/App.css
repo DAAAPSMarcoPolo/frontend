@@ -18,10 +18,12 @@ input, input:hover, input:focus, input:active, input:-internal-autofill-selected
 }
 
 input, label {
+  font-weight: bolder;
   display: flex;
-  font-family: 10px;
+  font-size: 16px;
   position: relative;
-  margin: 20px;
+  margin: 20px 0px 20px 0px;
+  padding: 10px;
   text-transform: uppercase;
   text-align:center;
   color: white;

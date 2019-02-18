@@ -11,6 +11,9 @@
   overflow: auto;
   height: 100vh;
 }
+.right {
+  flex: 5.4 1;
+}
 
 .login .link {
   text-decoration: underline;

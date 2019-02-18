@@ -43,14 +43,16 @@ class Login extends Component {
       <div className="login">
         <div className="side">
           <div className="logo">
-          marcopolo
+          MarcoPolo
           </div>
           <h1>Login</h1>
           <div className="registerbox">
               <LoginForm login={this.handleSubmit} error={this.state.error} />
           </div>
         </div>
-        <div className="right"/>
+        <div className="right">
+
+        </div>
       </div>
     );
   }
