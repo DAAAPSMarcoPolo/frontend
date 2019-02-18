@@ -20,7 +20,6 @@ input, input:hover, input:focus, input:active, input:-internal-autofill-selected
 
 input, label, button {
   font-weight: bolder;
-  display: flex;
   font-size: 16px;
   position: relative;
   margin: 20px 0px 20px 0px;
@@ -76,6 +75,7 @@ input::placeholder {
   margin: -54px 0px 0px 142px;
   z-index: 100;
   position: absolute;
+  margin: -53px 0px 0px 156px
 }
 
 .nav {
