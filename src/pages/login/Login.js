@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LoginForm from './LoginForm';
+import FactorForm from './FactorForm';
 import { Redirect } from 'react-router-dom';
 import apiFetch from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
@@ -10,13 +11,15 @@ class Login extends Component {
     this.state = {
       redirectToReferrer: false,
       error: null,
+      codeSent: false,
+      username: null
     };
   }
 
   handleSubmit = async (e) => {
     e.preventDefault();
     e.persist();
-    this.setState({redirectToReferrer: true, error: null});
+    this.setState({error: null});
     console.log(`username: ${e.target.username.value}`)
     console.log(`password: ${e.target.password.value}`)
     const formData = {
@@ -26,18 +29,49 @@ class Login extends Component {
       }),
       method: 'POST'
     }
-    const data = await apiFetch('/auth/login/', formData)
+    await apiFetch('/auth/login/', formData)
       .then(res => {
         return res.json().then(data => {
+          // handle 2-factor
+          if (res.status === 200 && data.message === 'code sent') {
+            this.setState({codeSent: true, username: data.user.username});
+            console.log(data)
+          }
           if (res.status === 200 && data.token) {
             saveToLocalStorage({token: data.token});
+            console.log(data);
+            // TODO first login stuff if needed
           } else if (res.status === 401) {
             deleteFromLocalStorage('token');
           }
         })
     });
-    console.log(data);
   };
+  
+  handleFactorSubmit = async (e) => {
+    e.preventDefault();
+    e.persist();
+    this.setState({error: null});
+    const formData = {
+      body: JSON.stringify({
+        "code": e.target.code.value,
+        "username": this.state.username
+      }),
+      method: 'POST'
+    }
+    await apiFetch('/auth/loginfactor/', formData)
+      .then(res => {
+        return res.json().then(data => {
+          if (res.status === 200 && data.token) {
+            saveToLocalStorage({token: data.token});
+            // logged in
+            this.setState({redirectToReferrer: true})
+          } else if (res.status === 401) {
+            deleteFromLocalStorage('token');
+          }
+        })
+    });
+  }
 
   render() {
     if (this.state.redirectToReferrer === true) {
@@ -49,9 +83,12 @@ class Login extends Component {
           simplif.ai
         </div>
         <h1>Login</h1>
+        {/* login form disappears when codeSent is true */}
         <div className="registerbox">
-            <LoginForm login={this.handleSubmit} error={this.state.error} />
+          {!this.state.codeSent && <LoginForm login={this.handleSubmit} error={this.state.error} />}
+          {this.state.codeSent && <FactorForm login={this.handleFactorSubmit} error={this.state.error} />}
         </div>
+        {/* 2-factor form appears when codeSent is true */}
       </div>
     );
   }
