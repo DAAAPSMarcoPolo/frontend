@@ -3,6 +3,11 @@
   display: flex;
 }
 
+.logotype {
+    font-family: 'Rufina', sans-serif;
+    font-size: 55px;
+    color: #282828;
+}
 .grow {
   margin: 32% auto;
   padding: 10%;
@@ -50,11 +55,32 @@ form {
   display: none;
 }
 
-@media screen and (max-width: 337px) {
+.login input, .login button {
+  width: 354px;
+}
+@media screen and (max-width: 838px) {
   .submit-btn {
     display: block;
   }
   .submit-arrow {
     display: none;
+  }
+  .login input, .login button {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .right {
+    display: none;
+  }
+  .login {
+    display: block;
+  }
+  .side {
+    height: 100vh;
+    max-width: 100vh;
+  }
+  .logotype {
+    font-size: calc(10px + 12vw);
   }
 }

@@ -18,7 +18,7 @@ input, input:hover, input:focus, input:active, input:-internal-autofill-selected
     border: none;
 }
 
-input, label {
+input, label, button {
   font-weight: bolder;
   display: flex;
   font-size: 16px;
@@ -31,10 +31,11 @@ input, label {
   width: 100%;
 }
 
-.logotype {
-    font-family: 'Rufina', sans-serif;
-    font-size: 55px;
-    color: #282828;
+button {
+  outline: none;
+  color: #3ECC9A;
+  outline: 0px solid transparent;
+  border: 0px solid transparent;
 }
 
 input::placeholder {
@@ -72,6 +73,9 @@ input::placeholder {
 
 .submit-arrow {
   max-width: 25px;
+  margin: -54px 0px 0px 142px;
+  z-index: 100;
+  position: absolute;
 }
 
 .nav {
@@ -82,3 +86,16 @@ input:focus::-webkit-input-placeholder { color:transparent; }
 input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
 input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
 input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+
+input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected, input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background-color: green;
+  background-image: none;
+  color: rgb(0, 0, 0);
+}
+
+a {
+  color: #282828;
+}
+a:hover {
+  color: white;
+}

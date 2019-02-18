@@ -44,9 +44,9 @@ class Login extends Component {
       <div className="login">
         <div className="side">
             <div className="grow">
-              <div className="logotype">
+              <h1 className="logotype">
                 MarcoPolo
-              </div>
+              </h1>
               <div className="registerbox">
                 <LoginForm login={this.handleSubmit} error={this.state.error} />
               </div>

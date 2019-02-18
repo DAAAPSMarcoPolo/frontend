@@ -11,6 +11,7 @@ const LoginForm = ({login, error}) => (
           <input type="password" placeholder="password" name="password" required/>
           <img className="submit-arrow" src={arrow} />
         </div>
+        <button className="submit-btn">Login</button>
         <a href="/request-password-reset">Forgot your password?</a>
         <br/>
         <a href="/register">Create an Account</a>
