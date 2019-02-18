@@ -11,22 +11,6 @@
     font-size:0;
 }
 
-.addformtext {
-
-}
-
-.form-item{
-    height: 25px;
-    margin: 5px;
-}
-
-.addform {
-    border-radius: 30px;
-    padding-left: 12px;
-}
-
-#addFormParent {
-    display: flex;
-    width: 400px;
-    margin-left: 20px;
+#add-user-hide-button {
+    width: 150px;
 }
