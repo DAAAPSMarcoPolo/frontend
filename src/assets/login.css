@@ -11,7 +11,11 @@
 .grow {
   margin: 32% auto;
   max-width: 450px;
-  padding: 0px 60px;
+}
+.grow:after{
+ content:'';
+ clear:both;
+ display:block;
 }
 .side {
   background: #44E8AE;
@@ -71,6 +75,9 @@ form {
   .form {
     width: 100%;
   }
+  .grow {
+    padding: 0px 60px;
+  }
 }
 @media screen and (max-width: 600px) {
   .right {
@@ -83,8 +90,6 @@ form {
     height: 100vh;
     max-width: 100vh;
   }
-}
-@media screen and (max-width: 600px) {
   .logotype {
     font-size: calc(10px + 11.5vw);
   }
