@@ -73,3 +73,7 @@ input::placeholder {
     transform: rotate(360deg);
   }
 }
+
+.submit-arrow {
+  max-width: 25px;
+}

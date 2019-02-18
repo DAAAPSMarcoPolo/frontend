@@ -45,3 +45,16 @@ form {
 .logo {
   max-width: 100%
 }
+
+.submit-btn {
+  display: none;
+}
+
+@media screen and (max-width: 337px) {
+  .submit-btn {
+    display: block;
+  }
+  .submit-arrow {
+    display: none;
+  }
+}

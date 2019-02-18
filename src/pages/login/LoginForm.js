@@ -1,4 +1,5 @@
 import React from 'react';
+import arrow from '../../assets/images/arrow.png';
 
 const LoginForm = ({login, error}) => (
     <form onSubmit={login}>
@@ -6,9 +7,10 @@ const LoginForm = ({login, error}) => (
             {error ? {error} : null}
         </div>
         <input type="email" placeholder="email" name="username" required/>
-        <input type="password" placeholder="password" name="password" required/>
-        <br/>
-        <input className="btn" type="submit" name="submit" value="submit"/>
+        <div>
+          <input type="password" placeholder="password" name="password" required/>
+          <img className="submit-arrow" src={arrow} />
+        </div>
         <a href="/request-password-reset">Forgot your password?</a>
         <br/>
         <a href="/register">Create an Account</a>
