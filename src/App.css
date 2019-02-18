@@ -1,4 +1,5 @@
 body {
+  margin: 0 auto;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 20px;
   background-color: #282828;
@@ -45,14 +46,9 @@ input::placeholder {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
 
 .App-header {
   background-color: none;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,4 +72,8 @@ input::placeholder {
 
 .submit-arrow {
   max-width: 25px;
+}
+
+.nav {
+  position: absolute;
 }

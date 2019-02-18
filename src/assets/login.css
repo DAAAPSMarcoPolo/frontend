@@ -1,21 +1,20 @@
 .login {
   display: inline-block;
   display: flex;
-  height: 100vh;
 }
 
 .grow {
-    margin: 32% auto;
-    padding: 10%;
-    max-width: 450px;
+  margin: 32% auto;
+  padding: 10%;
+  max-width: 450px;
 }
 .side {
   background: #44E8AE;
   flex: 5.4 1;
   text-align: center;
   max-width: 50vw;
-  overflow: auto;
-  height: 100vh;
+  overflow: hidden;
+  max-height: 100vh;
 }
 
 .login .link {
@@ -39,8 +38,9 @@ form {
 .right {
   text-align: center;
   display: inline;
-  margin: 30vh 0 53vh 0;
+  padding: 30vh 0 53vh 0;
   flex: 5.4 1;
+  max-height: 100vh;
 }
 .logo {
   max-width: 100%
