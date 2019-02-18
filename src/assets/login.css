@@ -6,6 +6,8 @@
 
 .grow {
     margin: 32% auto;
+    padding: 10%;
+    max-width: 450px;
 }
 .side {
   background: #44E8AE;
@@ -14,9 +16,6 @@
   max-width: 50vw;
   overflow: auto;
   height: 100vh;
-}
-.right {
-  flex: 5.4 1;
 }
 
 .login .link {
@@ -27,6 +26,7 @@
 form {
   text-align: center;
   display: inline-block;
+  width: 100%;
 }
 .login button {
   border-radius: 30px;
@@ -39,7 +39,8 @@ form {
 .right {
   text-align: center;
   display: inline;
-  margin: auto;
+  margin: 30vh 0 53vh 0;
+  flex: 5.4 1;
 }
 .logo {
   max-width: 100%
