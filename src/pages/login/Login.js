@@ -27,11 +27,14 @@ class Login extends Component {
     console.log(`password: ${e.target.password.value}`)
     this.setState({password: e.target.password.value});
     const formData = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
       body: JSON.stringify({
         "username": e.target.username.value,
         "password": e.target.password.value
-      }),
-      method: 'POST'
+      })
     }
     await apiFetch('/auth/login/', formData)
       .then(res => {
@@ -57,12 +60,15 @@ class Login extends Component {
     e.persist();
     this.setState({error: null});
     const formData = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
       body: JSON.stringify({
         "code": e.target.code.value,
         "username": this.state.username,
         "password": this.state.password
-      }),
-      method: 'POST'
+      })
     }
     await apiFetch('/auth/loginfactor/', formData)
       .then(res => {
