@@ -1,25 +1,65 @@
+body {
+  margin: 0 auto;
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 20px;
+  background-color: #282828;
+  color: white;
+}
+
+button {
+  border-radius: 30px;
+}
+
+input, input:hover, input:focus, input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected {
+    outline: none;
+    background-color: #3ECC9A !important;
+    border-radius: 30px;
+    outline-offset: 0px;
+    border: none;
+}
+
+input, label, button {
+  font-weight: bolder;
+  display: flex;
+  font-size: 16px;
+  position: relative;
+  margin: 20px 0px 20px 0px;
+  padding: 10px;
+  text-transform: uppercase;
+  text-align:center;
+  color: white;
+  width: 100%;
+}
+
+button {
+  outline: none;
+  color: #3ECC9A;
+  outline: 0px solid transparent;
+  border: 0px solid transparent;
+}
+
+input::placeholder {
+  color: white;
+  text-align: center;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
-  color: #61dafb;
+  color: white;
 }
 
 @keyframes App-logo-spin {
@@ -29,4 +69,33 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.submit-arrow {
+  max-width: 25px;
+  margin: -54px 0px 0px 142px;
+  z-index: 100;
+  position: absolute;
+}
+
+.nav {
+  position: absolute;
+}
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+
+input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected, input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background-color: green;
+  background-image: none;
+  color: rgb(0, 0, 0);
+}
+
+a {
+  color: #282828;
+}
+a:hover {
+  color: white;
 }

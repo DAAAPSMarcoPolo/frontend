@@ -1,16 +1,17 @@
 import React from 'react';
+import arrow from '../../assets/images/arrow.png';
 
 const LoginForm = ({login, error}) => (
     <form onSubmit={login}>
         <div className="errorClass">
             {error ? {error} : null}
         </div>
-        <label htmlFor="email">email </label>
-        <input type="email" name="username" required/>
-        <label htmlFor="password">password </label>
-        <input type="password" name="password" required/>
-        <br/>
-        <input className="btn" type="submit" name="submit" value="submit"/>
+        <input type="email" placeholder="email" name="username" required/>
+        <div>
+          <input type="password" placeholder="password" name="password" required/>
+          <img className="submit-arrow" src={arrow} alt="arrow" />
+        </div>
+        <button className="submit-btn">Login</button>
         <a href="/request-password-reset">Forgot your password?</a>
         <br/>
         <a href="/register">Create an Account</a>
