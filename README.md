@@ -2,6 +2,30 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+First install yarn
+
+### `brew install yarn`
+
+Use your favorite package manager to install yarn!
+
+### `yarn`
+
+Running yarn checks all the dependency and wraps around npm to download the specific versions you need
+
+### `yarn start`
+
+Yarn start serves up the react and live reloads.
+This means you can edit code and the react will automatically reloads at localhost :)
+You can now view your app at localhost
+
+* To have your local frontend communicate with the dev server: configure your api base url like so: `export const API_BASE_URL = 'http://api.dev.marcopolo.com';`
+* or just edit your env file variables which will be pulled from `src/utils/config.js`  the backend
+* your env files are ignored from git! so don't worry ;)
+* make sure you have the [backend](https://?) running
+* run `something` to serve the site :)
+
+###If you're weird and prefer npm
+
 In the project directory, you can run:
 
 ### `npm start`

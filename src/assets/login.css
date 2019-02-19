@@ -1,0 +1,96 @@
+.login {
+  display: inline-block;
+  display: flex;
+}
+
+.logotype {
+    font-family: 'Rufina', sans-serif;
+    font-size: 6.2vw;
+    color: #282828;
+}
+.grow {
+  margin: 32% auto;
+  max-width: 450px;
+}
+.grow:after{
+ content:'';
+ clear:both;
+ display:block;
+}
+.side {
+  background: #44E8AE;
+  flex: 5.4 1;
+  text-align: center;
+  max-width: 50vw;
+  overflow: hidden;
+  max-height: 100vh;
+}
+
+.login .link {
+  text-decoration: underline;
+  font-size: 10px;
+}
+
+form {
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+.login button {
+  border-radius: 30px;
+}
+
+.login a {
+  font-size: 14px;
+}
+
+.right {
+  text-align: center;
+  display: inline;
+  padding: 30vh 0 53vh 0;
+  flex: 5.4 1;
+  max-height: 100vh;
+}
+.logo {
+  max-width: 100%
+}
+
+.submit-btn {
+  display: none;
+}
+
+.login input, .login button {
+  width: 354px;
+}
+@media screen and (max-width: 838px) {
+  .submit-btn {
+    display: block;
+  }
+  .submit-arrow {
+    display: none;
+  }
+  .login input, .login button {
+    width: 100%;
+  }
+  .form {
+    width: 100%;
+  }
+  .grow {
+    padding: 0px 60px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .right {
+    display: none;
+  }
+  .login {
+    display: block;
+  }
+  .side {
+    height: 100vh;
+    max-width: 100vh;
+  }
+  .logotype {
+    font-size: calc(10px + 11.5vw);
+  }
+}

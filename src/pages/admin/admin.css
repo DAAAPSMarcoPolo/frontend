@@ -1,0 +1,20 @@
+.temptext {
+    color: white;
+}
+
+.addbtn {
+    background: url("./adminAssets/add_icon.png") no-repeat center center;
+    background-size: 80% 80%;
+    border:none;
+    width:40px;
+    height:40px;
+    font-size:0;
+}
+
+#add-user-hide-button {
+    width: 150px;
+}
+
+.preferences-input {
+    color:black;
+}
