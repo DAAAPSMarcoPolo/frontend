@@ -14,7 +14,8 @@ class Login extends Component {
       redirectToReferrer: false,
       error: null,
       codeSent: false,
-      username: null
+      username: null,
+      password: null,
     };
   }
 
@@ -24,6 +25,7 @@ class Login extends Component {
     this.setState({error: null});
     console.log(`username: ${e.target.username.value}`)
     console.log(`password: ${e.target.password.value}`)
+    this.setState({password: e.target.password.value});
     const formData = {
       body: JSON.stringify({
         "username": e.target.username.value,
@@ -57,7 +59,8 @@ class Login extends Component {
     const formData = {
       body: JSON.stringify({
         "code": e.target.code.value,
-        "username": this.state.username
+        "username": this.state.username,
+        "password": this.state.password
       }),
       method: 'POST'
     }

@@ -1,20 +1,48 @@
 import React, { Component } from 'react';
-import LoginForm from '../login/LoginForm';
+import ProfileForm from './ProfileForm';
 import { Redirect } from 'react-router-dom';
+import apiFetch from '../../utils/api';
+import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 
 class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
       redirectToReferrer: false,
-      error: null
+      error: null,
+      username: null,
+      first_name: null,
+      last_name: null,
+      password: null
     };
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     e.persist();
-    this.setState({redirectToReferrer: true, error: null});
+    this.setState({ error: null });
+
+    const formData = {
+      body: JSON.stringify({
+        "username": e.target.username.value,
+        "first_name": e.target.first_name.value,
+        "last_name": e.target.last_name.value,
+        "password": e.target.password.value
+      }),
+      method: 'POST'
+    }
+    apiFetch('/profile/update/', formData)
+      .then(res => {
+        return res.json().then(data => {
+          if (res.status === 200 && data.token) {
+            saveToLocalStorage({token: data.token});
+            // logged in
+            this.setState({redirectToReferrer: true})
+          } else if (res.status === 401) {
+            deleteFromLocalStorage('token');
+          }
+        })
+    });
   };
 
   render() {
@@ -24,11 +52,10 @@ class Settings extends Component {
     return (
       <div className="page bgorange">
         <div className="logo">
-          simplif.ai
+          Profile
         </div>
-        <h1>Login</h1>
         <div className="registerbox">
-            <LoginForm login={this.handleSubmit} error={this.state.error} />
+            <ProfileForm submit={this.handleSubmit} error={this.state.error} />
         </div>
       </div>
     );
