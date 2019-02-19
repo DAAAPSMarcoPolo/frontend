@@ -96,7 +96,7 @@ class Login extends Component {
             </div>
         </div>
         <div className="right">
-          <img className="logo" src={logo}/>
+          <img className="logo" src={logo} alt="logo"/>
         </div>
       </div>
     );
