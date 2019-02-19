@@ -12,9 +12,9 @@ const AddUserForm = ({addUser, error}) => (
                 <label htmlFor="password">New user password:</label>
             </div>
             <div>
-                <input type="email" name="username" required/>
+                <input className="preferences-input" type="email" name="username" required/>
                 <br/>
-                <input type="password" name="password" required/>
+                <input className="preferences-input" type="password" name="password" required/>
             </div>
         </div>
         <input className="addbtn" type="submit" name="submit" value="submit"/>

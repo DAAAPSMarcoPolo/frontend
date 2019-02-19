@@ -29,19 +29,19 @@ class Admin extends Component {
         this.hide = this.hide.bind(this);
     }
 
-    handleSubmit = async (e) => {
+    handleSubmitNewUser = async (e) => {
         e.preventDefault();
         e.persist();
         this.setState({redirectToReferrer: true, error: null});
-        console.log(`username: ${e.target.username.value}`)
-        console.log(`password: ${e.target.password.value}`)
+        console.log(`username: ${e.target.username.value}`);
+        console.log(`password: ${e.target.password.value}`);
         const formData = {
           body: JSON.stringify({
             "username": e.target.username.value,
             "password": e.target.password.value
           }),
           method: 'POST'
-        }
+        };
         const data = await apiFetch('/auth/adduser/', formData)
           .then(res => {
             return res.json().then(data => {
@@ -49,6 +49,12 @@ class Admin extends Component {
             })
         });
         console.log(data);
+    };
+
+    handleSubmitAlpacaKey = async (e) => {
+        e.preventDefault();
+        e.persist();
+        console.log(`new key: ${e.target.alpacaKey.value}`);
     };
 
     userList = mockUsers.map((user) =>
@@ -78,7 +84,7 @@ class Admin extends Component {
         } else if (this.state.showAdd === true){
             addUserOption = (
                 <div>
-                    <AddUserForm addUser={this.handleSubmit} />
+                    <AddUserForm addUser={this.handleSubmitNewUser} />
                     <button id="add-user-hide-button" onClick={this.hide}>Hide</button>
                 </div>
             )
@@ -90,7 +96,7 @@ class Admin extends Component {
         } else if (this.state.showAlpaca === true) {
             alpacaApiSettings = (
                 <div>
-                    <AlpacaPreferencesForm/>
+                    <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey}/>
                     <button id="add-user-hide-button" onClick={this.hide}>Hide</button>
                 </div>
             )

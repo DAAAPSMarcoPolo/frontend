@@ -1,9 +1,13 @@
 import React from 'react';
 
 
-const AlpacaPreferencesForm = () => (
+const AlpacaPreferencesForm = ({updateAlpacaKey}) => (
   <div>
-      INSERT FORM FOR MODIFYING ALPACA API KEYS
+      <form onSubmit={updateAlpacaKey}>
+          Update Alpaca API Key:
+          <input className="preferences-input" type="text" name="alpacaKey"/>
+          <input type="submit" name="submit" value="submit"/>
+      </form>
   </div>
 );
 
