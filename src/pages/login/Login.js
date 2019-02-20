@@ -3,7 +3,7 @@ import LoginForm from './LoginForm';
 import FactorForm from './FactorForm';
 import FirstLoginForm from './FirstLoginForm';
 import { Redirect } from 'react-router-dom';
-import { apiFetch, apiPost } from '../../utils/api';
+import { apiPost } from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 import { getAttributesFromEvent } from '../../utils/forms';
 import '../../assets/login.css';
@@ -90,25 +90,25 @@ class Login extends Component {
     e.persist();
     this.setState({error: null});
     const formData = {
-      body: JSON.stringify({
-        "code": e.target.code.value,
-        "username": this.state.username,
-        "password": this.state.password
-      }),
-      method: 'POST'
+      code: e.target.code.value,
+      username: this.state.username,
+      password: this.state.password
     }
-    await apiFetch('/auth/loginfactor/', formData)
-      .then(res => {
-        return res.json().then(data => {
-          if (res.status === 200 && data.token) {
-            saveToLocalStorage({token: data.token});
-            // logged in
-            this.setState({redirectToReferrer: true})
-          } else if (res.status === 401) {
-            deleteFromLocalStorage('token');
-          }
-        })
-    });
+    const response = await apiPost('/auth/loginfactor/', formData, false);
+    const {data} = response;
+    switch (response.status) {
+      case 200:
+        if (data.token) {
+          saveToLocalStorage({token: data.token});
+          this.setState({redirectToReferrer: true})
+        }
+        break;
+      case 401:
+        deleteFromLocalStorage('token');
+        break;
+      default:
+        console.log('unknown response')
+    }
   }
 
   handleFirstLogin = async (e) => {
