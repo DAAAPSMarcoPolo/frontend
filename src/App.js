@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
 import Nav from './pages/components/Nav';
