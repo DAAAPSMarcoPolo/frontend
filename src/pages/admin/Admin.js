@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import AddUserForm from './AddUserForm'
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
-import apiFetch from '../../utils/api';
+import { apiFetch } from '../../utils/api';
 import './admin.css';
 import UserList from './UserList';
 
