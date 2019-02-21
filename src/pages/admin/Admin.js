@@ -121,12 +121,12 @@ class Admin extends Component {
           <h1>Admin Tools</h1>
           <div className="con rel">
             <h2 className="serif">Team Roster</h2>
-            <img src={add} className="icon roster" alt="plus-icon" id="add-user-hide-button" onClick={this.showAddUser}/>
+            <img src={add} className="icon roster" alt="plus-icon" onClick={this.showAddUser}/>
             <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} />
             {this.state.showAdd ? (
               <div>
                 <AddUserForm addUser={this.handleSubmitNewUser}/>
-                <button id="add-user-hide-button" onClick={this.showAddUser}>Cancel</button>
+                <button onClick={this.showAddUser}>Cancel</button>
               </div>
             ) : null}
           </div>
