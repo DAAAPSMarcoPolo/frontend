@@ -9,7 +9,7 @@ const LoginForm = ({login, error}) => (
         <input type="email" placeholder="email" name="username" required/>
         <div>
           <input type="password" placeholder="password" name="password" required/>
-          <img className="submit-arrow" src={arrow} alt="arrow" />
+          <button className="btn-img"><img className="submit-arrow" src={arrow} alt="arrow" /></button>
         </div>
         <button className="submit-btn">Login</button>
         <a href="/request-password-reset">Forgot your password?</a>

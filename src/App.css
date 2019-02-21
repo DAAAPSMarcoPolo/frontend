@@ -72,10 +72,28 @@ input::placeholder {
 
 .submit-arrow {
   max-width: 25px;
-  margin: -54px 0px 0px 142px;
   z-index: 100;
   position: absolute;
-  margin: 29px 0px 0px -33px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.login .btn-img {
+  background: none;
+  width: auto;
+  position: absolute;
+  padding: 0px;
+  margin: 30px -33px;
+}
+.submit-arrow:hover {
+  opacity: .8;
+  cursor: pointer;
+}
+.btn-img:focus {
+  outline: none;
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
 }
 
 .nav {
