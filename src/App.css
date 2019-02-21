@@ -2,10 +2,12 @@ body {
   margin: 0 auto;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 20px;
-  background-color: #282828;
+  background-color: #000;
   color: white;
 }
-
+.serif {
+  font-family: 'Rufina', sans-serif;
+}
 button {
   border-radius: 30px;
 }
@@ -116,4 +118,44 @@ a {
 }
 a:hover {
   color: white;
+}
+ul, li   {
+  list-style-type: none;
+}
+
+.page {
+  padding: 20px;
+}
+.con {
+  padding: 20px;
+  background: #1F1F1F;
+  max-width: 400px;
+}
+.li {
+  padding: 10px 20px;
+  margin: 10px 0;
+  background: #282828;
+  border-radius: 5px;
+}
+
+button:focus {
+  outline: 0px;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, .8);
+  cursor: pointer;
+}
+.rel {
+  position: relative;
+}
+
+.overlay {
+  z-index: 100;
+  background: #3ECC9A;
+  position: absolute;
+  top: 129px;
+  right: 42px;
+  border-radius: 5px;
+  padding: 20px;
 }
