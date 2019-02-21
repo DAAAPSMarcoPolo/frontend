@@ -4,12 +4,17 @@ import FactorForm from './FactorForm';
 import FirstLoginForm from './FirstLoginForm';
 import { Redirect } from 'react-router-dom';
 import { apiPost } from '../../utils/api';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 import { getAttributesFromEvent } from '../../utils/forms';
 import '../../assets/login.css';
 import logo from '../../assets/images/logo.png';
 
 class Login extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -71,15 +76,19 @@ class Login extends Component {
         return res.json().then(data => {
           // handle 2-factor
           if (res.status === 200 && data.message === 'code sent') {
-            this.setState({codeSent: true, username: data.user.username});
+            this.setState({codeSent: true, username: e.target.username.value});
             console.log(data)
           }
           if (res.status === 200 && data.token) {
             saveToLocalStorage({token: data.token});
+            const { cookies } = this.props;
+            cookies.set('jwt', data.token);
             console.log(data);
             // TODO first login stuff if needed
           } else if (res.status === 401) {
             deleteFromLocalStorage('token');
+            const { cookies } = this.props;
+            cookies.set('jwt', '');
           }
         })
     });*/
@@ -101,10 +110,18 @@ class Login extends Component {
         if (data.token) {
           saveToLocalStorage({token: data.token});
           this.setState({redirectToReferrer: true})
+          const { cookies } = this.props;
+          cookies.set('isAuthenticated', true);
+          cookies.set('isAdmin', data.isAdmin);
+          cookies.set('login', true);
+          cookies.set('jwt', data.token);
+          cookies.set('token', '');
         }
         break;
       case 401:
         deleteFromLocalStorage('token');
+        const { cookies } = this.props;
+        cookies.set('isAuthenticated', false, { path: '/' });
         break;
       default:
         console.log('unknown response')
@@ -167,4 +184,4 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+export default withCookies(Login);
