@@ -24,14 +24,21 @@ class UserList extends Component {
       this.props.removeUser(e, this.state.user);
       this.forceUpdate();
     };
+
+    /*Controls the appearance and state of the button to delete a user*/
     render() {
-      const mappedUsers = this.props.users.map((user) =>
-        <li className="li rel">
+      let mappedUsers;
+      if (this.props.users !== null) {
+         mappedUsers = this.props.users.map((user, i) => {
+         <li className="li rel" key={i}>
             <div className="rel">{user}
                 <img className="icon" src={remove} alt="remove-icon" onClick={this.showConfirm(user)}/>
             </div>
-        </li>
-      );
+         </li>
+        );
+      } else {
+        mappedUsers = (<div>Retrieving users</div>);
+      }
       return (
         <div>
           {mappedUsers}
