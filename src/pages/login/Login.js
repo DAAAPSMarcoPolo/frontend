@@ -86,6 +86,7 @@ class Login extends Component {
             saveToLocalStorage({token: data.token});
             const { cookies } = this.props;
             cookies.set('isAuthenticated', true);
+            //cookies.set('isAdmin', data.isAdmin);
             cookies.set('login', true);
             cookies.set('jwt', data.token);
             cookies.set('token', '');

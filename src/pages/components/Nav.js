@@ -68,6 +68,13 @@ class Nav extends Component {
   shouldComponentUpdate() {
     return true;
   }
+  logout = () => {
+    const { cookies } = this.props;
+    cookies.set('isAuthenticated', false);
+    cookies.set('isAdmin', false);
+    cookies.remove('jwt');
+    cookies.remove('email');
+  }
   render() {
     const { cookies } = this.props;
     const isAuthenticated = cookies.get('isAuthenticated');
