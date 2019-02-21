@@ -3,11 +3,16 @@ import LoginForm from './LoginForm';
 import FactorForm from './FactorForm';
 import { Redirect } from 'react-router-dom';
 import apiFetch from '../../utils/api';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 import '../../assets/login.css';
 import logo from '../../assets/images/logo.png';
 
 class Login extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -46,10 +51,14 @@ class Login extends Component {
           }
           if (res.status === 200 && data.token) {
             saveToLocalStorage({token: data.token});
+            const { cookies } = this.props;
+            cookies.set('jwt', data.token);
             console.log(data);
             // TODO first login stuff if needed
           } else if (res.status === 401) {
             deleteFromLocalStorage('token');
+            const { cookies } = this.props;
+            cookies.set('jwt', '');
           }
         })
     });
@@ -75,10 +84,18 @@ class Login extends Component {
         return res.json().then(data => {
           if (res.status === 200 && data.token) {
             saveToLocalStorage({token: data.token});
+            const { cookies } = this.props;
+            cookies.set('isAuthenticated', true);
+            cookies.set('login', true);
+            cookies.set('jwt', data.token);
+            cookies.set('token', '');
+            cookies.set('email', this.state.username, { path: '/' });
             // logged in
             this.setState({redirectToReferrer: true})
           } else if (res.status === 401) {
             deleteFromLocalStorage('token');
+            const { cookies } = this.props;
+            cookies.set('isAuthenticated', false, { path: '/' });
           }
         })
     });
@@ -108,4 +125,4 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+export default withCookies(Login);

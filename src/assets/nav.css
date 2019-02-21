@@ -1,0 +1,75 @@
+.container {
+  display: inline-block;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  cursor: pointer;
+  opacity: .5;
+}
+.bar-con {
+  padding: 5px;
+}
+.nav {
+  height: 100vh;
+  font-family: 'Rufina', sans-serif;
+  font-size: 16px;
+}
+.container:hover{
+  opacity:1;
+}
+
+.bar1, .bar2, .bar3 {
+  opacity:.8;
+  background-color: white;
+  width:20px;
+  height:2px;
+  margin: 3px 0;
+  transition: .5s;
+}
+
+/*Use later, probs*/
+/* Rotate first bar */
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+    display: none;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+
+}
+
+.drop {
+  padding: 25px;
+  background-color: #1F1F1F;
+  color: white;
+  border-radius: 0px;
+  position: fixed;
+  height: 100vh;
+  display: inline-block;
+  z-index: 5;
+}
+.drop a {
+  color: white;
+  display: block;
+}
+.user {
+  float: right;
+  margin-top: 10px;
+}
+.user img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%
+}
