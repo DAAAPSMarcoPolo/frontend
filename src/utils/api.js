@@ -9,7 +9,7 @@ export function apiFetch(endpoint, options = {}) {
   // };
   options.headers = {
     'Content-Type': 'application/json',
-  }
+  };
 
   const token = getFromLocalStorage('token');
 
@@ -57,5 +57,31 @@ export async function apiPost(endpoint, data = {}, includeToken = true, parent =
   }
 
   return response;
+
+}
+
+export async function apiPut(endpoint, data = {}, includeToken = true, parent = null) {
+    const config = {
+        headers: []
+    };
+    const token = getFromLocalStorage('token');
+    if (includeToken && token) {
+        config.headers['Authorization'] = `Token ${token}`;
+    }
+
+    console.log(`PUT ${API_BASE_URL}${endpoint}`);
+
+    const response = await axios.put(`${API_BASE_URL}${endpoint}`, data, config);
+
+    if (response.status === 500) {
+        console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);
+        console.log(`Message: ${response.statusText}`);
+        if (parent) {
+            parent.setState({error: response.statusText});
+        }
+        // TODO decide what else to do when there is a server error...
+    }
+
+    return response;
 
 }
