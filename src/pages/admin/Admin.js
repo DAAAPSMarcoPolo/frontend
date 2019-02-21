@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import AddUserForm from './AddUserForm'
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
 import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
 import { withCookies } from 'react-cookie';
 import './admin.css';
 import UserList from './UserList';
-import add from '../../assets/images/plus-circle-icon.png';
 
 class Admin extends Component {
     constructor(props) {
@@ -14,11 +12,9 @@ class Admin extends Component {
         this.state = {
             redirectToReferrer: false,
             error: null,
-            showAdd: false,
             showAlpaca: false,
             userslist: null
         };
-        this.showAddUser = this.showAddUser.bind(this);
         this.showAlpacaPreferences = this.showAlpacaPreferences.bind(this);
         this.getUsersList = this.getUsersList.bind(this);
     }
@@ -89,9 +85,7 @@ class Admin extends Component {
         .then(res => {
             return res.json()
         })
-  };
-  showAddUser = () => {
-      this.setState({showAdd: !this.state.showAdd})
+    console.log('data', data);
   };
   showAlpacaPreferences = () => {
       this.setState({showAlpaca: !this.state.showAlpaca})
@@ -119,17 +113,7 @@ class Admin extends Component {
     return (
       <div className="page temptext">
           <h1>Admin Tools</h1>
-          <div className="con rel">
-            <h2 className="serif">Team Roster</h2>
-            <img src={add} className="icon roster" alt="plus-icon" onClick={this.showAddUser}/>
-            <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} />
-            {this.state.showAdd ? (
-              <div>
-                <AddUserForm addUser={this.handleSubmitNewUser}/>
-                <button onClick={this.showAddUser}>Cancel</button>
-              </div>
-            ) : null}
-          </div>
+          <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin} />
           <br/>
           <div className="con">
               {alpacaApiSettings}
