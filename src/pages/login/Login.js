@@ -83,10 +83,11 @@ class Login extends Component {
       .then(res => {
         return res.json().then(data => {
           if (res.status === 200 && data.token) {
+            console.log('data', data);
             saveToLocalStorage({token: data.token});
             const { cookies } = this.props;
             cookies.set('isAuthenticated', true);
-            //cookies.set('isAdmin', data.isAdmin);
+            cookies.set('isAdmin', data.isAdmin);
             cookies.set('login', true);
             cookies.set('jwt', data.token);
             cookies.set('token', '');
