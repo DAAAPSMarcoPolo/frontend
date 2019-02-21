@@ -30,9 +30,14 @@ button .delete {
 .icon {
   max-width: 20px;
   position: absolute;
-  right:0px;
+  right: 6px;
   top: 5px;
 }
 .icon:hover {
   opacity: .7;
+}
+
+.roster {
+  top:20px;
+  right: 20px;
 }

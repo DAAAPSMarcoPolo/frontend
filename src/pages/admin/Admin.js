@@ -28,7 +28,6 @@ class Admin extends Component {
       };
       this.showAddUser = this.showAddUser.bind(this);
       this.showAlpacaPreferences = this.showAlpacaPreferences.bind(this);
-      this.hide = this.hide.bind(this);
   }
 
   handleSubmitNewUser = async (e) => {
@@ -57,7 +56,6 @@ class Admin extends Component {
     console.log("Removing a user");
     console.log(username)
   };
-
   handleSubmitAlpacaKey = async (e) => {
     e.preventDefault();
     e.persist();
@@ -74,34 +72,19 @@ class Admin extends Component {
         })
   };
 
-  showAddUser() {
-      this.setState({showAdd: true })
+  showAddUser = () => {
+      this.setState({showAdd: !this.state.showAdd})
   };
 
-  showAlpacaPreferences() {
-      this.setState({showAlpaca: true})
+  showAlpacaPreferences = () => {
+      this.setState({showAlpaca: !this.state.showAlpaca})
   };
-
-  hide() {
-      this.setState({showAdd: false, showAlpaca: false})
-  };
-
   render() {
     const { cookies } = this.props;
     const isAuthenticated = cookies.get('isAuthenticated');
     const isAdmin = cookies.get('isAdmin');
     if (isAuthenticated === "false" || !isAuthenticated) {
       return (<Redirect to="/login"/>);
-    }
-    let addUserOption;
-    if (this.state.showAdd === false) {
-      addUserOption = <button id="add-user-hide-button" onClick={this.showAddUser}>Add new user</button>
-    } else if (this.state.showAdd === true) {
-      addUserOption = (
-          <div className="rel">
-            <AddUserForm addUser={this.handleSubmitNewUser} />
-          </div>
-      )
     }
 
     let alpacaApiSettings;
@@ -111,7 +94,7 @@ class Admin extends Component {
         alpacaApiSettings = (
             <div>
                 <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey}/>
-                <button id="add-user-hide-button" onClick={this.hide}>Hide</button>
+                <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Hide</button>
             </div>
         )
     }
@@ -121,11 +104,17 @@ class Admin extends Component {
           <h1>Admin Tools</h1>
           <div className="con rel">
             <h2 className="serif">Team Roster</h2>
-            <img src={add} className="icon" alt="plus-icon" id="add-user-hide-button" onClick={this.hide}/>
-            <UserList users={mockUsers} removeUser={this.handleRemoveUser}/>
+            <img src={add} className="icon roster" alt="plus-icon" id="add-user-hide-button" onClick={this.showAddUser}/>
+            <UserList users={mockUsers} removeUser={this.handleRemoveUser} refresh={mockUsers}/>
+            {this.state.showAdd ? (
+              <div>
+                <AddUserForm addUser={this.handleSubmitNewUser}/>
+                <button id="add-user-hide-button" onClick={this.showAddUser}>Cancel</button>
+              </div>
+            ) : null}
           </div>
-          <div>
-              {addUserOption}
+          <br/>
+          <div className="con">
               {alpacaApiSettings}
           </div>
       </div>
