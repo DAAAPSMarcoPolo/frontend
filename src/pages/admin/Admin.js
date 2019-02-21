@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import AddUserForm from './AddUserForm'
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
-import apiFetch from '../../utils/api';
+import { apiFetch } from '../../utils/api';
 import './admin.css';
+import UserList from './UserList';
 
 /*TODO: Remove this for production*/
 const mockUsers = [
@@ -51,15 +52,26 @@ class Admin extends Component {
         console.log(data);
     };
 
+    handleRemoveUser = async (e, username) => {
+      console.log("Removing a user");
+      console.log(username)
+    };
+
     handleSubmitAlpacaKey = async (e) => {
         e.preventDefault();
         e.persist();
         console.log(`new key: ${e.target.alpacaKey.value}`);
+        const formData = {
+            body: JSON.stringify({
+                "alpacaKey" : e.target.alpacaKey.value
+            }),
+            method: 'POST'
+        };
+        const data = await apiFetch('/api/alpaca/', formData)
+            .then(res => {
+                return res.json()
+            })
     };
-
-    userList = mockUsers.map((user) =>
-        <li>{user}</li>
-    );
 
     showAddUser() {
         this.setState({showAdd: true, showAlpaca: false})
@@ -108,11 +120,7 @@ class Admin extends Component {
                     simplif.ai
                 </div>
                 <h1>Admin Tools</h1>
-                <div>
-                    <ul>
-                        {this.userList}
-                    </ul>
-                </div>
+                <UserList users={mockUsers} removeUser={this.handleRemoveUser}/>
                 <div>
                     {addUserOption}
                     {alpacaApiSettings}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ProfileForm from './ProfileForm';
 import { Redirect } from 'react-router-dom';
-import apiFetch from '../../utils/api';
+import { apiFetch } from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 
 class Settings extends Component {
