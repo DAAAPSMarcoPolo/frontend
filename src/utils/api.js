@@ -48,8 +48,13 @@ export async function apiPost(endpoint, data = {}, includeToken = true, parent =
   }
 
   console.log(`POST ${API_BASE_URL}${endpoint}`);
-
-  const response = await axios.post(`${API_BASE_URL}${endpoint}`, data, config);
+  let response;
+  try {
+    response = await axios.post(`${API_BASE_URL}${endpoint}`, data, config);
+  } catch (error) {
+    console.log(error.response);
+    return error.response;
+  }
 
   if (response.status === 500) {
     console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);

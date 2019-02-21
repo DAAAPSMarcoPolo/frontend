@@ -4,7 +4,7 @@ import arrow from '../../assets/images/arrow.png';
 const FactorForm = ({login, error}) => (
     <form onSubmit={login}>
         <div className="errorClass">
-            {error ? {error} : null}
+            {error ? error : null}
         </div>
         <div>
           <input type="text" name="code" placeholder="Code" required/>
