@@ -123,6 +123,9 @@ class Login extends Component {
         const { cookies } = this.props;
         cookies.set('isAuthenticated', false, { path: '/' });
         break;
+      case 404:
+        this.setState({ error: 'Invalid credentials.' })
+        break;
       default:
         console.log('unknown response')
     }
