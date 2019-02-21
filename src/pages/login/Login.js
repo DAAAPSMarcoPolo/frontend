@@ -56,6 +56,13 @@ class Login extends Component {
           // error unknown response
         }
         break;
+      case 400:
+        if (data.non_field_errors[0] === 'Unable to log in with provided credentials.') {
+          this.setState({ error: 'Invalid credentials.' });
+          console.log('Invalid credents.');
+          return;
+        }
+        break;
       // invalid token
       case 401:
         deleteFromLocalStorage('token');
@@ -118,6 +125,12 @@ class Login extends Component {
           cookies.set('token', '');
         }
         break;
+      case 400:
+        if (data.error === 'incorrect code') {
+          this.setState({ error: 'Incorrect code.' });
+          return;
+        }
+        break;
       case 401:
         deleteFromLocalStorage('token');
         const { cookies } = this.props;
@@ -155,6 +168,7 @@ class Login extends Component {
           console.log(`HTTP Status Text (for error): ${res.statusText}`)
         }
         break;
+      // TODO handle case when information is missing
       default:
         // this.setState({ error: 'Something went wrong updating your profile. Check log for more info.'});
         console.log(`HTTP Status (for error): ${res.status}`);
