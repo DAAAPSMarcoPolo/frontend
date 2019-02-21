@@ -46,7 +46,7 @@ class Login extends Component {
         return res.json().then(data => {
           // handle 2-factor
           if (res.status === 200 && data.message === 'code sent') {
-            this.setState({codeSent: true, username: data.user.username});
+            this.setState({codeSent: true, username: e.target.username.value});
             console.log(data)
           }
           if (res.status === 200 && data.token) {
@@ -90,7 +90,6 @@ class Login extends Component {
             cookies.set('login', true);
             cookies.set('jwt', data.token);
             cookies.set('token', '');
-            cookies.set('email', this.state.username, { path: '/' });
             // logged in
             this.setState({redirectToReferrer: true})
           } else if (res.status === 401) {

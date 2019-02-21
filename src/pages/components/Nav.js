@@ -21,8 +21,8 @@ class Nav extends Component {
     };
   }
   componentDidMount() {
-    const { cookies } = this.props;
-    const email = cookies.get('email');
+    // const { cookies } = this.props;
+    // const email = cookies.get('email');
 
     // return apiFetch('getPicture', {
     //   headers: {
