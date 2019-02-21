@@ -20,7 +20,6 @@ class Admin extends Component {
         };
         this.showAddUser = this.showAddUser.bind(this);
         this.showAlpacaPreferences = this.showAlpacaPreferences.bind(this);
-        this.hide = this.hide.bind(this);
         this.getUsersList = this.getUsersList.bind(this);
     }
 
@@ -123,7 +122,7 @@ class Admin extends Component {
           <div className="con rel">
             <h2 className="serif">Team Roster</h2>
             <img src={add} className="icon roster" alt="plus-icon" id="add-user-hide-button" onClick={this.showAddUser}/>
-            <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} refresh={mockUsers}/>
+            <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} />
             {this.state.showAdd ? (
               <div>
                 <AddUserForm addUser={this.handleSubmitNewUser}/>
