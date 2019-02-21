@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import AddUserForm from './AddUserForm'
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
-import { apiFetch, apiPost } from '../../utils/api';
+import { apiFetch, apiPost, apiGet } from '../../utils/api';
 import './admin.css';
 import UserList from './UserList';
+import axios from 'axios';
 
 /*TODO: Remove this for production*/
 const mockUsers = [
@@ -32,9 +33,17 @@ class Admin extends Component {
         this.getUsersList = this.getUsersList.bind(this);
     }
 
-    getUsersList() {
-        return null;
+    componentDidMount(){
+        this.getUsersList();
+        console.log(this.state.userslist);
     }
+
+    async getUsersList() {
+        const response = await apiGet('/users/list/');
+        console.log(response.data.users);
+        this.setState({usersList: response.data.users});
+        return response.data;
+    };
 
     handleSubmitNewUser = async (e) => {
         e.preventDefault();
@@ -66,8 +75,6 @@ class Admin extends Component {
     handleSubmitAlpacaKey = async (e) => {
         e.preventDefault();
         e.persist();
-        console.log(`new key: ${e.target.key_id.value}`);
-        console.log(`new key: ${e.target.secret_key.value}`);
         let formData = {
                 "user": 5,
                 "key_id": e.target.key_id.value,
