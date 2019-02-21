@@ -67,6 +67,9 @@ class UserList extends Component {
               <button onClick={this.showAddUser}>Cancel</button>
             </div>
           ) : null}
+          <div className="errorClass">
+              {this.props.error ? this.props.error : null}
+          </div>
         </div>
       );
     }
