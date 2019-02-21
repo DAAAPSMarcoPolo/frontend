@@ -35,14 +35,14 @@ class UserList extends Component {
     }
 
     userList() {
-        const mappedUsers = this.props.users.map((user) =>
+        /*const mappedUsers = this.props.users.map((user) =>
             <li>
                 <div>
                     {this.userOption(user)}
                 </div>
             </li>
-        );
-        return mappedUsers;
+        );*/
+        return <div>something here</div>;
     }
 
     render() {
