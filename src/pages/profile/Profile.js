@@ -86,13 +86,10 @@ class Settings extends Component {
     e.persist();
     this.setState({ error: null });
     const formData = {
-      body: JSON.stringify({
-        "old_password": e.target.old_password.value,
-        "new_password": e.target.new_password.value,
-      }),
-      method: 'POST'
+        "password": e.target.old_password.value,
+        "new_password": e.target.new_password.value
     }
-    apiFetch('/user/settings/', formData)
+    apiPut('/user/settings/', formData)
       .then(res => {
         return res.json().then(data => {
           if (res.status === 200 && data.token) {
