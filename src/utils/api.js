@@ -6,6 +6,7 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
 
+
 export function apiFetch(endpoint, options = {}) {
   //
   // options.headers = {

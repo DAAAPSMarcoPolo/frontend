@@ -5,6 +5,7 @@ import FirstLoginForm from './FirstLoginForm';
 import { Redirect } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
+import api from '../../utils/apiv2';
 import { apiPost } from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 import { getAttributesFromEvent } from '../../utils/forms';
@@ -37,7 +38,7 @@ class Login extends Component {
       username: e.target.username.value,
       password: e.target.password.value
     }
-    const res = await apiPost('/auth/login/', formData, false);
+    const res = await api.Post('/auth/login/', formData, false);
     console.log(res);
     const {data} = res;
     console.log(data);

@@ -3,6 +3,7 @@ import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
 import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
 import { withCookies } from 'react-cookie';
+import api from '../../utils/apiv2';
 import './admin.css';
 import x from '../../assets/images/x-icon.png';
 import UserList from './UserList';
@@ -29,7 +30,8 @@ class Settings extends Component {
     }
 
     async getUsersList() {
-        const response = await apiGet('/users/list/');
+        // const response = await apiGet('/users/list/');
+        const response = await api.Get('/users/list/')
         this.setState({userslist: response.data.users});
     };
     handleRemoveUser = async (e, username) => {
