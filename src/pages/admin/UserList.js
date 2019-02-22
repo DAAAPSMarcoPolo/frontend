@@ -63,7 +63,7 @@ class UserList extends Component {
       if (this.props.users !== null) {
         mappedUsers = this.props.users.map((user, i) =>
          <li className="li rel" key={i}>
-            <div className="rel">{user.username}
+            <div className="rel">{user.username} • {user.is_active ? 'active' : 'inactive'}
                 {this.props.isAdmin === "true" ? <img className="icon" src={remove} alt="remove-icon" onClick={this.showConfirm(user.username)}/> : null}
             </div>
          </li>

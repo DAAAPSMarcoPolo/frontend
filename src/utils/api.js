@@ -96,17 +96,21 @@ export async function apiPut(endpoint, data = {}, includeToken = true, parent = 
 }
 
 export async function apiGet(endpoint, includeToken = true, parent = null) {
+    const options = {};
     const config = {
         headers: []
     };
+
     const token = getFromLocalStorage('token');
     if (includeToken && token) {
         config.headers['Authorization'] = `Token ${token}`;
     }
+    options.config = config;
 
     console.log(`GET ${API_BASE_URL}${endpoint}`);
+    console.log(options)
 
-    const response = await axios.get(`${API_BASE_URL}${endpoint}`, config);
+    const response = await axios.get(`${API_BASE_URL}${endpoint}`, { headers: { Authorization: `Token ${token}` } });
 
     if (response.status === 500) {
         console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);
@@ -130,6 +134,7 @@ export async function apiDelete(endpoint, data = {}, includeToken = true, parent
 
     console.log(`DELETE ${API_BASE_URL}${endpoint}`);
     console.log(data);
+    console.log(config)
     const response = await axios.delete(`${API_BASE_URL}${endpoint}`, {data, config});
 
     if (response.status === 500) {
