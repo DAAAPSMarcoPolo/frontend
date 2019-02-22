@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProfileForm from './ProfileForm';
+import { withCookies } from 'react-cookie';
 import { Redirect } from 'react-router-dom';
 import { apiFetch } from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
@@ -8,12 +9,11 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirectToReferrer: false,
-      error: null,
-      username: null,
-      first_name: null,
-      last_name: null,
-      password: null
+      error: '',
+      username: '',
+      first_name: '',
+      last_name: '',
+      password: ''
     };
   }
 
@@ -46,11 +46,13 @@ class Settings extends Component {
   };
 
   render() {
-    if (this.state.redirectToReferrer === true) {
-      return (<Redirect to="/dashboard"/>);
+    const { cookies } = this.props;
+    const isAuthenticated = cookies.get('isAuthenticated');
+    if (isAuthenticated === "false" || !isAuthenticated) {
+      return (<Redirect to="/login"/>);
     }
     return (
-      <div className="page bgorange">
+      <div className="page">
         <div className="logo">
           Profile
         </div>
@@ -62,13 +64,4 @@ class Settings extends Component {
   }
 }
 
-// const Settings = () => (
-//   <div>
-//     <p>Settings Page</p>
-//     <form>
-//       <input name="name" type="text" />
-//     </form>
-//   </div>
-// );
-
-export default Settings;
+export default withCookies(Settings);

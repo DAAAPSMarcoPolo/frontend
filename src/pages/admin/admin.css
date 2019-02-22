@@ -18,3 +18,26 @@
 .preferences-input {
     color:black;
 }
+button .delete {
+  border-radius: 100px;
+  min-width: 28px;
+  width: auto;
+  background: none;
+  background-color: none;
+  margin-left: 10px;
+}
+
+.icon {
+  max-width: 20px;
+  position: absolute;
+  right: 6px;
+  top: 5px;
+}
+.icon:hover {
+  opacity: .7;
+}
+
+.roster {
+  top:20px;
+  right: 20px;
+}

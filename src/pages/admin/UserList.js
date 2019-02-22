@@ -1,70 +1,58 @@
 import React, {Component} from 'react';
+import plus from '../../assets/images/plus-icon.png';
+import remove from '../../assets/images/delete-icon.png';
+import x from '../../assets/images/x-icon.png';
 
 class UserList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            redirectToReferrer: false,
             error: null,
-            currentConfirmation:""
+            showConfirm: false,
+            user: ''
         };
-        this.confirmUser = this.confirmUser.bind(this);
+        this.showConfirm = this.showConfirm.bind(this);
+        this.removeUserWrap = this.removeUserWrap.bind(this);
+    };
+    showConfirm = (user) => (e) => {
+      e.persist();
+      console.log("e", e, "user", user);
+      this.setState({showConfirm: !this.state.showConfirm, user});
+    };
+    removeUserWrap = (e) => {
+      this.setState({showConfirm: !this.state.showConfirm, user: ''});
+      this.props.removeUser(e, this.state.user);
+      this.forceUpdate();
     };
 
-    confirmUser(e, username){
-        console.log("Confirming user: " + username);
-        this.setState({currentConfirmation:username});
-    };
-
-    userOption(user){
-        let removeUserButton;
-        if (this.state.currentConfirmation === user){
-            removeUserButton = (
-                <div>{user}
-                    <button onClick={(e) => this.props.removeUser(e, user)}>Confirm Removing: {user}</button>
-                </div>
-            )
-        } else {
-            removeUserButton = (
-                <div>{user}
-                    <button onClick={(e) => this.confirmUser(e, user)}>Remove User: {user}</button>
-                </div>
-            )
-        }
-        return removeUserButton;
-    }
-
-    userList() {
-        /*const mappedUsers = this.props.users.map((user) =>
-            <li>
-                <div>
-                    {this.userOption(user)}
-                </div>
-            </li>
-        );*/
-        return <div>something here</div>;
-    }
-
+    /*Controls the appearance and state of the button to delete a user*/
     render() {
-        return this.userList()
+      let mappedUsers;
+      if (this.props.users !== null) {
+         mappedUsers = this.props.users.map((user, i) => {
+         <li className="li rel" key={i}>
+            <div className="rel">{user}
+                <img className="icon" src={remove} alt="remove-icon" onClick={this.showConfirm(user)}/>
+            </div>
+         </li>
+        );
+      } else {
+        mappedUsers = (<div>Retrieving users</div>);
+      }
+      return (
+        <div>
+          {mappedUsers}
+          {this.state.showConfirm ?
+            <div className="overlay rel">
+              <p>Are you sure you want to delete {this.state.user}?</p>
+              <img className="icon" src={x} alt="x-icon" onClick={this.showConfirm(this.state.user)}/>
+              <button onClick={this.removeUserWrap}>Confirm</button>
+            </div>
+          :
+          null}
+        </div>
+      );
     }
 };
-
-/*const UserList = ({users, removeUser}) => {
-    const userList = users.map((user) =>
-        <li>
-            <div>
-                {user}<button onClick={(e) => removeUser(e, user)}>Remove User: {user}</button>
-            </div>
-        </li>
-    );
-    return (
-        <div>
-            <ul>
-                {userList}
-            </ul>
-        </div>
-    );
-};*/
 
 export default UserList;
