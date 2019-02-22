@@ -159,12 +159,32 @@ button:hover {
   right: 42px;
   border-radius: 5px;
   padding: 20px;
+  box-shadow: 3px 3px 15px rgba(0,0,0,.8);
 }
-
+.overlay input, .overlay input:hover, .overlay input:focus {
+  border: 1px solid rgba(0,0,0,.2);
+}
 .errorClass {
   display:inline-block;
 }
 
 h1 {
   margin: 1.5rem 0px;
+}
+
+.profile-circle {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.profile-img {
+  width: 150px;
+  height: 150px;
+  background: white;
+  border-radius: 100%;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }

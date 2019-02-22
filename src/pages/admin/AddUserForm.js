@@ -6,7 +6,7 @@ const AddUserForm = ({addUser, error}) => (
             {error ? {error} : null}
         </div>
           <div>
-              <input className="preferences-input" type="email" name="username" placeholder="username" equired/>
+              <input className="preferences-input" type="email" name="username" placeholder="username" required/>
               <br/>
               <input className="preferences-input" type="password" name="password" placeholder="password" required/>
           </div>

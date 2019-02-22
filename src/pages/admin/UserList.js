@@ -3,6 +3,7 @@ import remove from '../../assets/images/delete-icon.png';
 import x from '../../assets/images/x-icon.png';
 import add from '../../assets/images/plus-circle-icon.png';
 import AddUserForm from './AddUserForm';
+import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
 
 class UserList extends Component {
     constructor(props){
@@ -16,6 +17,7 @@ class UserList extends Component {
         this.showConfirm = this.showConfirm.bind(this);
         this.removeUserWrap = this.removeUserWrap.bind(this);
         this.showAddUser = this.showAddUser.bind(this);
+        this.handleSubmitNewUser = this.handleSubmitNewUser.bind(this);
     };
     componentDidMount() {
       console.log('users', this.props.users);
@@ -32,6 +34,27 @@ class UserList extends Component {
     };
     showAddUser = () => {
         this.setState({showAdd: !this.state.showAdd})
+    };
+
+    handleSubmitNewUser = async (e) => {
+        e.preventDefault();
+        e.persist();
+        console.log(`username: ${e.target.username.value}`);
+        console.log(`password: ${e.target.password.value}`);
+        const formData = {
+            body: JSON.stringify({
+                "username": e.target.username.value,
+                "password": e.target.password.value
+            }),
+            method: 'POST'
+        };
+        const data = await apiFetch('/auth/adduser/', formData)
+            .then(res => {
+                return res.json().then(data => {
+                    return {data}
+                })
+            });
+        console.log(data);
     };
 
     /*Controls the appearance and state of the button to delete a user*/
@@ -51,7 +74,7 @@ class UserList extends Component {
       return (
         <div className="con rel">
           <h2 className="serif">Team Roster</h2>
-          {this.props.isAdmin === "true" ? <img src={add} className="icon roster" alt="plus-icon" onClick={this.showAddUser}/> : null}
+          {this.props.isAdmin === "true" ? <img src={this.state.showAdd ? x : add} className="icon roster" alt="plus-icon" onClick={this.showAddUser}/> : null}
           {mappedUsers}
           {this.state.showConfirm ?
             <div className="overlay rel">
@@ -62,10 +85,7 @@ class UserList extends Component {
             :
             null}
           {this.state.showAdd ? (
-            <div>
               <AddUserForm addUser={this.handleSubmitNewUser}/>
-              <button onClick={this.showAddUser}>Cancel</button>
-            </div>
           ) : null}
           <div className="errorClass">
               {this.props.error ? this.props.error : null}
