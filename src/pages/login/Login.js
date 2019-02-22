@@ -78,27 +78,6 @@ class Login extends Component {
         console.log(`Responded with status ${res.status}`);
 
     }
-    /*await apiFetch('/auth/login/', formData)
-      .then(res => {
-        return res.json().then(data => {
-          // handle 2-factor
-          if (res.status === 200 && data.message === 'code sent') {
-            this.setState({codeSent: true, username: e.target.username.value});
-            console.log(data)
-          }
-          if (res.status === 200 && data.token) {
-            saveToLocalStorage({token: data.token});
-            const { cookies } = this.props;
-            cookies.set('jwt', data.token);
-            console.log(data);
-            // TODO first login stuff if needed
-          } else if (res.status === 401) {
-            deleteFromLocalStorage('token');
-            const { cookies } = this.props;
-            cookies.set('jwt', '');
-          }
-        })
-    });*/
   };
 
   handleFactorSubmit = async (e) => {

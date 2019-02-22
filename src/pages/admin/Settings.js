@@ -1,26 +1,26 @@
 import React, {Component} from 'react';
-import AddUserForm from './AddUserForm'
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
 import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
 import { withCookies } from 'react-cookie';
 import './admin.css';
+import x from '../../assets/images/x-icon.png';
 import UserList from './UserList';
-import add from '../../assets/images/plus-circle-icon.png';
+import Profile from '../profile/Profile';
 
-class Admin extends Component {
+class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToReferrer: false,
-            error: null,
-            showAdd: false,
             showAlpaca: false,
-            userslist: null
+            userslist: null,
+            error: '',
+            username: '',
+            first_name: '',
+            last_name: '',
+            password: ''
         };
-        this.showAddUser = this.showAddUser.bind(this);
         this.showAlpacaPreferences = this.showAlpacaPreferences.bind(this);
-        this.hide = this.hide.bind(this);
         this.getUsersList = this.getUsersList.bind(this);
     }
 
@@ -32,29 +32,6 @@ class Admin extends Component {
         const response = await apiGet('/users/list/');
         this.setState({userslist: response.data.users});
     };
-
-    handleSubmitNewUser = async (e) => {
-        e.preventDefault();
-        e.persist();
-        this.setState({redirectToReferrer: true, error: null});
-        console.log(`username: ${e.target.username.value}`);
-        console.log(`password: ${e.target.password.value}`);
-        const formData = {
-            body: JSON.stringify({
-                "username": e.target.username.value,
-                "password": e.target.password.value
-            }),
-            method: 'POST'
-        };
-        const data = await apiFetch('/auth/adduser/', formData)
-            .then(res => {
-                return res.json().then(data => {
-                    return {data}
-                })
-            });
-        console.log(data);
-    };
-
     handleRemoveUser = async (e, username) => {
         console.log("Removing a user:", username);
         const formbody = {
@@ -79,20 +56,17 @@ class Admin extends Component {
   handleSubmitAlpacaKey = async (e) => {
     e.preventDefault();
     e.persist();
-    console.log(`new key: ${e.target.alpacaKey.value}`);
+    console.log(`new key: ${e.target.key_id.value}`);
     const formData = {
         body: JSON.stringify({
-            "alpacaKey" : e.target.alpacaKey.value
+            "key_id" : e.target.key_id.value,
+            "secret_key" : e.target.secret_key.value,
+            "user": 1
         }),
         method: 'POST'
     };
-    const data = await apiFetch('/api/alpaca/', formData)
-        .then(res => {
-            return res.json()
-        })
-  };
-  showAddUser = () => {
-      this.setState({showAdd: !this.state.showAdd})
+    const data = await apiFetch('/alpaca/', formData);
+    console.log('data', data.status);
   };
   showAlpacaPreferences = () => {
       this.setState({showAlpaca: !this.state.showAlpaca})
@@ -110,34 +84,26 @@ class Admin extends Component {
         alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca Preferences</button>
     } else if (this.state.showAlpaca === true) {
         alpacaApiSettings = (
-            <div>
+            <div className="con rel">
+                <img src={x} className="icon roster" alt="x-icon" onClick={this.showAlpacaPreferences}/>
                 <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey}/>
-                <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Hide</button>
             </div>
         )
     }
 
     return (
       <div className="page temptext">
-          <h1>Admin Tools</h1>
-          <div className="con rel">
-            <h2 className="serif">Team Roster</h2>
-            <img src={add} className="icon roster" alt="plus-icon" id="add-user-hide-button" onClick={this.showAddUser}/>
-            <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} refresh={mockUsers}/>
-            {this.state.showAdd ? (
-              <div>
-                <AddUserForm addUser={this.handleSubmitNewUser}/>
-                <button id="add-user-hide-button" onClick={this.showAddUser}>Cancel</button>
-              </div>
-            ) : null}
-          </div>
+          <h1>Settings Page</h1>
+          <Profile />
+          <br/><br/>
+          <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin} error={this.state.error} />
           <br/>
           <div className="con">
-              {alpacaApiSettings}
+          {alpacaApiSettings}
           </div>
       </div>
     );
   }
 }
 
-export default withCookies(Admin);
+export default withCookies(Settings);

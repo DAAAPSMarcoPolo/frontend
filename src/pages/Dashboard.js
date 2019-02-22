@@ -3,12 +3,6 @@ import { Redirect } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   redirectToReferrer: false
-    // };
-  }
   render() {
     const { cookies } = this.props;
     const isAuthenticated = cookies.get('isAuthenticated');

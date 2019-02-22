@@ -24,7 +24,7 @@ input, label, button {
   font-weight: bolder;
   font-size: 16px;
   position: relative;
-  margin: 20px 0px 20px 0px;
+  margin: 15px 0px;
   padding: 10px;
   text-transform: uppercase;
   text-align:center;
@@ -85,7 +85,7 @@ input::placeholder {
   width: auto;
   position: absolute;
   padding: 0px;
-  margin: 30px -33px;
+  margin: 25px -33px;
 }
 .submit-arrow:hover {
   opacity: .8;
@@ -130,6 +130,7 @@ ul, li   {
   padding: 20px;
   background: #1F1F1F;
   max-width: 400px;
+  border-radius: 5px;
 }
 .li {
   padding: 10px 20px;
@@ -158,4 +159,32 @@ button:hover {
   right: 42px;
   border-radius: 5px;
   padding: 20px;
+  box-shadow: 3px 3px 15px rgba(0,0,0,.8);
+}
+.overlay input, .overlay input:hover, .overlay input:focus {
+  border: 1px solid rgba(0,0,0,.2);
+}
+.errorClass {
+  display:inline-block;
+}
+
+h1 {
+  margin: 1.5rem 0px;
+}
+
+.profile-circle {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.profile-img {
+  width: 150px;
+  height: 150px;
+  background: white;
+  border-radius: 100%;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
