@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
+import {apiFetch, apiPost, apiGet, apiDelete, apiPut} from '../../utils/api';
 import EditProfile from './EditProfile';
 import edit from '../../assets/images/edit-icon.png';
 import x from '../../assets/images/x-icon.png';
@@ -18,32 +18,39 @@ class Settings extends Component {
           showConfirm: false,
           file: '',
           imagePreviewUrl: '',
+          showUpload: false
     };
     this.editProfile = this.editProfile.bind(this);
   }
+  async getProfilePicture() {
+    const response = await apiGet('/profilepicture/');
+    console.log(response);
+  }
   componentDidMount() {
-
     const formData = {
-      user: {
-        "username": "maudrey333@gmail.com"
-      }
+      "username": this.state.username
     }
-    apiGet('/profilepicture/', formData)
-      .then(res => {
-        return res.json().then(data => {
-          if (res.status === 200 && data.token) {
-            // the response returned a success
-            console.log('/profilepicture/', 'success')
-            const url = window.URL.createObjectURL(data);
-            this.setState({ imagePreviewUrl: url });
-            // this.setState({showConfirm: !this.state.showConfirm});
-          } else if (res.status === 401) {
-            if (res.message) {
-              this.setState({ error: res.message });
-            }
-          }
-        })
-    });
+    console.log("componentDidMount");
+    this.getProfilePicture();
+    // apiGet('/profilepicture/')
+    //   .then(res => {
+    //     return res.json().then(data => {
+    //       console.log('data', data)
+    //       if (res.status === 200 && data.token) {
+    //         // the response returned a success
+    //         const url = window.URL.createObjectURL(data);
+    //         console.log('/profilepicture/', 'success', data, 'url', url)
+    //         this.setState({ imagePreviewUrl: url });
+    //         // this.setState({showConfirm: !this.state.showConfirm});
+    //       } else if (res.status === 401) {
+    //         if (res.message) {
+    //           this.setState({ error: res.message });
+    //         }
+    //       } else if (res.status === 500) {
+    //         console.log('500 status', data);
+    //       }
+    //     })
+    // });
   }
   editProfile = (e) => {
     e.preventDefault();
@@ -73,18 +80,71 @@ class Settings extends Component {
         })
     });
   }
+  savePicture = (e) => {
+    e.preventDefault();
+    const formData  = new FormData();
+    console.log('pic', this.state.file);
+    formData.append("avatar", this.state.file);
+    apiPut('/profilepicture/', formData).then(res => {
+      return res.json().then(data => {
+        console.log('data', data)
+        if (res.status === 200 && data.token) {
+          // the response returned a success
+          const url = window.URL.createObjectURL(data);
+          console.log('/profilepicture/', 'success', data, 'url', url)
+          this.setState({ imagePreviewUrl: url });
+          // this.setState({showConfirm: !this.state.showConfirm});
+        } else if (res.status === 401) {
+          if (res.message) {
+            this.setState({ error: res.message });
+          }
+        }
+      })
+  });
+      //
+      // apiGet('/profilepicture/')
+      //   .then(res => {
+      //     return res.json().then(data => {
+      //       console.log('data', data)
+      //       if (res.status === 200 && data.token) {
+      //         // the response returned a success
+      //         const url = window.URL.createObjectURL(data);
+      //         console.log('/profilepicture/', 'success', data, 'url', url)
+      //         this.setState({ imagePreviewUrl: url });
+      //         // this.setState({showConfirm: !this.state.showConfirm});
+      //       } else if (res.status === 401) {
+      //         if (res.message) {
+      //           this.setState({ error: res.message });
+      //         }
+      //       }
+      //     })
+      // });
+  }
+  handleImageChange = (e) => {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+    reader.readAsDataURL(file)
+  }
   showEditProfile = () => {
       this.setState({showEditProfile: !this.state.showEditProfile});
+  };
+  showUploadImage = () => {
+      this.setState({showUpload: !this.state.showUpload});
   };
   render() {
     return (
       <div className="con rel">
         <div className="profile-circle">
-        {this.state.imagePreviewUrl ?
           <img src={this.state.imagePreviewUrl} alt="profile-pic" className="profile-img"/>
-        :
-          <div className="profile-img"></div>
-        }
         </div>
           <h2 className="serif">My Profile</h2>
           {this.state.showEditProfile ? (
@@ -103,6 +163,17 @@ class Settings extends Component {
               </div>
               </div>
           )}
+          {this.state.showUpload ?
+          <form className="image-upload" onSubmit={this.savePicture}>
+            <h1>Profile Options</h1>
+            <input className="fileInput"
+              type="file"
+              onChange={this.handleImageChange} required />
+            <button className="submitButton" type="submit" >Upload New Profile Image</button>
+          </form>
+          :
+          <button onClick={this.showUploadImage}>Upload image</button>
+          }
       </div>
     );
   }
