@@ -19,7 +19,6 @@ class Settings extends Component {
             showConfirm: false
         };
         this.editProfile = this.editProfile.bind(this);
-        this.editProfileWrap = this.editProfileWrap.bind(this);
     }
     editProfile = (e) => {
       e.preventDefault();
@@ -43,6 +42,7 @@ class Settings extends Component {
             if (res.status === 200 && data.token) {
               // the response returned a success
               console.log('/user/settings/', 'success')
+              this.setState({showConfirm: !this.state.showConfirm});
             } else if (res.status === 401) {
               if (res.message) {
                 this.setState({ error: res.message });
@@ -51,13 +51,11 @@ class Settings extends Component {
           })
       });
     };
-  editProfileWrap = (e) => {
-      this.setState({showConfirm: !this.state.showConfirm, user: ''});
-      this.props.editProfile(e, this.state.user);
-      this.forceUpdate();
-  };
   showEditProfile = () => {
       this.setState({showEditProfile: !this.state.showEditProfile});
+  };
+  showConfirmOverlay = () => {
+      this.setState({showConfirm: !this.state.showConfirm});
   };
   render() {
     return (
@@ -82,9 +80,10 @@ class Settings extends Component {
           )}
           {this.state.showConfirm ?
             <div className="overlay rel">
-            <p>Please re-enter your password to update your profile.</p>
-            <input type="text" name="password" placeholder="Password" required/>
-            <button onClick={this.removeUserWrap}>Confirm</button>
+              <img className="icon roster" src={x} alt="x-icon" onClick={this.showEditProfile}/>
+              <p>Please re-enter your password to update your profile.</p>
+              <input type="text" name="password" placeholder="Password" required/>
+              <button onClick={this.editProfile}>Confirm</button>
             </div>
             :
             null}
