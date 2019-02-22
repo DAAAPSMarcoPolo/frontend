@@ -55,6 +55,8 @@ class UserList extends Component {
                 })
             });
         console.log(data);
+        this.props.getUsersList();
+        this.setState({showAdd: !this.state.showAdd});
     };
 
     /*Controls the appearance and state of the button to delete a user*/

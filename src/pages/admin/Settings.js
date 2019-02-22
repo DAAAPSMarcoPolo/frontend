@@ -96,7 +96,7 @@ class Settings extends Component {
           <h1>Settings Page</h1>
           <Profile />
           <br/><br/>
-          <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin} error={this.state.error} />
+          <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin} error={this.state.error} getUsersList={this.getUsersList} />
           <br/>
           <div className="con">
           {alpacaApiSettings}
