@@ -130,6 +130,7 @@ ul, li   {
   padding: 20px;
   background: #1F1F1F;
   max-width: 400px;
+  border-radius: 5px;
 }
 .li {
   padding: 10px 20px;
@@ -162,4 +163,8 @@ button:hover {
 
 .errorClass {
   display:inline-block;
+}
+
+h1 {
+  margin: 1.5rem 0px;
 }

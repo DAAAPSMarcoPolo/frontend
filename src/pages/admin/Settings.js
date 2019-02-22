@@ -5,15 +5,13 @@ import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
 import { withCookies } from 'react-cookie';
 import './admin.css';
 import UserList from './UserList';
-import ProfileForm from '../profile/ProfileForm';
+import Profile from '../profile/Profile';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 
 class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToReferrer: false,
-            error: null,
             showAlpaca: false,
             userslist: null,
             error: '',
@@ -34,37 +32,10 @@ class Settings extends Component {
         const response = await apiGet('/users/list/');
         this.setState({userslist: response.data.users});
     };
-    handleEditProfile = (e) => {
-      e.preventDefault();
-      e.persist();
-      this.setState({ error: null });
 
-      const formData = {
-        body: JSON.stringify({
-          "username": e.target.username.value,
-          "first_name": e.target.first_name.value,
-          "last_name": e.target.last_name.value,
-          "password": e.target.password.value
-        }),
-        method: 'POST'
-      }
-      apiFetch('/profile/update/', formData)
-        .then(res => {
-          return res.json().then(data => {
-            if (res.status === 200 && data.token) {
-              saveToLocalStorage({token: data.token});
-              // logged in
-              this.setState({redirectToReferrer: true})
-            } else if (res.status === 401) {
-              deleteFromLocalStorage('token');
-            }
-          })
-      });
-    };
     handleSubmitNewUser = async (e) => {
         e.preventDefault();
         e.persist();
-        this.setState({redirectToReferrer: true, error: null});
         console.log(`username: ${e.target.username.value}`);
         console.log(`password: ${e.target.password.value}`);
         const formData = {
@@ -146,7 +117,7 @@ class Settings extends Component {
     return (
       <div className="page temptext">
           <h1>Settings Page</h1>
-          <ProfileForm submit={this.handleEditProfile} error={this.state.error} />
+          <Profile />
           <br/><br/>
           <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin} error={this.state.error} />
           <br/>
