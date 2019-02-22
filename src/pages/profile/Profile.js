@@ -18,7 +18,8 @@ class Settings extends Component {
           showConfirm: false,
           file: '',
           imagePreviewUrl: '',
-          showUpload: false
+          showUpload: false,
+          showPass: false
     };
     this.editProfile = this.editProfile.bind(this);
   }
@@ -62,6 +63,32 @@ class Settings extends Component {
         "first_name": e.target.first_name.value,
         "last_name":  e.target.last_name.value,
         "phone_number": e.target.phone_number.value
+      }),
+      method: 'POST'
+    }
+    apiFetch('/user/settings/', formData)
+      .then(res => {
+        return res.json().then(data => {
+          if (res.status === 200 && data.token) {
+            // the response returned a success
+            console.log('/user/settings/', 'success')
+            this.setState({showConfirm: !this.state.showConfirm});
+          } else if (res.status === 401) {
+            if (res.message) {
+              this.setState({ error: res.message });
+            }
+          }
+        })
+    });
+  }
+  updatePassword = (e) => {
+    e.preventDefault();
+    e.persist();
+    this.setState({ error: null });
+    const formData = {
+      body: JSON.stringify({
+        "old_password": e.target.old_password.value,
+        "new_password": e.target.new_password.value,
       }),
       method: 'POST'
     }
@@ -140,6 +167,9 @@ class Settings extends Component {
   showUploadImage = () => {
       this.setState({showUpload: !this.state.showUpload});
   };
+  showEditPassword = () => {
+    this.setState({ showPass: !this.state.showPass});
+  }
   render() {
     return (
       <div className="con rel">
@@ -159,7 +189,7 @@ class Settings extends Component {
                 <h3>{this.state.username}</h3>
                 <h4>{this.state.first_name} {this.state.last_name}</h4>
                 <p>{this.state.phone_number}</p>
-                <button onClick={this.showEditPassword}>Update Password</button>
+                {!this.state.showPass ? <button onClick={this.showEditPassword}>Update Password</button> : null}
               </div>
               </div>
           )}
@@ -174,6 +204,15 @@ class Settings extends Component {
           :
           <button onClick={this.showUploadImage}>Upload image</button>
           }
+          {this.state.showPass ?
+            <form onSubmit={this.updatePassword}>
+            <h3>Update Password</h3>
+              <input type="text" name="old_password" placeholder="Old Password" required/>
+              <input  type="text" name="new_password" placeholder="New Password" required/>
+              <button className="submitButton" type="submit" >Update Password</button>
+            </form>
+          :
+          null}
       </div>
     );
   }
