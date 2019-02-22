@@ -6,7 +6,6 @@ import { withCookies } from 'react-cookie';
 import './admin.css';
 import UserList from './UserList';
 import Profile from '../profile/Profile';
-import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 
 class Settings extends Component {
     constructor(props) {
