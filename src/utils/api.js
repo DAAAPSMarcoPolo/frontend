@@ -74,6 +74,7 @@ export async function apiPut(endpoint, data = {}, includeToken = true, parent = 
         headers: []
     };
     const token = getFromLocalStorage('token');
+    console.log('api put', token);
     if (includeToken && token) {
         config.headers['Authorization'] = `Token ${token}`;
     }
