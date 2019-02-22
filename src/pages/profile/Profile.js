@@ -24,15 +24,16 @@ class Settings extends Component {
     editProfile = (e) => {
       e.preventDefault();
       e.persist();
-      console.log('form value', e.target.last_name.value, 'state value', this.state.last_name);
+      console.log('username value', e.target.username.value, 'state value', this.state.username);
+      console.log('first_name value', e.target.first_name.value, 'state value', this.state.first_name);
       this.setState({ error: null });
       const formData = {
         body: JSON.stringify({
-          "username": (e.target.username.value ? e.target.username.value : this.state.username),
-          "first_name":  (e.target.first_name.value ? e.target.first_name.value : this.state.first_name),
-          "phone_number":  (e.target.phone_number.value ? e.target.phone_number.value : this.state.phone_number),
-          "last_name": (e.target.last_name.value ? e.target.last_name.value : this.state.last_name),
-          "password": (e.target.last_name.value ? e.target.last_name.value : this.state.last_name),
+          "username": e.target.username.value,
+          "first_name": e.target.first_name.value,
+          "phone_number": e.target.phone_number.value,
+          "last_name": e.target.last_name.value,
+          "password": e.target.last_name.value,
         }),
         method: 'POST'
       }

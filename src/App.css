@@ -85,7 +85,7 @@ input::placeholder {
   width: auto;
   position: absolute;
   padding: 0px;
-  margin: 30px -33px;
+  margin: 25px -33px;
 }
 .submit-arrow:hover {
   opacity: .8;
