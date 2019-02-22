@@ -2,10 +2,12 @@ body {
   margin: 0 auto;
   font-family: 'Proxima Nova', sans-serif;
   font-size: 20px;
-  background-color: #282828;
+  background-color: #000;
   color: white;
 }
-
+.serif {
+  font-family: 'Rufina', sans-serif;
+}
 button {
   border-radius: 30px;
 }
@@ -22,7 +24,7 @@ input, label, button {
   font-weight: bolder;
   font-size: 16px;
   position: relative;
-  margin: 20px 0px 20px 0px;
+  margin: 15px 0px;
   padding: 10px;
   text-transform: uppercase;
   text-align:center;
@@ -72,10 +74,28 @@ input::placeholder {
 
 .submit-arrow {
   max-width: 25px;
-  margin: -54px 0px 0px 142px;
   z-index: 100;
   position: absolute;
-  margin: 29px 0px 0px -33px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.login .btn-img {
+  background: none;
+  width: auto;
+  position: absolute;
+  padding: 0px;
+  margin: 25px -33px;
+}
+.submit-arrow:hover {
+  opacity: .8;
+  cursor: pointer;
+}
+.btn-img:focus {
+  outline: none;
+  outline-style:none;
+  box-shadow:none;
+  border-color:transparent;
 }
 
 .nav {
@@ -98,4 +118,73 @@ a {
 }
 a:hover {
   color: white;
+}
+ul, li   {
+  list-style-type: none;
+}
+
+.page {
+  padding: 20px;
+}
+.con {
+  padding: 20px;
+  background: #1F1F1F;
+  max-width: 400px;
+  border-radius: 5px;
+}
+.li {
+  padding: 10px 20px;
+  margin: 10px 0;
+  background: #282828;
+  border-radius: 5px;
+}
+
+button:focus {
+  outline: 0px;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, .8);
+  cursor: pointer;
+}
+.rel {
+  position: relative;
+}
+
+.overlay {
+  z-index: 100;
+  background: #3ECC9A;
+  position: absolute;
+  top: 129px;
+  right: 42px;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 3px 3px 15px rgba(0,0,0,.8);
+}
+.overlay input, .overlay input:hover, .overlay input:focus {
+  border: 1px solid rgba(0,0,0,.2);
+}
+.errorClass {
+  display:inline-block;
+}
+
+h1 {
+  margin: 1.5rem 0px;
+}
+
+.profile-circle {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.profile-img {
+  width: 150px;
+  height: 150px;
+  background: white;
+  border-radius: 100%;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
