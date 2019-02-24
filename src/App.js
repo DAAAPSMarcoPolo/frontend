@@ -3,6 +3,7 @@ import { withCookies } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
 import Nav from './pages/components/Nav';
+import User from './pages/components/User';
 import './App.css';
 
 class App extends Component {
@@ -12,8 +13,9 @@ class App extends Component {
     const isAdmin = cookies.get("isAdmin");
     return (
       <BrowserRouter>
-        <div>
+        <div class="page">
           <Nav isAuthenticated={isAuthenticated} isAdmin={isAdmin}/>
+          <User isAuthenticated={isAuthenticated} />
           <Routes/>
         </div>
       </BrowserRouter>
