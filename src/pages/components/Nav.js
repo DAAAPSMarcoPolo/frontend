@@ -84,7 +84,7 @@ class Nav extends Component {
     }
     return (
       <div className="nav left" ref={node => { this.node = node; }}>
-        <div onClick={this.handleClick} className="container">
+        <div onClick={this.handleClick} className="contain">
           {isAuthenticated === "true"
             ?
             (

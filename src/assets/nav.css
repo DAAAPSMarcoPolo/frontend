@@ -1,4 +1,4 @@
-.container {
+.contain {
   display: inline-block;
   position: fixed;
   left: 0px;
@@ -14,7 +14,7 @@
   font-family: 'Rufina', sans-serif;
   font-size: 16px;
 }
-.container:hover{
+.contain:hover{
   opacity:1;
 }
 
@@ -63,13 +63,4 @@
 .drop a {
   color: white;
   display: block;
-}
-.user {
-  float: right;
-  margin-top: 10px;
-}
-.user img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%
 }
