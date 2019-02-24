@@ -89,17 +89,11 @@ class Nav extends Component {
             ?
             (
               <div>
-              <div className="profile-nav">
-              <Link to='/settings' onClick={this.handleClick}>
-              <img className="profile-pic" src={profile} alt="profile-pic"/>
-              <p>Username</p>
-              </Link>
-              </div>
-              <div className="bar-con">
-                <div className="bar1"></div>
-                <div className="bar2"></div>
-                <div className="bar3"></div>
-              </div>
+                <div className="bar-con">
+                  <div className="bar1"></div>
+                  <div className="bar2"></div>
+                  <div className="bar3"></div>
+                </div>
               </div>
             ) :
             null
@@ -108,27 +102,16 @@ class Nav extends Component {
         {this.state.open && isAuthenticated === "true"
           ?
           (
-            <div>
-            <div className="profile-nav">
-            <img className="profile-pic" src={profile} alt="profile-pic"/>
-            <p>Username</p>
-            </div>
             <div className="drop" >
-            <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
-            <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
-            <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
-            <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
-            <Link to='/settings' onClick={this.handleClick}>Settings</Link>
-            <Link to='/' onClick={this.logout}>Logout</Link>
-          </div></div>) : null
+              <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
+              <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
+              <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
+              <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
+              <Link to='/settings' onClick={this.handleClick}>Settings</Link>
+              <Link to='/' onClick={this.logout}>Logout</Link>
+            </div>
+          ) : null
         }
-        <div className="user">
-          {isAuthenticated === "true" && this.state.imagePreviewUrl ?
-            (this.state.imagePreviewUrl.length > 0 ) ? (<img src={this.state.imagePreviewUrl} alt=""/>) : null
-            :
-            null
-          }
-        </div>
       </div>
     );
   }
