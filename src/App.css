@@ -200,17 +200,20 @@ h1 {
 }
 
 .profile-nav {
-  position: absolute;
-  top: 43px;
-  right: 5px;
   width: 50px;
   height: 50px;
 }
-.profile-nav {
-  display: inline-flex;
-  align-items: center;
+.user {
+  position: absolute;
+  min-width: 150px;
+  top: 5px;
+  right: 150px;
 }
 
-.profile-nav p {
+.user p {
   margin-left: 5px;
+}
+
+.user {
+  text-decoration: none;
 }
