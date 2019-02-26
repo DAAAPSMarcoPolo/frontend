@@ -78,35 +78,34 @@ class Nav extends Component {
     const { cookies } = this.props;
     let isAuthenticated = cookies.get('isAuthenticated');
     console.log('isAuthenticated', isAuthenticated);
-    if (isAuthenticated === null) {
-      isAuthenticated = false;
-    }
-    return (
+    if (isAuthenticated === "true") {
+      return (
         <div onClick={this.handleClick} className="contain nav left" ref={node => { this.node = node; }}>
-          {isAuthenticated
-            ?
-            (
-              <div>
-                <div className="bar-con">
-                  <div className="bar1"></div>
-                  <div className="bar2"></div>
-                  <div className="bar3"></div>
-                </div>
-              </div>
-            ) :
-            (
-              <div className="drop" >
-                <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
-                <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
-                <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
-                <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
-                <Link to='/settings' onClick={this.handleClick}>Settings</Link>
-                <Link to='/' onClick={this.logout}>Logout</Link>
-              </div>
-            )
-          }
+        {this.state.open
+          ?
+        (
+          <div>
+            <div className="bar-con">
+              <div className="bar1"></div>
+              <div className="bar2"></div>
+              <div className="bar3"></div>
+            </div>
+          </div>
+        ) : (
+          <div className="drop" >
+            <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
+            <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
+            <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
+            <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
+            <Link to='/settings' onClick={this.handleClick}>Settings</Link>
+            <Link to='/' onClick={this.logout}>Logout</Link>
+          </div>
+        )}
         </div>
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
 
