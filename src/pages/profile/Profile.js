@@ -86,7 +86,7 @@ class Settings extends Component {
         "password": e.target.old_password.value,
         "new_password": e.target.new_password.value
     }
-    apiPut('/user/settings/', formData)
+    api.Put('/user/settings/', formData)
       .then(res => {
         return res.json().then(data => {
           if (res.status === 200 && data.token) {

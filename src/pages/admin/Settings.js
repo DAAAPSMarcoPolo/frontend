@@ -3,7 +3,6 @@ import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
 import api from '../../utils/api';
 import { withCookies } from 'react-cookie';
-import api from '../../utils/apiv2';
 import './admin.css';
 import x from '../../assets/images/x-icon.png';
 import UserList from './UserList';
