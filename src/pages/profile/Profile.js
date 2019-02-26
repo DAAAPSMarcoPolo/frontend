@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {apiFetch, apiPost, apiGet, apiDelete, apiPut} from '../../utils/api';
+import api from '../../utils/api';
 import EditProfile from './EditProfile';
 import edit from '../../assets/images/edit-icon.png';
 import x from '../../assets/images/x-icon.png';
@@ -24,7 +24,7 @@ class Settings extends Component {
     this.editProfile = this.editProfile.bind(this);
   }
   async getProfilePicture() {
-    const response = await apiGet('/profilepicture/');
+    const response = await api.Get('/profilepicture/');
     console.log(response);
   }
   componentDidMount() {
@@ -33,7 +33,7 @@ class Settings extends Component {
     }
     console.log("componentDidMount");
     this.getProfilePicture();
-    // apiGet('/profilepicture/')
+    // api.Get('/profilepicture/')
     //   .then(res => {
     //     return res.json().then(data => {
     //       console.log('data', data)
@@ -58,15 +58,12 @@ class Settings extends Component {
     e.persist();
     this.setState({ error: null });
     const formData = {
-      body: JSON.stringify({
-        "username": e.target.username.value,
-        "first_name": e.target.first_name.value,
-        "last_name":  e.target.last_name.value,
-        "phone_number": e.target.phone_number.value
-      }),
-      method: 'POST'
+      "username": e.target.username.value,
+      "first_name": e.target.first_name.value,
+      "last_name":  e.target.last_name.value,
+      "phone_number": e.target.phone_number.value
     }
-    apiFetch('/user/settings/', formData)
+    api.Post('/user/settings/', formData)
       .then(res => {
         return res.json().then(data => {
           if (res.status === 200 && data.token) {
@@ -106,10 +103,11 @@ class Settings extends Component {
   }
   savePicture = (e) => {
     e.preventDefault();
+    // TODO fix formData below (ask Sean bout dis)
     const formData  = new FormData();
     console.log('pic', this.state.file);
     formData.append("avatar", this.state.file);
-    apiPut('/profilepicture/', formData).then(res => {
+    api.Put('/profilepicture/', formData).then(res => {
       return res.json().then(data => {
         console.log('data', data)
         if (res.status === 200 && data.token) {
@@ -126,7 +124,7 @@ class Settings extends Component {
       })
   });
       //
-      // apiGet('/profilepicture/')
+      // api.Get('/profilepicture/')
       //   .then(res => {
       //     return res.json().then(data => {
       //       console.log('data', data)
