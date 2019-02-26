@@ -49,4 +49,17 @@ const Get = async (endpoint, includeToken = true, options = {}) => {
   return response;
 }
 
+const Put = async (endpoint, includeToken = true, options = {}) => {
+  const config = {
+    url: `${API_BASE_URL}${endpoint}`,
+    method: 'put',
+  }
+  const response = await Request(config, includeToken);
+  if (response.status === 500) {
+    console.log(`Server error (500): PUT ${API_BASE_URL}${endpoint}`);
+    console.log(`Message: ${response.statusText}`);
+  }
+  return response;
+}
+
 export default { Post, Get };
