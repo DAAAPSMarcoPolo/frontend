@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { withCookies, Cookies } from 'react-cookie';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
-import profile from '../../assets/images/profile.jpg';
 
 import '../../assets/nav.css';
 
@@ -15,35 +14,8 @@ class Nav extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.state = {
-      open: false,
-      imagePreviewUrl: null
+      open: false
     };
-  }
-  componentDidMount() {
-    // const { cookies } = this.props;
-    // const email = cookies.get('email');
-
-    // return apiFetch('getPicture', {
-    //   headers: {
-    //    'Content-Type': 'text/plain'
-    //   },
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email: email
-    //   })
-    // }).then((response) => response.blob())
-    //     .then((json) => {
-    //       const url = window.URL.createObjectURL(json);
-    //           if(json.success === false) {
-    //               console.log('error', json.error);
-    //               this.setState({ error: json.error });
-    //           }
-    //           else {
-    //             this.setState({
-    //               imagePreviewUrl: url
-    //             });
-    //           }
-    //         });
   }
   handleClick() {
     if (!this.state.open) {

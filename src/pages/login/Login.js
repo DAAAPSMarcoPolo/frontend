@@ -160,7 +160,6 @@ class Login extends Component {
   render() {
     const { cookies } = this.props;
     const isAuthenticated = cookies.get("isAuthenticated");
-    const isAdmin = cookies.get("isAdmin");
     if (this.state.redirectToReferrer === true || isAuthenticated === "true") {
       return (<Redirect to="/dashboard"/>);
     }
