@@ -5,7 +5,7 @@ import FirstLoginForm from './FirstLoginForm';
 import { Redirect } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-import { apiPost } from '../../utils/api';
+import api from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 import { getAttributesFromEvent } from '../../utils/forms';
 import '../../assets/login.css';
@@ -37,7 +37,7 @@ class Login extends Component {
       username: e.target.username.value,
       password: e.target.password.value
     }
-    const res = await apiPost('/auth/login/', formData, false);
+    const res = await api.Post('/auth/login/', formData, false);
     console.log(res);
     const {data} = res;
     console.log(data);
@@ -89,7 +89,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     }
-    const response = await apiPost('/auth/loginfactor/', formData, false);
+    const response = await api.Post('/auth/loginfactor/', formData, false);
     const {data} = response;
     switch (response.status) {
       case 200:
@@ -132,7 +132,7 @@ class Login extends Component {
     formData.username = this.state.username;
     formData.password = this.state.password;
 
-    const res = await apiPost('/auth/firstlogin/', formData, true);
+    const res = await api.Post('/auth/firstlogin/', formData, true);
     const {data} = res;
 
     // TODO handle response

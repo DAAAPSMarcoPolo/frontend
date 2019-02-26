@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
-import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
+import api from '../../utils/api';
 import { withCookies } from 'react-cookie';
 import './admin.css';
 import x from '../../assets/images/x-icon.png';
@@ -29,7 +29,7 @@ class Settings extends Component {
     }
 
     async getUsersList() {
-        const response = await apiGet('/users/list/');
+        const response = await api.Get('/users/list/');
         this.setState({userslist: response.data.users});
     };
     handleRemoveUser = async (e, username) => {
@@ -37,7 +37,7 @@ class Settings extends Component {
         const formbody = {
             username: username
         };
-        const response =  await apiDelete('/users/list/', formbody);
+        const response =  await api.Delete('/users/list/', formbody);
         console.log(response);
     };
 
@@ -49,7 +49,7 @@ class Settings extends Component {
             "key_id": e.target.key_id.value,
             "secret_key": e.target.secret_key.value
         };
-        const response = await apiPost('/alpaca/', formData);
+        const response = await api.Post('/alpaca/', formData);
         console.log(response.status);
     };
 
@@ -58,14 +58,11 @@ class Settings extends Component {
     e.persist();
     console.log(`new key: ${e.target.key_id.value}`);
     const formData = {
-        body: JSON.stringify({
-            "key_id" : e.target.key_id.value,
-            "secret_key" : e.target.secret_key.value,
-            "user": 1
-        }),
-        method: 'POST'
+      "key_id" : e.target.key_id.value,
+      "secret_key" : e.target.secret_key.value,
+      "user": 1
     };
-    const data = await apiFetch('/alpaca/', formData);
+    const data = await api.Post('/alpaca/', formData);
     console.log('data', data.status);
   };
   showAlpacaPreferences = () => {
