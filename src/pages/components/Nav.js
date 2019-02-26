@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withCookies, Cookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
+import x from '../../assets/images/x-icon.png';
 import { instanceOf } from 'prop-types';
 
 import '../../assets/nav.css';
@@ -11,33 +12,12 @@ class Nav extends Component {
   };
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleOutsideClick = this.handleOutsideClick.bind(this);
     this.state = {
-      open: false
+      open: true
     };
   }
-  handleClick() {
-    if (!this.state.open) {
-      // attach/remove event handler
-      document.addEventListener('click', this.handleOutsideClick, false);
-    } else {
-      document.removeEventListener('click', this.handleOutsideClick, false);
-    }
-
-    this.setState(prevState => ({
-       open: !prevState.open,
-    }));
-  }
-  handleOutsideClick(e) {
-    // ignore clicks on the component itself
-    if (this.node.contains(e.target)) {
-      return;
-    }
-    this.handleClick();
-  }
-  shouldComponentUpdate() {
-    return true;
+  updateisOpen = () => {
+    this.setState({ open: !this.state.open });
   }
   logout = () => {
     const { cookies } = this.props;
@@ -56,15 +36,8 @@ class Nav extends Component {
         {this.state.open
           ?
         (
-          <div>
-            <div className="bar-con">
-              <div className="bar1"></div>
-              <div className="bar2"></div>
-              <div className="bar3"></div>
-            </div>
-          </div>
-        ) : (
-          <div className="drop" >
+          <div className="drop rel" >
+            <img className="icon roster" src={x} alt="x-icon" onClick={this.updateisOpen}/>
             <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
             <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
             <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
@@ -72,6 +45,12 @@ class Nav extends Component {
             <Link to='/settings' onClick={this.handleClick}>Settings</Link>
             <Link to='/' onClick={this.logout}>Logout</Link>
           </div>
+        ) : (
+            <div className="bar-con" onClick={this.updateisOpen}>
+              <div className="bar1"></div>
+              <div className="bar2"></div>
+              <div className="bar3"></div>
+            </div>
         )}
         </div>
       );
