@@ -3,7 +3,7 @@ import remove from '../../assets/images/delete-icon.png';
 import x from '../../assets/images/x-icon.png';
 import add from '../../assets/images/plus-circle-icon.png';
 import AddUserForm from './AddUserForm';
-import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
+import {apiFetch} from '../../utils/api';
 
 class UserList extends Component {
     constructor(props) {

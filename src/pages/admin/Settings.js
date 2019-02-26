@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
-import {apiFetch, apiPost, apiGet, apiDelete} from '../../utils/api';
+import {apiPost, apiDelete} from '../../utils/api';
 import {withCookies} from 'react-cookie';
 import api from '../../utils/apiv2';
 import './admin.css';
@@ -48,7 +48,6 @@ class Settings extends Component {
         e.preventDefault();
         e.persist();
         let formData = {
-            "user": 5,
             "key_id": e.target.key_id.value,
             "secret_key": e.target.secret_key.value
         };
