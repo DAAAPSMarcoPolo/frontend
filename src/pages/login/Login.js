@@ -73,6 +73,7 @@ class Login extends Component {
       // TODO server error
       case 500:
         console.log('server error');
+        this.setState({ error: 'Server Error.' });
         // fallthrough
       default:
         console.log(`Responded with status ${res.status}`);
@@ -145,6 +146,7 @@ class Login extends Component {
           //this.setState({error: 'Something went wrong updating your profile. Check log for more info.'});
           console.log(`HTTP Status (for error): ${res.status}`)
           console.log(`HTTP Status Text (for error): ${res.statusText}`)
+          this.setState({error: res.data.message});
         }
         break;
       // TODO handle case when information is missing

@@ -27,10 +27,7 @@ class Nav extends Component {
     cookies.remove('email');
   }
   render() {
-    const { cookies } = this.props;
-    let isAuthenticated = cookies.get('isAuthenticated');
-    console.log('isAuthenticated', isAuthenticated);
-    if (isAuthenticated === "true") {
+    if (this.props.isAuthenticated === "true") {
       return (
         <div onClick={this.handleClick} className="contain nav left" ref={node => { this.node = node; }}>
         {this.state.open

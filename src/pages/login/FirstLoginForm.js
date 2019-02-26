@@ -3,7 +3,7 @@ import React from 'react';
 const FirstLoginForm = ({updateProfile, error}) => (
     <form onSubmit={updateProfile}>
         <div className="errorClass">
-            {error ? error : null}
+            {error && error}
         </div>
         <input type="text" name="first_name" required placeholder="First Name"/>
         <input type="text" name="last_name" required placeholder="Last Name"/>
