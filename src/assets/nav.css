@@ -4,7 +4,6 @@
   left: 0px;
   top: 0px;
   cursor: pointer;
-  opacity: .5;
 }
 .bar-con {
   padding: 5px;
@@ -38,7 +37,7 @@
 
 /* Fade out the second bar */
 .change .bar2 {
-    display: none;
+  display: none;
 }
 
 /* Rotate last bar */
@@ -63,4 +62,8 @@
 .drop a {
   color: white;
   display: block;
+}
+
+.flex-nav {
+  display: flex;
 }

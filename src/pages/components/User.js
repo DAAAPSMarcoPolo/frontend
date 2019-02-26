@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import profile from '../../assets/images/profile.jpg';
 
 const User = ({isAuthenticated}) => {
-  if (isAuthenticated == "true") {
+  if (isAuthenticated === "true") {
     return (
       <Link className="user" to='/settings'>
         <div className="profile-nav">

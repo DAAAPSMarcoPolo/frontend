@@ -14,7 +14,6 @@ class Nav extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
-
     this.state = {
       open: false,
       imagePreviewUrl: null
@@ -77,15 +76,14 @@ class Nav extends Component {
   }
   render() {
     const { cookies } = this.props;
-    const isAuthenticated = cookies.get('isAuthenticated');
-    const login = cookies.get('login');
-    if (isAuthenticated === "false" && login === true) {
-      return (<Redirect to="/login"/>);
+    let isAuthenticated = cookies.get('isAuthenticated');
+    console.log('isAuthenticated', isAuthenticated);
+    if (isAuthenticated === null) {
+      isAuthenticated = false;
     }
     return (
-      <div className="nav left" ref={node => { this.node = node; }}>
-        <div onClick={this.handleClick} className="contain">
-          {isAuthenticated === "true"
+        <div onClick={this.handleClick} className="contain nav left" ref={node => { this.node = node; }}>
+          {isAuthenticated
             ?
             (
               <div>
@@ -96,23 +94,18 @@ class Nav extends Component {
                 </div>
               </div>
             ) :
-            null
+            (
+              <div className="drop" >
+                <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
+                <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
+                <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
+                <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
+                <Link to='/settings' onClick={this.handleClick}>Settings</Link>
+                <Link to='/' onClick={this.logout}>Logout</Link>
+              </div>
+            )
           }
         </div>
-        {this.state.open && isAuthenticated === "true"
-          ?
-          (
-            <div className="drop" >
-              <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
-              <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
-              <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
-              <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
-              <Link to='/settings' onClick={this.handleClick}>Settings</Link>
-              <Link to='/' onClick={this.logout}>Logout</Link>
-            </div>
-          ) : null
-        }
-      </div>
     );
   }
 }

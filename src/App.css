@@ -208,7 +208,8 @@ h1 {
 }
 
 .user {
-  float: right;
+  position: absolute;
+  right: 5px;
 }
 .profile-pic {
   width: 100%;
