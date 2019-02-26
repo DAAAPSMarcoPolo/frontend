@@ -1,10 +1,9 @@
-.container {
+.contain {
   display: inline-block;
   position: fixed;
   left: 0px;
   top: 0px;
   cursor: pointer;
-  opacity: .5;
 }
 .bar-con {
   padding: 5px;
@@ -14,7 +13,7 @@
   font-family: 'Rufina', sans-serif;
   font-size: 16px;
 }
-.container:hover{
+.contain:hover{
   opacity:1;
 }
 
@@ -38,7 +37,7 @@
 
 /* Fade out the second bar */
 .change .bar2 {
-    display: none;
+  display: none;
 }
 
 /* Rotate last bar */
@@ -64,12 +63,7 @@
   color: white;
   display: block;
 }
-.user {
-  float: right;
-  margin-top: 10px;
-}
-.user img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%
+
+.flex-nav {
+  display: flex;
 }

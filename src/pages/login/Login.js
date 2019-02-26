@@ -155,8 +155,11 @@ class Login extends Component {
     }
 
   }
+
   render() {
-    if (this.state.redirectToReferrer === true) {
+    const { cookies } = this.props;
+    const isAuthenticated = cookies.get("isAuthenticated");
+    if (this.state.redirectToReferrer === true || isAuthenticated === "true") {
       return (<Redirect to="/dashboard"/>);
     }
     return (
