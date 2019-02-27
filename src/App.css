@@ -188,29 +188,35 @@ h1 {
   align-items: center;
   justify-content: center;
 }
+.profile-nav {
+  display: inline;
+  width: 50px;
+  height: 50px;
+}
+.user {
+  top: 10px;
+  right: 10px;
+  color: white;
+  position: absolute;
+}
+.user:hover {
+  text-decoration: none;
+  opacity: .9;
+}
+.user p {
+  margin: 0px 0px 0px 5px;
+  display: inline;
+}
+
 .profile-pic {
   width: 100%;
   height: 100%;
   background: white;
-  border-radius: 100%;
   max-width: 100%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-}
-
-.profile-nav {
-  position: absolute;
-  top: 43px;
-  right: 5px;
-  width: 50px;
-  height: 50px;
-}
-.profile-nav {
-  display: inline-flex;
-  align-items: center;
-}
-
-.profile-nav p {
-  margin-left: 5px;
 }

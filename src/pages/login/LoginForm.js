@@ -4,7 +4,7 @@ import arrow from '../../assets/images/arrow.png';
 const LoginForm = ({login, error}) => (
     <form onSubmit={login}>
         <div className="errorClass">
-            {error ? error : null}
+            {error && error}
         </div>
         <input type="email" placeholder="email" name="username" required/>
         <div>

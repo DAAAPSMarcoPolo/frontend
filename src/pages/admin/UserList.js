@@ -3,7 +3,7 @@ import remove from '../../assets/images/delete-icon.png';
 import x from '../../assets/images/x-icon.png';
 import add from '../../assets/images/plus-circle-icon.png';
 import AddUserForm from './AddUserForm';
-import {apiFetch} from '../../utils/api';
+import api from '../../utils/api';
 
 class UserList extends Component {
     constructor(props) {
@@ -44,13 +44,10 @@ class UserList extends Component {
         console.log(`username: ${e.target.username.value}`);
         console.log(`password: ${e.target.password.value}`);
         const formData = {
-            body: JSON.stringify({
-                "username": e.target.username.value,
-                "password": e.target.password.value
-            }),
-            method: 'POST'
+          "username": e.target.username.value,
+          "password": e.target.password.value
         };
-        const data = await apiFetch('/auth/adduser/', formData)
+        const data = await api.Post('/auth/adduser/', formData)
             .then(res => {
                 return res.json().then(data => {
                     return {data}

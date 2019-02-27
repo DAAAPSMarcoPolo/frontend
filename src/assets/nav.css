@@ -1,10 +1,9 @@
-.container {
+.contain {
   display: inline-block;
   position: fixed;
   left: 0px;
   top: 0px;
   cursor: pointer;
-  opacity: .5;
 }
 .bar-con {
   padding: 5px;
@@ -14,7 +13,7 @@
   font-family: 'Rufina', sans-serif;
   font-size: 16px;
 }
-.container:hover{
+.contain:hover{
   opacity:1;
 }
 
@@ -38,7 +37,7 @@
 
 /* Fade out the second bar */
 .change .bar2 {
-    display: none;
+  display: none;
 }
 
 /* Rotate last bar */
@@ -64,12 +63,35 @@
   color: white;
   display: block;
 }
-.user {
-  float: right;
-  margin-top: 10px;
+
+.flex-nav {
+  display: flex;
 }
-.user img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%
+
+
+.errorClass {
+    -moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    color: #FA6353;
+}
+@keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+}
+@-webkit-keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
 }

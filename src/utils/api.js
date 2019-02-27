@@ -7,147 +7,73 @@ axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
 
 
-export function apiFetch(endpoint, options = {}) {
-  //
-  // options.headers = {
-  //   'x-access-token': 'token'
-  // };
-  options.headers = {
-    'Content-Type': 'application/json',
-  };
-
-  const token = getFromLocalStorage('token');
-
-  if (token) {
-    options.headers['Authorization'] = `Token ${token}`;
-  }
-  console.log(`fetching from ${API_BASE_URL}${endpoint}`);
-  return fetch(`${API_BASE_URL}${endpoint}`,options);
-}
-
-// TODO make apiPost function that
-/*export function apiPost(endpoint, options = {}) {
-  options.headers = {
-    'Content-Type': 'application/json',
-  }
-  options.method = 'POST';
-  const token = getFromLocalStorage('token');
-  if (token) {
-    options.headers['Authorization'] = `Token ${token}`;
-  }
-  console.log(`POST ${API_BASE_URL}${endpoint}`);
-  return fetch(`${API_BASE_URL}${endpoint}`,options);
-}*/
-
-export async function apiPost(endpoint, data = {}, includeToken = true, parent = null) {
-  const config = {
-    headers: []
-  };
+const Request = async (config, includeToken) => {
+  config.headers = config.headers ? config.headers : { };
+  config.headers['Content-Type'] = 'application/json';
   const token = getFromLocalStorage('token');
   if (includeToken && token) {
     config.headers['Authorization'] = `Token ${token}`;
   }
-
-  console.log(`POST ${API_BASE_URL}${endpoint}`);
   let response;
   try {
-    response = await axios.post(`${API_BASE_URL}${endpoint}`, data, config);
+    response = await axios(config);
+    return response;
   } catch (error) {
-    console.log(error.response);
     return error.response;
   }
+}
 
+const Post = async (endpoint, data, includeToken = true, options = {}) => {
+  const config = {
+    url: `${API_BASE_URL}${endpoint}`,
+    method: 'post',
+    data
+  }
+  const response = await Request(config, includeToken);
   if (response.status === 500) {
     console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);
     console.log(`Message: ${response.statusText}`);
-    if (parent) {
-      parent.setState({error: response.statusText});
-    }
-    // TODO decide what else to do when there is a server error...
   }
-
   return response;
-
 }
 
-export async function apiPut(endpoint, data = {}, includeToken = true, parent = null) {
-    const config = {
-        headers: []
-    };
-    const token = getFromLocalStorage('token');
-    console.log('api put', token);
-    if (includeToken && token) {
-        config.headers['Authorization'] = `Token ${token}`;
-    }
-
-    console.log(`PUT ${API_BASE_URL}${endpoint}`);
-
-    const response = await axios.put(`${API_BASE_URL}${endpoint}`, data, config);
-
-    if (response.status === 500) {
-        console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);
-        console.log(`Message: ${response.statusText}`);
-        if (parent) {
-            parent.setState({error: response.statusText});
-        }
-        // TODO decide what else to do when there is a server error...
-    }
-
-    return response;
-
+const Get = async (endpoint, includeToken = true, options = {}) => {
+  const config = {
+    url: `${API_BASE_URL}${endpoint}`,
+    method: 'get',
+  }
+  const response = await Request(config, includeToken);
+  if (response.status === 500) {
+    console.log(`Server error (500): GET ${API_BASE_URL}${endpoint}`);
+    console.log(`Message: ${response.statusText}`);
+  }
+  return response;
 }
 
-export async function apiGet(endpoint, includeToken = true, parent = null) {
-    const options = {};
-    const config = {
-        headers: []
-    };
-
-    const token = getFromLocalStorage('token');
-    if (includeToken && token) {
-        config.headers['Authorization'] = `Token ${token}`;
-    }
-    options.config = config;
-
-    console.log(`GET ${API_BASE_URL}${endpoint}`);
-    console.log(options)
-
-    const response = await axios.get(`${API_BASE_URL}${endpoint}`, { headers: { Authorization: `Token ${token}` } });
-
-    if (response.status === 500) {
-        console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);
-        console.log(`Message: ${response.statusText}`);
-        if (parent) {
-            parent.setState({error: response.statusText});
-        }
-        // TODO decide what else to do when there is a server error...
-    }
-    return response;
+const Put = async (endpoint, includeToken = true, options = {}) => {
+  const config = {
+    url: `${API_BASE_URL}${endpoint}`,
+    method: 'put',
+  }
+  const response = await Request(config, includeToken);
+  if (response.status === 500) {
+    console.log(`Server error (500): PUT ${API_BASE_URL}${endpoint}`);
+    console.log(`Message: ${response.statusText}`);
+  }
+  return response;
 }
 
-export async function apiDelete(endpoint, data = {}, includeToken = true, parent = null) {
-    const config = {
-        headers: []
-    };
-    const token = getFromLocalStorage('token');
-    if (includeToken && token) {
-        config.headers['Authorization'] = `Token ${token}`;
-    }
-
-    console.log(`DELETE ${API_BASE_URL}${endpoint}`);
-    console.log(data);
-    console.log(config)
-    const response = await axios.delete(`${API_BASE_URL}${endpoint}`, {data, config});
-
-    if (response.status === 500) {
-        console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);
-        console.log(`Message: ${response.statusText}`);
-        if (parent) {
-            parent.setState({error: response.statusText});
-        }
-        // TODO decide what else to do when there is a server error...
-    }
-
-    return response;
-
+const Delete = async (endpoint, includeToken = true, options = {}) => {
+  const config = {
+    url: `${API_BASE_URL}${endpoint}`,
+    method: 'delete',
+  }
+  const response = await Request(config, includeToken);
+  if (response.status === 500) {
+    console.log(`Server error (500): DELETE ${API_BASE_URL}${endpoint}`);
+    console.log(`Message: ${response.statusText}`);
+  }
+  return response;
 }
+
+export default { Post, Get, Put, Delete };

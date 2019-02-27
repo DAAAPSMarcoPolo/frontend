@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
+import api from '../../utils/api';
 import {apiPost, apiDelete} from '../../utils/api';
 import {withCookies} from 'react-cookie';
-import api from '../../utils/apiv2';
 import './admin.css';
 import x from '../../assets/images/x-icon.png';
 import UserList from './UserList';
@@ -30,8 +30,7 @@ class Settings extends Component {
     }
 
     async getUsersList() {
-        // const response = await apiGet('/users/list/');
-        const response = await api.Get('/users/list/')
+        const response = await api.Get('/users/list/');
         this.setState({userslist: response.data.users});
     };
 
@@ -51,7 +50,7 @@ class Settings extends Component {
             "key_id": e.target.key_id.value,
             "secret_key": e.target.secret_key.value
         };
-        const response = await apiPost('/alpaca/', formData);
+        const response = await api.Post('/alpaca/', formData);
         console.log(response.status);
     };
 

@@ -10,7 +10,7 @@ class Dashboard extends Component {
       return (<Redirect to="/login"/>);
     }
     return (
-      <div>
+      <div className="page">
         <p>Dashboard</p>
       </div>
     )

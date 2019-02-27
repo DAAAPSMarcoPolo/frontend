@@ -5,8 +5,7 @@ import FirstLoginForm from './FirstLoginForm';
 import { Redirect } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
-import api from '../../utils/apiv2';
-import { apiPost } from '../../utils/api';
+import api from '../../utils/api';
 import { saveToLocalStorage, deleteFromLocalStorage } from '../../utils/localstorage';
 import { getAttributesFromEvent } from '../../utils/forms';
 import '../../assets/login.css';
@@ -74,6 +73,7 @@ class Login extends Component {
       // TODO server error
       case 500:
         console.log('server error');
+        this.setState({ error: 'Server Error.' });
         // fallthrough
       default:
         console.log(`Responded with status ${res.status}`);
@@ -90,7 +90,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     }
-    const response = await apiPost('/auth/loginfactor/', formData, false);
+    const response = await api.Post('/auth/loginfactor/', formData, false);
     const {data} = response;
     switch (response.status) {
       case 200:
@@ -133,7 +133,7 @@ class Login extends Component {
     formData.username = this.state.username;
     formData.password = this.state.password;
 
-    const res = await apiPost('/auth/firstlogin/', formData, true);
+    const res = await api.Post('/auth/firstlogin/', formData, true);
     const {data} = res;
 
     // TODO handle response
@@ -146,6 +146,7 @@ class Login extends Component {
           //this.setState({error: 'Something went wrong updating your profile. Check log for more info.'});
           console.log(`HTTP Status (for error): ${res.status}`)
           console.log(`HTTP Status Text (for error): ${res.statusText}`)
+          this.setState({error: res.data.message});
         }
         break;
       // TODO handle case when information is missing
@@ -156,8 +157,11 @@ class Login extends Component {
     }
 
   }
+
   render() {
-    if (this.state.redirectToReferrer === true) {
+    const { cookies } = this.props;
+    const isAuthenticated = cookies.get("isAuthenticated");
+    if (this.state.redirectToReferrer === true || isAuthenticated === "true") {
       return (<Redirect to="/dashboard"/>);
     }
     return (
