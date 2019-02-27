@@ -54,22 +54,6 @@ class Settings extends Component {
         console.log(response.status);
     };
 
-    // handleSubmitAlpacaKey = async (e) => {
-    //     e.preventDefault();
-    //     e.persist();
-    //     console.log(`new key: ${e.target.key_id.value}`);
-    //     const formData = {
-    //         body: JSON.stringify({
-    //             "key_id": e.target.key_id.value,
-    //             "secret_key": e.target.secret_key.value,
-    //             "user": 1
-    //         }),
-    //         method: 'POST'
-    //     };
-    //     const data = await apiFetch('/alpaca/', formData);
-    //     console.log('data', data.status);
-    // };
-
     showAlpacaPreferences = () => {
         this.setState({showAlpaca: !this.state.showAlpaca})
     };
