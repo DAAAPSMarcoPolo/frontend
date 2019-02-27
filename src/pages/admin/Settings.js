@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
 import api from '../../utils/api';
-import {apiPost, apiDelete} from '../../utils/api';
 import {withCookies} from 'react-cookie';
 import './admin.css';
 import x from '../../assets/images/x-icon.png';
@@ -39,7 +38,7 @@ class Settings extends Component {
         const formbody = {
             username: username
         };
-        const response = await apiDelete('/users/list/', formbody);
+        const response = await api.Delete('/users/list/', formbody);
         console.log(response);
     };
 
