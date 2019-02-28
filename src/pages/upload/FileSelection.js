@@ -21,7 +21,7 @@ class FileSelection extends Component {
 
     render() {
         let labelValue;
-        if (this.props.filename == null){
+        if (this.props.filename == null) {
             labelValue = "Choose algorithm here";
         } else {
             labelValue = this.props.filename;
@@ -29,7 +29,8 @@ class FileSelection extends Component {
 
         return (
             <div>
-                <input className="file-upload" type="file" name="file" id="file" onChange={this.props.handleFileSelection}/>
+                <input className="file-upload" type="file" name="file" id="file"
+                       onChange={this.props.handleFileSelection}/>
                 <label htmlFor="file">{labelValue}</label>
             </div>
         )
