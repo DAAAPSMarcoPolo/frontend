@@ -44,8 +44,8 @@ class UserList extends Component {
         console.log(`username: ${e.target.username.value}`);
         console.log(`password: ${e.target.password.value}`);
         const formData = {
-          "username": e.target.username.value,
-          "password": e.target.password.value
+            "username": e.target.username.value,
+            "password": e.target.password.value
         };
         const data = await api.Post('/auth/adduser/', formData)
             .then(res => {
