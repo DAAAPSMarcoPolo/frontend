@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import AlpacaPreferencesForm from './AlpacaPreferencesForm'
 import {Redirect} from 'react-router-dom';
 import api from '../../utils/api';
-import { withCookies } from 'react-cookie';
+import {withCookies} from 'react-cookie';
 import './admin.css';
 import x from '../../assets/images/x-icon.png';
 import UserList from './UserList';
@@ -32,12 +32,13 @@ class Settings extends Component {
         const response = await api.Get('/users/list/');
         this.setState({userslist: response.data.users});
     };
+
     handleRemoveUser = async (e, username) => {
         console.log("Removing a user:", username);
         const formbody = {
             username: username
         };
-        const response =  await api.Delete('/users/list/', formbody);
+        const response = await api.Delete('/users/list/', formbody);
         console.log(response);
         if (response.status === 401) {
          if (response.message) {
@@ -50,7 +51,6 @@ class Settings extends Component {
         e.preventDefault();
         e.persist();
         let formData = {
-            "user": 5,
             "key_id": e.target.key_id.value,
             "secret_key": e.target.secret_key.value
         };
@@ -58,28 +58,9 @@ class Settings extends Component {
         console.log(response.status);
     };
 
-  handleSubmitAlpacaKey = async (e) => {
-    e.preventDefault();
-    e.persist();
-    console.log(`new key: ${e.target.key_id.value}`);
-    const formData = {
-      "key_id" : e.target.key_id.value,
-      "secret_key" : e.target.secret_key.value,
-      "user": 1
+    showAlpacaPreferences = () => {
+        this.setState({showAlpaca: !this.state.showAlpaca})
     };
-    const data = await api.Post('/alpaca/', formData);
-    console.log('data', data.status);
-  };
-  showAlpacaPreferences = () => {
-      this.setState({showAlpaca: !this.state.showAlpaca})
-  };
-  render() {
-    const { cookies } = this.props;
-    const isAuthenticated = cookies.get('isAuthenticated');
-    const isAdmin = cookies.get('isAdmin');
-    if (isAuthenticated === "false" || !isAuthenticated) {
-      return (<Redirect to="/login"/>);
-    }
 
     let alpacaApiSettings;
     if (this.state.showAlpaca === false) {
@@ -89,10 +70,25 @@ class Settings extends Component {
             <div className="con rel">
                 <img src={x} className="icon roster" alt="x-icon" onClick={this.showAlpacaPreferences}/>
                 <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey} error={this.state.error} />
-            </div>
-        )
-    }
-
+    render() {
+        const {cookies} = this.props;
+        const isAuthenticated = cookies.get('isAuthenticated');
+        const isAdmin = cookies.get('isAdmin');
+        if (isAuthenticated === "false" || !isAuthenticated) {
+            return (<Redirect to="/login"/>);
+        }
+        let alpacaApiSettings;
+        else if (this.state.showAlpaca === false) {
+            alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca
+                Preferences</button>
+        } else if (this.state.showAlpaca === true) {
+            alpacaApiSettings = (
+                <div className="con rel">
+                    <img src={x} className="icon roster" alt="x-icon" onClick={this.showAlpacaPreferences}/>
+                    <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey}/>
+                </div>
+            )
+        }
     return (
       <div className="page temptext">
           <h1>Settings Page</h1>

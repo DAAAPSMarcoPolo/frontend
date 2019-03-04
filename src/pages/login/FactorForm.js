@@ -7,10 +7,10 @@ const FactorForm = ({login, error}) => (
             {error && error}
         </div>
         <div>
-          <input type="text" name="code" placeholder="Code" required/>
-          <button className="btn-img"><img className="submit-arrow" src={arrow} alt="arrow" /></button>
+            <input type="text" name="code" placeholder="Code" required/>
+            <button className="btn-img"><img className="submit-arrow" src={arrow} alt="arrow"/></button>
         </div>
-        <button className="submit-btn"  type="submit" name="submit" value="submit">Submit</button>
+        <button className="submit-btn" type="submit" name="submit" value="submit">Submit</button>
         <a href="/request-password-reset">Didn't receive a code?</a>
     </form>
 );
