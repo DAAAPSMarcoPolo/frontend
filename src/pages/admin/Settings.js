@@ -39,6 +39,11 @@ class Settings extends Component {
         };
         const response =  await api.Delete('/users/list/', formbody);
         console.log(response);
+        if (response.status === 401) {
+         if (response.message) {
+           this.setState({ error: response.message });
+         }
+       }
     };
 
     handleSubmitAlpacaKey = async (e) => {
@@ -83,7 +88,7 @@ class Settings extends Component {
         alpacaApiSettings = (
             <div className="con rel">
                 <img src={x} className="icon roster" alt="x-icon" onClick={this.showAlpacaPreferences}/>
-                <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey}/>
+                <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey} error={this.state.error} />
             </div>
         )
     }
@@ -96,7 +101,7 @@ class Settings extends Component {
           <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin} error={this.state.error} getUsersList={this.getUsersList} />
           <br/>
           <div className="con">
-          {alpacaApiSettings}
+            {alpacaApiSettings}
           </div>
       </div>
     );

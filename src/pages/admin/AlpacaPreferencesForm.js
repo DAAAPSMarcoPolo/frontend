@@ -1,8 +1,11 @@
 import React from 'react';
 
 
-const AlpacaPreferencesForm = ({updateAlpacaKey}) => (
+const AlpacaPreferencesForm = ({updateAlpacaKey, error}) => (
   <div>
+      <div className="errorClass">
+          {error && error}
+      </div>
       <form onSubmit={updateAlpacaKey}>
           <h2 className="serif">Update Alpaca API Key</h2>
           <input className="preferences-input" type="text" name="key_id" placeholder="key id"/>

@@ -3,7 +3,7 @@ import React from 'react';
 const AddUserForm = ({addUser, error}) => (
     <form onSubmit={addUser}>
         <div className="errorClass">
-            {error ? {error} : null}
+            {error && error}
         </div>
           <div>
               <input className="preferences-input" type="email" name="username" placeholder="username" required/>
