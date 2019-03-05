@@ -13,11 +13,10 @@ class App extends Component {
         const isAdmin = cookies.get("isAdmin");
         return (
             <BrowserRouter>
-                <div className="">
-                    <Nav isAuthenticated={isAuthenticated} isAdmin={isAdmin}/>
-                    <Routes/>
-                    <User isAuthenticated={isAuthenticated}/>
-                </div>
+              <div>
+                <Routes/>
+                <User isAuthenticated={isAuthenticated}/>
+              </div>
             </BrowserRouter>
         );
     }

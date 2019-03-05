@@ -61,24 +61,16 @@ class Settings extends Component {
     showAlpacaPreferences = () => {
         this.setState({showAlpaca: !this.state.showAlpaca})
     };
-
-    let alpacaApiSettings;
-    if (this.state.showAlpaca === false) {
-        alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca Preferences</button>
-    } else if (this.state.showAlpaca === true) {
-        alpacaApiSettings = (
-            <div className="con rel">
-                <img src={x} className="icon roster" alt="x-icon" onClick={this.showAlpacaPreferences}/>
-                <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey} error={this.state.error} />
     render() {
         const {cookies} = this.props;
         const isAuthenticated = cookies.get('isAuthenticated');
         const isAdmin = cookies.get('isAdmin');
-        if (isAuthenticated === "false" || !isAuthenticated) {
-            return (<Redirect to="/login"/>);
-        }
         let alpacaApiSettings;
-        else if (this.state.showAlpaca === false) {
+        // if (isAuthenticated === "false" || !isAuthenticated) {
+        //     return (<Redirect to="/login"/>);
+        // }
+        // else
+        if (this.state.showAlpaca === false) {
             alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca
                 Preferences</button>
         } else if (this.state.showAlpaca === true) {
