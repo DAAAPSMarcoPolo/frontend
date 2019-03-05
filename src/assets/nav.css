@@ -1,9 +1,12 @@
 .contain {
-    display: inline-block;
+    /* display: inline-block;
     position: fixed;
     left: 0px;
-    top: 0px;
+    top: 0px; */
     cursor: pointer;
+}
+.navwrap {
+  display: flex;
 }
 
 .bar-con {
@@ -11,7 +14,7 @@
 }
 
 .nav {
-    height: 100vh;
+    display: flex;
     font-family: 'Rufina', sans-serif;
     font-size: 16px;
 }
@@ -57,19 +60,15 @@
     background-color: #1F1F1F;
     color: white;
     border-radius: 0px;
-    position: fixed;
+    /* position: fixed;
     height: 100vh;
     display: inline-block;
-    z-index: 5;
+    z-index: 5; */
 }
 
 .drop a {
     color: white;
     display: block;
-}
-
-.flex-nav {
-    display: flex;
 }
 
 .errorClass {

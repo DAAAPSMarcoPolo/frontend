@@ -2,6 +2,7 @@ import React from 'react';
 import {Route} from 'react-router';
 import {Redirect} from 'react-router-dom';
 import Nav from './pages/components/Nav';
+import User from './pages/components/User';
 import {withCookies, Cookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
 
@@ -17,7 +18,10 @@ const ProtectedRoute = ({component: Component, cookies, ...props}) => {
                 return (
                   <div className="navwrap">
                     <Nav isAuthenticated={isAuthenticated} isAdmin={isAdmin}/>
-                    <Component {...props} />
+                    <User isAuthenticated={isAuthenticated}/>
+                    <div className="wrapright">
+                      <Component {...props} />
+                    </div>
                   </div>
                 );
               } else {

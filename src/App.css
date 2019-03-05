@@ -101,10 +101,6 @@ input::placeholder {
     border-color: transparent;
 }
 
-.nav {
-    position: absolute;
-}
-
 input:focus::-webkit-input-placeholder {
     color: transparent;
 }
@@ -145,6 +141,7 @@ ul, li {
 
 .page {
     padding: 20px;
+    display: inline-block;
 }
 
 .con {
