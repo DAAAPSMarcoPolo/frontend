@@ -41,6 +41,11 @@ class Settings extends Component {
         };
         const response = await api.Delete('/users/list/', formbody);
         console.log(response);
+        if (response.status === 401) {
+         if (response.message) {
+           this.setState({ error: response.message });
+         }
+       }
     };
 
     handleSubmitAlpacaKey = async e => {
@@ -65,7 +70,6 @@ class Settings extends Component {
         if (isAuthenticated === 'false' || !isAuthenticated) {
             return <Redirect to="/login" />;
         }
-
         let alpacaApiSettings;
         if (this.state.showAlpaca === false) {
             alpacaApiSettings = (
