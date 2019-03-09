@@ -41,10 +41,10 @@ class Settings extends Component {
         const response = await api.Delete('/users/list/', formbody);
         console.log(response);
         if (response.status === 401) {
-         if (response.message) {
-           this.setState({ error: response.message });
-         }
-       }
+            if (response.message) {
+                this.setState({error: response.message});
+            }
+        }
     };
 
     handleSubmitAlpacaKey = async (e) => {
@@ -62,22 +62,22 @@ class Settings extends Component {
         this.setState({showAlpaca: !this.state.showAlpaca})
     };
 
-    let alpacaApiSettings;
-    if (this.state.showAlpaca === false) {
-        alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca Preferences</button>
-    } else if (this.state.showAlpaca === true) {
-        alpacaApiSettings = (
-            <div className="con rel">
-                <img src={x} className="icon roster" alt="x-icon" onClick={this.showAlpacaPreferences}/>
-                <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey} error={this.state.error} />
+    // let alpacaApiSettings;
+    // if (this.state.showAlpaca === false) {
+    //     alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca Preferences</button>
+    // } else if (this.state.showAlpaca === true) {
+    //     alpacaApiSettings = (
+    //         <div className="con rel">
+    //             <img src={x} className="icon roster" alt="x-icon" onClick={this.showAlpacaPreferences}/>
+    //             <AlpacaPreferencesForm updateAlpacaKey={this.handleSubmitAlpacaKey} error={this.state.error} />
     render() {
         const {cookies} = this.props;
         const isAuthenticated = cookies.get('isAuthenticated');
         const isAdmin = cookies.get('isAdmin');
+        let alpacaApiSettings;
         if (isAuthenticated === "false" || !isAuthenticated) {
             return (<Redirect to="/login"/>);
         }
-        let alpacaApiSettings;
         else if (this.state.showAlpaca === false) {
             alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca
                 Preferences</button>
@@ -89,19 +89,20 @@ class Settings extends Component {
                 </div>
             )
         }
-    return (
-      <div className="page temptext">
-          <h1>Settings Page</h1>
-          <Profile />
-          <br/><br/>
-          <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin} error={this.state.error} getUsersList={this.getUsersList} />
-          <br/>
-          <div className="con">
-            {alpacaApiSettings}
-          </div>
-      </div>
-    );
-  }
+        return (
+            <div className="page temptext">
+                <h1>Settings Page</h1>
+                <Profile/>
+                <br/><br/>
+                <UserList users={this.state.userslist} removeUser={this.handleRemoveUser} isAdmin={isAdmin}
+                          error={this.state.error} getUsersList={this.getUsersList}/>
+                <br/>
+                <div className="con">
+                    {alpacaApiSettings}
+                </div>
+            </div>
+        );
+    }
 }
 
 export default withCookies(Settings);

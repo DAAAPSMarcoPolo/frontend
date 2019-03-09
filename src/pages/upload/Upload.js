@@ -5,6 +5,7 @@ import {withCookies} from 'react-cookie';
 
 //Custom Dependencies
 import FileSelection from './FileSelection';
+import api from '../../utils/api.js';
 import '../../assets/upload.css';
 import '../../App.css';
 
@@ -36,7 +37,12 @@ class Upload extends Component {
         e.persist();
         // TODO: make API call to upload file to backend
         if (this.state.files != null) {
-            console.log("PLACEHOLDER: Sending file to backend");
+            console.log("Sending file to backend");
+            const body = {
+                "strategy_file":this.state.files
+            };
+            const response = await api.Post('/algofile/', body);
+            console.log(response);
         } else {
             console.log("No file chosen to upload");
         }
