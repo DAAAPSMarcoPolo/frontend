@@ -39,10 +39,9 @@ class Upload extends Component {
         if (this.state.files != null) {
             this.setState({uploadButtonStatus:"Uploading"});
             console.log("Sending file to backend");
-            const body = {
-                "strategy_file":this.state.files
-            };
-            const response = await api.Post('/algofile/', body);
+            const formData = new FormData();
+            formData.append("strategy_file", this.state.files);
+            const response = await api.PostFile('/algofile/', formData);
             console.log(response);
             if (response.status === 200){
                 this.setState({files:null, filename:null, uploadButtonStatus:"Uploaded"});
