@@ -43,6 +43,9 @@ class Upload extends Component {
             };
             const response = await api.Post('/algofile/', body);
             console.log(response);
+            if (response.status == 200){
+                this.setState({files:null, filename:null, showUploadButton:false});
+            }
         } else {
             console.log("No file chosen to upload");
         }
