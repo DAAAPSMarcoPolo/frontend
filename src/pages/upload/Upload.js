@@ -38,10 +38,9 @@ class Upload extends Component {
         // TODO: make API call to upload file to backend
         if (this.state.files != null) {
             console.log("Sending file to backend");
-            const body = {
-                "strategy_file":this.state.files
-            };
-            const response = await api.Post('/algofile/', body);
+            const formData = new FormData();
+            formData.append("strategy_file", this.state.files);
+            const response = await api.PostFile('/algofile/', formData);
             console.log(response);
         } else {
             console.log("No file chosen to upload");
