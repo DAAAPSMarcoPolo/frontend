@@ -1,123 +1,65 @@
-import React, { Component } from 'react';
-import { withCookies, Cookies } from 'react-cookie';
-import { Redirect, Link } from 'react-router-dom';
-import { instanceOf } from 'prop-types';
-
+import React, {Component} from 'react';
+import {withCookies, Cookies} from 'react-cookie';
+import {Link} from 'react-router-dom';
+import x from '../../assets/images/x-icon.png';
+import {instanceOf} from 'prop-types';
 
 import '../../assets/nav.css';
 
 class Nav extends Component {
-  static propTypes = {
-    cookies: instanceOf(Cookies)
-  };
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleOutsideClick = this.handleOutsideClick.bind(this);
-
-    this.state = {
-      open: false,
-      imagePreviewUrl: null
+    static propTypes = {
+        cookies: instanceOf(Cookies)
     };
-  }
-  componentDidMount() {
-    // const { cookies } = this.props;
-    // const email = cookies.get('email');
 
-    // return apiFetch('getPicture', {
-    //   headers: {
-    //    'Content-Type': 'text/plain'
-    //   },
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     email: email
-    //   })
-    // }).then((response) => response.blob())
-    //     .then((json) => {
-    //       const url = window.URL.createObjectURL(json);
-    //           if(json.success === false) {
-    //               console.log('error', json.error);
-    //               this.setState({ error: json.error });
-    //           }
-    //           else {
-    //             this.setState({
-    //               imagePreviewUrl: url
-    //             });
-    //           }
-    //         });
-  }
-  handleClick() {
-    if (!this.state.open) {
-      // attach/remove event handler
-      document.addEventListener('click', this.handleOutsideClick, false);
-    } else {
-      document.removeEventListener('click', this.handleOutsideClick, false);
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: true
+        };
     }
 
-    this.setState(prevState => ({
-       open: !prevState.open,
-    }));
-  }
-  handleOutsideClick(e) {
-    // ignore clicks on the component itself
-    if (this.node.contains(e.target)) {
-      return;
+    updateisOpen = () => {
+        this.setState({open: !this.state.open});
     }
-    this.handleClick();
-  }
-  shouldComponentUpdate() {
-    return true;
-  }
-  logout = () => {
-    const { cookies } = this.props;
-    cookies.set('isAuthenticated', false);
-    cookies.set('isAdmin', false);
-    cookies.remove('jwt');
-    cookies.remove('email');
-  }
-  render() {
-    const { cookies } = this.props;
-    const isAuthenticated = cookies.get('isAuthenticated');
-    const login = cookies.get('login');
-    if (isAuthenticated === "false" && login === true) {
-      return (<Redirect to="/login"/>);
+    logout = () => {
+        const {cookies} = this.props;
+        cookies.set('isAuthenticated', false);
+        cookies.set('isAdmin', false);
+        cookies.remove('jwt');
+        cookies.remove('email');
     }
-    return (
-      <div className="nav left" ref={node => { this.node = node; }}>
-        <div onClick={this.handleClick} className="container">
-          {isAuthenticated === "true"
-            ?
-            (
-              <div className="bar-con">
-                <div className="bar1"></div>
-                <div className="bar2"></div>
-                <div className="bar3"></div>
-              </div>
-            ) :
-            null
-          }
-        </div>
-        {this.state.open && isAuthenticated === "true"
-          ?
-          (<div className="drop" >
-            <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
-            <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
-            <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
-            <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
-            <Link to='/settings' onClick={this.handleClick}>Settings</Link>
-            <Link to='/' onClick={this.logout}>Logout</Link>
-          </div>) : null
+
+    render() {
+        if (this.props.isAuthenticated === "true") {
+            return (
+                <div onClick={this.handleClick} className="contain nav left" ref={node => {
+                    this.node = node;
+                }}>
+                    {this.state.open
+                        ?
+                        (
+                            <div className="drop rel">
+                                <img className="icon roster" src={x} alt="x-icon" onClick={this.updateisOpen}/>
+                                <Link to='/dashboard' onClick={this.handleClick}>Dashboard</Link>
+                                <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
+                                <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
+                                <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
+                                <Link to='/settings' onClick={this.handleClick}>Settings</Link>
+                                <Link to='/' onClick={this.logout}>Logout</Link>
+                            </div>
+                        ) : (
+                            <div className="bar-con" onClick={this.updateisOpen}>
+                                <div className="bar1"></div>
+                                <div className="bar2"></div>
+                                <div className="bar3"></div>
+                            </div>
+                        )}
+                </div>
+            );
+        } else {
+            return null;
         }
-        <div className="user">
-          {isAuthenticated === "true" && this.state.imagePreviewUrl ?
-            (this.state.imagePreviewUrl.length > 0 ) ? (<img src={this.state.imagePreviewUrl} alt=""/>) : null
-            :
-            null
-          }
-        </div>
-      </div>
-    );
-  }
+    }
 }
 
 export default withCookies(Nav);

@@ -1,30 +1,32 @@
-.container {
-  display: inline-block;
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  cursor: pointer;
-  opacity: .5;
+.contain {
+    display: inline-block;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    cursor: pointer;
 }
+
 .bar-con {
-  padding: 5px;
+    padding: 5px;
 }
+
 .nav {
-  height: 100vh;
-  font-family: 'Rufina', sans-serif;
-  font-size: 16px;
+    height: 100vh;
+    font-family: 'Rufina', sans-serif;
+    font-size: 16px;
 }
-.container:hover{
-  opacity:1;
+
+.contain:hover {
+    opacity: 1;
 }
 
 .bar1, .bar2, .bar3 {
-  opacity:.8;
-  background-color: white;
-  width:20px;
-  height:2px;
-  margin: 3px 0;
-  transition: .5s;
+    opacity: .8;
+    background-color: white;
+    width: 20px;
+    height: 2px;
+    margin: 3px 0;
+    transition: .5s;
 }
 
 /*Use later, probs*/
@@ -51,25 +53,50 @@
 }
 
 .drop {
-  padding: 25px;
-  background-color: #1F1F1F;
-  color: white;
-  border-radius: 0px;
-  position: fixed;
-  height: 100vh;
-  display: inline-block;
-  z-index: 5;
+    padding: 25px;
+    background-color: #1F1F1F;
+    color: white;
+    border-radius: 0px;
+    position: fixed;
+    height: 100vh;
+    display: inline-block;
+    z-index: 5;
 }
+
 .drop a {
-  color: white;
-  display: block;
+    color: white;
+    display: block;
 }
-.user {
-  float: right;
-  margin-top: 10px;
+
+.flex-nav {
+    display: flex;
 }
-.user img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%
+
+.errorClass {
+    -moz-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 5s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 5s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    color: #FA6353;
+}
+
+@keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
 }

@@ -4,12 +4,12 @@ import arrow from '../../assets/images/arrow.png';
 const LoginForm = ({login, error}) => (
     <form onSubmit={login}>
         <div className="errorClass">
-            {error ? error : null}
+            {error && error}
         </div>
         <input type="email" placeholder="email" name="username" required/>
         <div>
-          <input type="password" placeholder="password" name="password" required/>
-          <button className="btn-img"><img className="submit-arrow" src={arrow} alt="arrow" /></button>
+            <input type="password" placeholder="password" name="password" required/>
+            <button className="btn-img"><img className="submit-arrow" src={arrow} alt="arrow"/></button>
         </div>
         <button className="submit-btn">Login</button>
         <a href="/request-password-reset">Forgot your password?</a>
