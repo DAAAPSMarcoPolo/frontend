@@ -1,0 +1,43 @@
+.algo-card {
+    width: 700px;
+    background-color: #282828;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: rgb(233, 233, 233);
+    border-left: green;
+    border-left-style: solid;
+    border-left-width: thick;
+}
+
+.boundaries-algo {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    margin: 0;
+}
+
+.algo-card .secondary-text {
+    color: #838383;
+}
+
+.algo-card .row {
+    margin: 0;
+    padding: 0.2rem 0;
+}
+
+.algo-link {
+    color: #838383;
+    text-decoration-line: underline;
+}
+
+.algo-link:hover {
+    opacity: 0.8;
+    color: #838383;
+}
+
+.algo-link p {
+    display: inline;
+}
