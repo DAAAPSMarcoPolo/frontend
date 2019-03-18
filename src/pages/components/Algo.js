@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/algo.css';
+import arrow_right from '../../assets/images/Chevron_Circle_Right-512.png';
 const Algo = ({ data }) => {
     return (
         // TODO name, created on, how many backtests
@@ -51,6 +52,10 @@ const Algo = ({ data }) => {
                     1 Denial
                 </p>
             </div>
+            <div className="arrow-background" />
+            <Link to="/algo-details/1">
+                <img src={arrow_right} className="algo-detail-arrow" alt="" />
+            </Link>
         </div>
     );
 };

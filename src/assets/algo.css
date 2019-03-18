@@ -28,6 +28,15 @@
     padding: 0.2rem 0;
 }
 
+.algo-detail-arrow {
+    width: 2rem;
+    height: auto;
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
 .algo-link {
     color: #838383;
     text-decoration-line: underline;
