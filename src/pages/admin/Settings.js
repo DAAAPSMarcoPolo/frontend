@@ -75,6 +75,7 @@ class Settings extends Component {
         if (this.state.showAlpaca === false) {
             alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca
                 Preferences</button>
+        }
         if (isAuthenticated === 'false' || !isAuthenticated) {
             return <Redirect to="/login" />;
         }

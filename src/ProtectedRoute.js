@@ -19,7 +19,7 @@ const ProtectedRoute = ({component: Component, cookies, ...props}) => {
                   <div className="navwrap">
                     <Nav isAuthenticated={isAuthenticated} isAdmin={isAdmin}/>
                     <User isAuthenticated={isAuthenticated}/>
-                    <div className="wrapright">
+                    <div className="wrapright mx-auto mt-3 page">
                       <Component {...props} />
                     </div>
                   </div>

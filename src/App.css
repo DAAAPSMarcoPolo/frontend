@@ -4,6 +4,9 @@ body {
     font-size: 20px;
     background-color: #000;
     color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
 }
 
 .serif {
@@ -246,4 +249,9 @@ h1 {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+}
+.wrapright {
+  min-height: 100vh;
+  display: flex;
+  padding: 40px;
 }
