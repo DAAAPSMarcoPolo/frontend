@@ -9,6 +9,8 @@ import ProtectedRoute from './ProtectedRoute';
 import Upload from './pages/upload/Upload';
 import Algorithm from './pages/algorithm/Algorithm';
 import AlgorithmDetails from './pages/algorithm/AlgorithmDetails';
+import AlgorithmList from './pages/algorithm/AlgorithmList';
+import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
 
 const Routes = () => (
     <Switch>
@@ -28,6 +30,8 @@ const Routes = () => (
             path={`/algo-details/:algoID`}
             component={AlgorithmDetails}
         />
+        <ProtectedRoute path="/algorithms" component={AlgorithmList}/>
+        <ProtectedRoute path="/algorithm/:listId" component={AlgorithmDetail}/>
         />
     </Switch>
 );

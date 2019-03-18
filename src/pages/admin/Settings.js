@@ -68,6 +68,13 @@ class Settings extends Component {
         const isAuthenticated = cookies.get('isAuthenticated');
         const isAdmin = cookies.get('isAdmin');
         let alpacaApiSettings;
+        // if (isAuthenticated === "false" || !isAuthenticated) {
+        //     return (<Redirect to="/login"/>);
+        // }
+        // else
+        if (this.state.showAlpaca === false) {
+            alpacaApiSettings = <button id="add-user-hide-button" onClick={this.showAlpacaPreferences}>Modify Alpaca
+                Preferences</button>
         if (isAuthenticated === 'false' || !isAuthenticated) {
             return <Redirect to="/login" />;
         }
