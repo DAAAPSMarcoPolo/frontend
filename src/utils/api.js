@@ -37,6 +37,22 @@ const Post = async (endpoint, data, includeToken = true, options = {}) => {
     return response;
 }
 
+const PostFile = async (endpoint, data, includeToken = true, options = {}) => {
+    const config = {
+        url: `${API_BASE_URL}${endpoint}`,
+        method: 'post',
+        data,
+        headers: {'Content-Type' : 'multipart/form-data'}
+    }
+    console.log(data);
+    const response = await Request(config, includeToken);
+    if (response.status === 500) {
+        console.log(`Server error (500): POST ${API_BASE_URL}${endpoint}`);
+        console.log(`Message: ${response.statusText}`);
+    }
+    return response;
+}
+
 const Get = async (endpoint, includeToken = true, options = {}) => {
     const config = {
         url: `${API_BASE_URL}${endpoint}`,
@@ -76,4 +92,4 @@ const Delete = async (endpoint, includeToken = true, options = {}) => {
     return response;
 }
 
-export default {Post, Get, Put, Delete};
+export default {Post, PostFile, Get, Put, Delete};

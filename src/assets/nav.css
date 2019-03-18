@@ -17,19 +17,22 @@
     display: flex;
     font-family: 'Rufina', sans-serif;
     font-size: 16px;
+    z-index: 5;
 }
 
 .contain:hover {
     opacity: 1;
 }
 
-.bar1, .bar2, .bar3 {
-    opacity: .8;
+.bar1,
+.bar2,
+.bar3 {
+    opacity: 0.8;
     background-color: white;
     width: 20px;
     height: 2px;
     margin: 3px 0;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 /*Use later, probs*/
@@ -52,12 +55,11 @@
     transform: rotate(45deg) translate(-8px, -8px);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
-
 }
 
 .drop {
     padding: 25px;
-    background-color: #1F1F1F;
+    background-color: #1f1f1f;
     color: white;
     border-radius: 0px;
     /* position: fixed;
@@ -81,7 +83,7 @@
     animation: cssAnimation 0s ease-in 5s forwards;
     -webkit-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
-    color: #FA6353;
+    color: #fa6353;
 }
 
 @keyframes cssAnimation {
