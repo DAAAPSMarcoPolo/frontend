@@ -25,7 +25,7 @@ class Algorithm extends Component {
         return (
             <div>
                 <h3>Algorithms</h3>
-                <Algo data={{ a: 'Created 100 days ago' }} />
+                <Algo data={{ a: 'Created 100 days ago by Sean Becker' }} />
                 <h5>TODO:</h5>
                 <ul>
                     <li>GET</li>
