@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 import Upload from './pages/upload/Upload';
 import Algorithm from './pages/algorithm/Algorithm';
+import AlgorithmDetails from './pages/algorithm/AlgorithmDetails';
 
 const Routes = () => (
     <Switch>
@@ -23,6 +24,10 @@ const Routes = () => (
         <ProtectedRoute path="/dashboard" component={Dashboard} />
         <ProtectedRoute path="/upload" component={Upload} />
         <ProtectedRoute path="/algorithms" component={Algorithm} />
+        <ProtectedRoute
+            path={`/algo-details/:algoID`}
+            component={AlgorithmDetails}
+        />
         />
     </Switch>
 );
