@@ -42,10 +42,10 @@ class Settings extends Component {
         const response = await api.Delete('/users/list/', formbody);
         console.log(response);
         if (response.status === 401) {
-         if (response.message) {
-           this.setState({ error: response.message });
-         }
-       }
+            if (response.message) {
+                this.setState({ error: response.message });
+            }
+        }
     };
 
     handleSubmitAlpacaKey = async e => {
@@ -67,10 +67,10 @@ class Settings extends Component {
         const { cookies } = this.props;
         const isAuthenticated = cookies.get('isAuthenticated');
         const isAdmin = cookies.get('isAdmin');
+        let alpacaApiSettings;
         if (isAuthenticated === 'false' || !isAuthenticated) {
             return <Redirect to="/login" />;
         }
-        let alpacaApiSettings;
         if (this.state.showAlpaca === false) {
             alpacaApiSettings = (
                 <button
@@ -95,7 +95,6 @@ class Settings extends Component {
                 </div>
             );
         }
-
         return (
             <div className="page temptext">
                 <h1>Settings Page</h1>

@@ -5,6 +5,7 @@ import {withCookies} from 'react-cookie';
 
 //Custom Dependencies
 import FileSelection from './FileSelection';
+import api from '../../utils/api.js';
 import '../../assets/upload.css';
 import '../../App.css';
 
@@ -14,7 +15,7 @@ class Upload extends Component {
         this.state = {
             files: null,
             filename: null,
-            showUploadButton: false
+            uploadButtonStatus: "Disabled"
         };
         this.handleFileSelection = this.handleFileSelection.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
@@ -36,14 +37,24 @@ class Upload extends Component {
         e.persist();
         // TODO: make API call to upload file to backend
         if (this.state.files != null) {
-            console.log("PLACEHOLDER: Sending file to backend");
+            this.setState({uploadButtonStatus:"Uploading"});
+            console.log("Sending file to backend");
+            const formData = new FormData();
+            formData.append("strategy_file", this.state.files);
+            const response = await api.PostFile('/algofile/', formData);
+            console.log(response);
+            if (response.status === 200){
+                this.setState({files:null, filename:null, uploadButtonStatus:"Uploaded"});
+            } else {
+                this.setState({files:null, filename:null, uploadButtonStatus:"Error"});
+            }
         } else {
             console.log("No file chosen to upload");
         }
     };
 
     showUploadButton = () => {
-        this.setState({showUploadButton: !this.state.showUploadButton});
+        this.setState({uploadButtonStatus: "Enabled"});
     };
 
     render() {
@@ -54,12 +65,18 @@ class Upload extends Component {
         // if (isAuthenticated === "false" || !isAuthenticated) {
         //     return (<Redirect to="/login"/>);
         // }
-
+        console.log(this.state.uploadButtonStatus);
         let uploadButton;
-        if (this.state.showUploadButton === true) {
+        if (this.state.uploadButtonStatus === "Enabled") {
             uploadButton = <button id="upload-button" onClick={this.handleFileUpload}>Upload Algorithm</button>
-        } else {
-            uploadButton = <button id="upload-button" onClick={this.handleFileUpload} disabled>Upload Algorithm</button>
+        } else if (this.state.uploadButtonStatus === "Disabled") {
+            uploadButton = <button id="upload-button" onClick={this.handleFileUpload} disabled>Select file above</button>
+        } else if (this.state.uploadButtonStatus === "Uploading"){
+            uploadButton = <button id="upload-button" onClick={this.handleFileUpload} disabled>Uploading...</button>
+        } else if (this.state.uploadButtonStatus === "Uploaded"){
+            uploadButton = <button id="upload-button" onClick={this.handleFileUpload} disabled>Uploaded!</button>
+        } else if (this.state.uploadButtonStatus === "Error"){
+            uploadButton = <button id="upload-button" onClick={this.handleFileUpload} disabled>ERROR UPLOADING</button>
         }
 
         return (
