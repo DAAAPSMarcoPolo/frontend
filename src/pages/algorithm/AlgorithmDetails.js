@@ -3,6 +3,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { withCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import BacktestForm from './BacktestForm';
+import BacktestList from './BacktestList';
+import api from '../../utils/api.js';
 
 class AlgorithmDetails extends Component {
     constructor(props) {
@@ -11,7 +13,14 @@ class AlgorithmDetails extends Component {
             error: null,
             showBacktestForm: false,
             startDate: new Date(),
-            endDate: new Date()
+            endDate: new Date(),
+            algo_details: {
+                approved: null,
+                created_at: '',
+                description: '',
+                name: '',
+                user: null
+            }
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
@@ -34,11 +43,27 @@ class AlgorithmDetails extends Component {
     handleEndDateSelect(endDate) {
         this.setState({ endDate });
     }
+
+    async componentDidMount() {
+        // TODO get algorithm
+        const { data } = await api.Get(
+            `/algorithms/${this.props.match.params.algoID}`
+        );
+
+        this.setState({
+            algo_details: data.algo_details,
+            bt_list: data.bt_list
+        });
+
+        console.log(data);
+    }
+
     render() {
         const { algoID } = this.props.match.params;
+        const { algo_details } = this.state;
         return (
             <div>
-                <h3>Algorithm {algoID}</h3>
+                <h3>{algo_details.name}</h3>
                 <h5>2 Backtests in Progress</h5>
                 {this.state.showBacktestForm ? (
                     <BacktestForm
@@ -51,6 +76,7 @@ class AlgorithmDetails extends Component {
                         Create new Backtest
                     </button>
                 )}
+                <BacktestList id={algoID} />
             </div>
         );
     }
