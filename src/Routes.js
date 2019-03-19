@@ -25,13 +25,13 @@ const Routes = () => (
         <ProtectedRoute path="/settings" component={Settings} />
         <ProtectedRoute path="/dashboard" component={Dashboard} />
         <ProtectedRoute path="/upload" component={Upload} />
-        <ProtectedRoute path="/algorithms" component={Algorithm} />
         <ProtectedRoute
-            path={`/algo-details/:algoID`}
+            path={`/algorithms/:algoID`}
             component={AlgorithmDetails}
         />
-        <ProtectedRoute path="/algorithms" component={AlgorithmList}/>
-        <ProtectedRoute path="/algorithm/:listId" component={AlgorithmDetail}/>
+        <ProtectedRoute path="/algorithms" component={Algorithm} />
+        <ProtectedRoute path="/algorithms" component={AlgorithmList} />
+        <ProtectedRoute path="/algorithm/:listId" component={AlgorithmDetail} />
         />
     </Switch>
 );
