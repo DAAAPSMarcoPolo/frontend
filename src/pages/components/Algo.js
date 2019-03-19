@@ -53,7 +53,7 @@ const Algo = ({ data }) => {
                 </p>
             </div>
             <div className="arrow-background" />
-            <Link to="/algo-details/1">
+            <Link to="/algorithms/29">
                 <img src={arrow_right} className="algo-detail-arrow" alt="" />
             </Link>
         </div>
