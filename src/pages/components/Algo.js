@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/algo.css';
 import arrow_right from '../../assets/images/Chevron_Circle_Right-512.png';
-const Algo = ({ data }) => {
+
+const Algo = ({ data, name }) => {
     return (
         // TODO name, created on, how many backtests
         // best backtest (and performance)
@@ -15,7 +16,7 @@ const Algo = ({ data }) => {
             {/* row one */}
             <div className="row">
                 <p className="col-5 boundaries-algo">
-                    Algo name&nbsp;&nbsp;•&nbsp;&nbsp;
+                    Algo `{name}`&nbsp;&nbsp;•&nbsp;&nbsp;
                     <Link to="/backtest" className="algo-link">
                         <p>13 backtests</p>
                     </Link>
@@ -25,7 +26,7 @@ const Algo = ({ data }) => {
             </div>
             {/* row two */}
             <div className="row">
-                <p className="col-5 boundaries-algo secondary-text">{data.a}</p>
+                <p className="col-5 boundaries-algo secondary-text">This is created by Sean</p>
                 <p className="col-1 boundaries-algo">Start</p>
                 <p className="col-1 boundaries-algo">End</p>
                 <p className="col-2 boundaries-algo">% Gain</p>

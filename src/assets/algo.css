@@ -15,8 +15,13 @@
     border-left: green;
     border-left-style: solid;
     border-left-width: thick;
+    margin-bottom: 20px;
 }
 
+
+.algo-card:hover {
+  background-color: rgba(40,40,40, .9);
+}
 .boundaries-algo {
     padding-left: 0.2rem;
     padding-right: 0.2rem;

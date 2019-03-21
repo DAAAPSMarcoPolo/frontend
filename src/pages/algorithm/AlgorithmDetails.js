@@ -18,7 +18,7 @@ class AlgorithmDetails extends Component {
                 approved: null,
                 created_at: '',
                 description: '',
-                name: '',
+                name: 'name',
                 user: null
             }
         };
@@ -49,11 +49,11 @@ class AlgorithmDetails extends Component {
         const { data } = await api.Get(
             `/algorithms/${this.props.match.params.algoID}`
         );
-
-        this.setState({
-            algo_details: data.algo_details,
-            bt_list: data.bt_list
-        });
+        // 
+        // this.setState({
+        //     algo_details: data.algo_details,
+        //     bt_list: data.bt_list
+        // });
 
         console.log(data);
     }
@@ -63,7 +63,7 @@ class AlgorithmDetails extends Component {
         const { algo_details } = this.state;
         return (
             <div>
-                <h3>{algo_details.name}</h3>
+                <h3>{this.state.algo_details.name}</h3>
                 <h5>2 Backtests in Progress</h5>
                 {this.state.showBacktestForm ? (
                     <BacktestForm
