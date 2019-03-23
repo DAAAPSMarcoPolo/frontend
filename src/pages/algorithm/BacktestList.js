@@ -25,9 +25,6 @@ class BacktestList extends Component {
             ]
         };
     }
-    ComponentDidMount() {
-        // pull list of algorithms
-    }
     render() {
         return (
             <div>
