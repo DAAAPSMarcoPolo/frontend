@@ -26,9 +26,6 @@ class AlgorithmList extends Component {
             ]
         }
     }
-    ComponentDidMount() {
-      // pull list of algorithms
-    }
     render() {
         return (
             <div className="">
