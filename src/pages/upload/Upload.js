@@ -40,6 +40,8 @@ class Upload extends Component {
             console.log('Sending file to backend');
             const formData = new FormData();
             formData.append('strategy_file', this.state.files);
+            formData.append('name', 'Sean');
+            formData.append('description', 'Test');
             const response = await api.PostFile('/algofile/', formData);
             console.log(response);
             if (response.status === 200) {
