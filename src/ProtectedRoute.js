@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Route} from 'react-router';
 import {Redirect} from 'react-router-dom';
 import Nav from './pages/components/Nav';
@@ -9,7 +9,6 @@ import {instanceOf} from 'prop-types';
 const ProtectedRoute = ({component: Component, cookies, ...props}) => {
   const isAuthenticated = cookies.get('isAuthenticated');
   const isAdmin = cookies.get('isAdmin');
-  console.log(isAuthenticated);
   return (
       <Route
           {...props}

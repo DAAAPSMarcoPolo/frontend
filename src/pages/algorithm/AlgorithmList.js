@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
 import '../../assets/algo.css';
+import Algo from '../components/Algo';
 
 class AlgorithmList extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class AlgorithmList extends Component {
         return (
             <div className="">
               <ul className="list">
-                { this.state.algolist.map((algo, i) => <Link to={`/algorithms/${algo.name}`}><li className="con" key={i}>{algo.name}</li></Link> ) }
+                { this.state.algolist.map((algo, i) => <Link className="transform" to={`/algorithms/${algo.name}`}><Algo key={i} name={algo.name}/></Link> ) }
               </ul>
             </div>
         )

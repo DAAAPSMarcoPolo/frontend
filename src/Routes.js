@@ -29,7 +29,6 @@ const Routes = () => (
             path={`/algorithms/:algoID`}
             component={AlgorithmDetails}
         />
-        <ProtectedRoute path="/algorithms" component={Algorithm} />
         <ProtectedRoute path="/algorithms" component={AlgorithmList} />
         <ProtectedRoute path="/algorithm/:listId" component={AlgorithmDetail} />
         />
