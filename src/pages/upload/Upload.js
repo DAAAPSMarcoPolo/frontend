@@ -34,7 +34,6 @@ class Upload extends Component {
     async handleFileUpload(e) {
         e.preventDefault();
         e.persist();
-        // TODO: make API call to upload file to backend
         if (this.state.files != null) {
             this.setState({ uploadButtonStatus: 'Uploading' });
             console.log('Sending file to backend');
