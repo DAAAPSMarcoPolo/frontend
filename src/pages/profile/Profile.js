@@ -18,12 +18,14 @@ class Settings extends Component {
                 profile__phone_number: ''
             },
             showConfirm: false,
-            file: '',
+            file: null,
             imagePreviewUrl: '',
+            filename: '',
             showUpload: false,
             showPass: false
         };
         this.editProfile = this.editProfile.bind(this);
+        this.handleImageChange = this.handleImageChange.bind(this);
     }
 
     async getProfilePicture() {
@@ -106,66 +108,52 @@ class Settings extends Component {
             });
         });
     };
-    savePicture = e => {
-        e.preventDefault();
-        // TODO fix formData below (ask Sean bout dis)
+    async handleImageChange(e) {
+      e.preventDefault();
+      e.persist();
+      let reader = new FileReader();
+      const file = e.target.files[0];
+      console.log('file', file);
+      await  this.setState({
+          file: file,
+          filename: file.name,
+          imagePreviewUrl: reader.result
+        });
+      // reader.onloadend = () => {
+      // };
+      reader.readAsDataURL(file);
+    }
+    async savePicture(e) {
+      e.preventDefault();
+      e.persist();
+
+      if (this.state.file != null) {
         const formData = new FormData();
         console.log('pic', this.state.file);
         formData.append('avatar', this.state.file);
-        api.Put('/profilepicture/', formData).then(res => {
-            return res.json().then(data => {
-                console.log('data', data);
-                if (res.status === 200 && data.token) {
-                    // the response returned a success
-                    const url = window.URL.createObjectURL(data);
-                    console.log(
-                        '/profilepicture/',
-                        'success',
-                        data,
-                        'url',
-                        url
-                    );
-                    this.setState({ imagePreviewUrl: url });
-                    // this.setState({showConfirm: !this.state.showConfirm});
-                } else if (res.status === 401) {
-                    if (res.message) {
-                        this.setState({ error: res.message });
-                    }
-                }
-            });
-        });
-        //
-        // api.Get('/profilepicture/')
-        //   .then(res => {
-        //     return res.json().then(data => {
-        //       console.log('data', data)
-        //       if (res.status === 200 && data.token) {
-        //         // the response returned a success
-        //         const url = window.URL.createObjectURL(data);
-        //         console.log('/profilepicture/', 'success', data, 'url', url)
-        //         this.setState({ imagePreviewUrl: url });
-        //         // this.setState({showConfirm: !this.state.showConfirm});
-        //       } else if (res.status === 401) {
-        //         if (res.message) {
-        //           this.setState({ error: res.message });
-        //         }
-        //       }
-        //     })
-        // });
-    };
-    handleImageChange = e => {
-        e.preventDefault();
-
-        let reader = new FileReader();
-        let file = e.target.files[0];
-
-        reader.onloadend = () => {
-            this.setState({
-                file: file,
-                imagePreviewUrl: reader.result
-            });
-        };
-        reader.readAsDataURL(file);
+        const response = await api.PostFile('/profilepicture/', formData);
+        console.log(response);
+        if (response.status === 200) {
+            const data = response;
+            // the response returned a success
+            const url = window.URL.createObjectURL(data);
+            console.log(
+                '/profilepicture/',
+                'success',
+                data,
+                'url',
+                url
+            );
+            this.setState({ imagePreviewUrl: url });
+            // this.setState({showConfirm: !this.state.showConfirm});
+        } else if (response.status === 401) {
+            if (response.message) {
+              this.setState({ error: response.message });
+            }
+        }
+      } else {
+        console.log("please upload a file");
+      }
     };
     showEditProfile = () => {
         this.setState({ showEditProfile: !this.state.showEditProfile });
