@@ -20,23 +20,21 @@ class Settings extends Component {
             },
             showConfirm: false,
             file: null,
-            imagePreviewUrl: '',
-            filename: '',
             showUpload: false,
             showPass: false
         };
         this.editProfile = this.editProfile.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
         this.savePicture = this.savePicture.bind(this);
+        this.getProfilePicture = this.getProfilePicture.bind(this);
     }
 
     async getProfilePicture() {
         const response = await api.Get('/profilepicture/');
         if (response.status === 200) {
           const url = `https://marcopoloinvestment.club${response.data}`;
-          this.setState({ imagePreviewUrl: url });
+          this.setState({ file: url });
         }
-        console.log('getProfilePicture', response);
     }
 
     async componentDidMount() {
@@ -63,7 +61,6 @@ class Settings extends Component {
             return res.json().then(data => {
                 if (res.status === 200 && data.token) {
                     // the response returned a success
-                    console.log('/user/settings/', 'success');
                     this.setState({ showConfirm: !this.state.showConfirm });
                 } else if (res.status === 401) {
                     if (res.message) {
@@ -98,15 +95,10 @@ class Settings extends Component {
     async handleImageChange(e) {
       e.preventDefault();
       e.persist();
-      // let reader = new FileReader();
       const file = e.target.files[0];
-      console.log('file', file);
       this.setState({
-        file: file,
-        filename: file.name,
-        imagePreviewUrl: file
+        file: file
       });
-      // reader.readAsDataURL(file);
     }
     async savePicture(e) {
       e.preventDefault();
@@ -129,7 +121,7 @@ class Settings extends Component {
                 'url',
                 response.data
             );
-            this.setState({ imagePreviewUrl: url });
+            this.setState({ file: url });
             // this.setState({showConfirm: !this.state.showConfirm});
         } else if (response.status === 401) {
             if (response.message) {
@@ -149,17 +141,15 @@ class Settings extends Component {
     showEditPassword = () => {
         this.setState({ showPass: !this.state.showPass });
     };
-
+    addDefaultSrc(ev) {
+      ev.target.src =`${edit}`;
+    }
     render() {
         const { user } = this.state;
         return (
             <div className="con rel">
                 <div className="profile-circle">
-                    <img
-                        src={this.state.imagePreviewUrl}
-                        alt="profile-pic"
-                        className="profile-img"
-                    />
+                    <img src={this.state.file} alt="profile-pic" className="profile-img" onError={this.addDefaultSrc}/>
                 </div>
                 <h2 className="serif">My Profile</h2>
                 {this.state.showEditProfile ? (

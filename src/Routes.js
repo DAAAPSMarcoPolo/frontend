@@ -11,6 +11,7 @@ import Algorithm from './pages/algorithm/Algorithm';
 import AlgorithmDetails from './pages/algorithm/AlgorithmDetails';
 import AlgorithmList from './pages/algorithm/AlgorithmList';
 import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
+import Universe from "./pages/universe/Universe";
 
 const Routes = () => (
     <Switch>
@@ -31,6 +32,7 @@ const Routes = () => (
         />
         <ProtectedRoute path="/algorithms" component={AlgorithmList} />
         <ProtectedRoute path="/algorithm/:listId" component={AlgorithmDetail} />
+        <ProtectedRoute path="/universes" component={Universe} />
         />
     </Switch>
 );
