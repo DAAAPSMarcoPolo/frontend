@@ -5,9 +5,6 @@ import Stats from './Stats';
 import '../../assets/algo.css';
 
 class AlgorithmDetail  extends Component {
-    ComponentDidMount() {
-      // pull list of algorithms
-    }
     render() {
         return (
             <div className="">

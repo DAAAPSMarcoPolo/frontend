@@ -1,3 +1,6 @@
+#root {
+  width: 100%;
+}
 body {
     margin: 0 auto;
     font-family: 'Proxima Nova', sans-serif;
