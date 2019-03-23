@@ -19,69 +19,6 @@ class UniverseList extends Component {
         this.getUniverses = this.getUniverses.bind();
     }
 
-    mockUniverseList = [
-        {
-            "id": 29,
-            "name": "test universe",
-            "updated": "2019-03-18T02:19:35.252054Z",
-            "user": 5,
-            "stocks": [
-                "AAPL",
-                "UGAZ"
-            ]
-        },
-        {
-            "id": 30,
-            "name": "test universe",
-            "updated": "2019-03-18T02:20:16.724334Z",
-            "user": 5,
-            "stocks": [
-                "UGAZ",
-                "AAPL"
-            ]
-        },
-        {
-            "id": 31,
-            "name": "test universe",
-            "updated": "2019-03-18T02:29:00.792914Z",
-            "user": 5,
-            "stocks": [
-                "DGAZ",
-                "UGAZ",
-                "AAPL"
-            ]
-        },
-        {
-            "id": 32,
-            "name": "test universe",
-            "updated": "2019-03-18T02:29:31.593230Z",
-            "user": 5,
-            "stocks": [
-                "AAPL",
-                "MAXR",
-                "UGAZ"
-            ]
-        },
-        {
-            "id": 43,
-            "name": "S&P500",
-            "updated": "2019-03-23T17:34:26.043504Z",
-            "user": 5,
-            "stocks": []
-        },
-        {
-            "id": 44,
-            "name": "S&P500",
-            "updated": "2019-03-23T17:59:49.839061Z",
-            "user": 5,
-            "stocks": [
-                "AAPL",
-                "MMM"
-            ]
-        }
-    ];
-
-
     getUniverses = async ()=> {
         //TODO: call API to get the universe list
         const response = await api.Get('/universe/');
@@ -110,6 +47,7 @@ class UniverseList extends Component {
                             </div>
                             <div id={"expand" + item.id} className="panel-collapse collapse">
                                 <ul className="list-group stock-list">
+                                    <li><button>Add a Stock (no functionality ATM)</button></li>
                                     {
                                         item.stocks.map((stock) => (
                                             <li className="list-group-item">{stock}</li>
@@ -122,7 +60,7 @@ class UniverseList extends Component {
                 </div>
             );
         } else {
-            mylist = (<div>Loading Stock List</div>);
+            mylist = (<div>Loading Universes</div>);
             this.getUniverses();
         }
 
