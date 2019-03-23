@@ -4,6 +4,7 @@ import EditProfile from './EditProfile';
 import edit from '../../assets/images/edit-icon.png';
 import x from '../../assets/images/x-icon.png';
 import '../admin/admin.css';
+import {BACKEND_DIR} from '../../utils/config';
 
 class Settings extends Component {
     constructor(props) {
@@ -26,40 +27,26 @@ class Settings extends Component {
         };
         this.editProfile = this.editProfile.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
+        this.savePicture = this.savePicture.bind(this);
     }
 
     async getProfilePicture() {
         const response = await api.Get('/profilepicture/');
-        console.log(response);
+        if (response.status === 200) {
+          const url = `https://marcopoloinvestment.club${response.data}`;
+          this.setState({ imagePreviewUrl: url });
+        }
+        console.log('getProfilePicture', response);
     }
 
     async componentDidMount() {
         const formData = {
             username: this.state.username
         };
-        //this.getProfilePicture();
+        this.getProfilePicture();
         const res = await api.Get('/api/user/settings/');
         const { user } = res.data;
         this.setState({ user });
-        // api.Get('/profilepicture/')
-        //   .then(res => {
-        //     return res.json().then(data => {
-        //       console.log('data', data)
-        //       if (res.status === 200 && data.token) {
-        //         // the response returned a success
-        //         const url = window.URL.createObjectURL(data);
-        //         console.log('/profilepicture/', 'success', data, 'url', url)
-        //         this.setState({ imagePreviewUrl: url });
-        //         // this.setState({showConfirm: !this.state.showConfirm});
-        //       } else if (res.status === 401) {
-        //         if (res.message) {
-        //           this.setState({ error: res.message });
-        //         }
-        //       } else if (res.status === 500) {
-        //         console.log('500 status', data);
-        //       }
-        //     })
-        // });
     }
 
     editProfile = e => {
@@ -111,17 +98,15 @@ class Settings extends Component {
     async handleImageChange(e) {
       e.preventDefault();
       e.persist();
-      let reader = new FileReader();
+      // let reader = new FileReader();
       const file = e.target.files[0];
       console.log('file', file);
-      await  this.setState({
-          file: file,
-          filename: file.name,
-          imagePreviewUrl: reader.result
-        });
-      // reader.onloadend = () => {
-      // };
-      reader.readAsDataURL(file);
+      this.setState({
+        file: file,
+        filename: file.name,
+        imagePreviewUrl: file
+      });
+      // reader.readAsDataURL(file);
     }
     async savePicture(e) {
       e.preventDefault();
@@ -134,15 +119,15 @@ class Settings extends Component {
         const response = await api.PostFile('/profilepicture/', formData);
         console.log(response);
         if (response.status === 200) {
-            const data = response;
             // the response returned a success
-            const url = window.URL.createObjectURL(data);
+            const url = `https://marcopoloinvestment.club${response.data}`;
+            console.log('url', url);
             console.log(
                 '/profilepicture/',
                 'success',
-                data,
+                response,
                 'url',
-                url
+                response.data
             );
             this.setState({ imagePreviewUrl: url });
             // this.setState({showConfirm: !this.state.showConfirm});
