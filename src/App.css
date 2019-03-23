@@ -1,9 +1,15 @@
+#root {
+  width: 100%;
+}
 body {
     margin: 0 auto;
     font-family: 'Proxima Nova', sans-serif;
     font-size: 20px;
     background-color: #000;
     color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
 }
 
 .serif {
@@ -101,10 +107,6 @@ input::placeholder {
     border-color: transparent;
 }
 
-.nav {
-    position: absolute;
-}
-
 input:focus::-webkit-input-placeholder {
     color: transparent;
 }
@@ -145,6 +147,7 @@ ul, li {
 
 .page {
     padding: 20px;
+    display: inline-block;
 }
 
 .con {
@@ -249,4 +252,13 @@ h1 {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+}
+.wrapright {
+  min-height: 100vh;
+  display: flex;
+  padding: 40px;
+}
+
+.transform:hover  {
+  text-decoration: none;
 }
