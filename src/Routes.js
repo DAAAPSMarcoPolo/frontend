@@ -8,9 +8,8 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 import Upload from './pages/upload/Upload';
 import Algorithm from './pages/algorithm/Algorithm';
-import AlgorithmDetails from './pages/algorithm/AlgorithmDetails';
-import AlgorithmList from './pages/algorithm/AlgorithmList';
 import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
+import AlgorithmList from './pages/algorithm/AlgorithmList';
 import Universe from "./pages/universe/Universe";
 
 const Routes = () => (
@@ -28,10 +27,9 @@ const Routes = () => (
         <ProtectedRoute path="/upload" component={Upload} />
         <ProtectedRoute
             path={`/algorithms/:algoID`}
-            component={AlgorithmDetails}
+            component={AlgorithmDetail}
         />
         <ProtectedRoute path="/algorithms" component={AlgorithmList} />
-        <ProtectedRoute path="/algorithm/:listId" component={AlgorithmDetail} />
         <ProtectedRoute path="/universes" component={Universe} />
         />
     </Switch>
