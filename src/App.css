@@ -152,8 +152,8 @@ ul, li {
 
 .con {
     padding: 20px;
-    background: #1F1F1F;
     max-width: 400px;
+    background: #1F1F1F;
     border-radius: 5px;
 }
 
@@ -257,8 +257,12 @@ h1 {
   min-height: 100vh;
   display: flex;
   padding: 40px;
+  width: 100%;
 }
 
+.fullWidth {
+  width: 100%;
+}
 .transform:hover  {
   text-decoration: none;
 }

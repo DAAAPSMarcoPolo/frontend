@@ -21,7 +21,15 @@ class AlgorithmDetail extends Component {
                 created_at: '',
                 description: '',
                 name: 'name',
-                user: null
+                user: null,
+                backtests: [
+                  "backtest 1",
+                  "backtest 2",
+                  "backtest 3",
+                  "backtest 4",
+                  "backtest 5",
+                  "backtest 6"
+                ]
             }
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
@@ -64,7 +72,7 @@ class AlgorithmDetail extends Component {
         const { algoID } = this.props.match.params;
         const { algo_details } = this.state;
         return (
-            <div>
+            <div className="fullWidth">
                 <h3>{this.state.algo_details.name}</h3>
                 <h5>2 Backtests in Progress</h5>
                 {this.state.showBacktestForm ? (
@@ -78,7 +86,7 @@ class AlgorithmDetail extends Component {
                         Create new Backtest
                     </button>
                 )}
-                <BacktestList id={algoID} />
+                <BacktestList id={algoID} backtests={this.state.algo_details.backtests} />
                 <Stats/>
             </div>
         );

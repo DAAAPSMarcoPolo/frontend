@@ -26,18 +26,12 @@ class BacktestList extends Component {
         };
     }
     render() {
-        return (
-            <div>
-                <h5>(backtest) TODO:</h5>
-                <ul>
-                    <li>retrieve list of backtest ids/names</li>
-                    <li>
-                        for each item in list, create BacktestDetails object
-                        (and tab)
-                    </li>
-                </ul>
-            </div>
-        );
+      const { backtests } = this.props;
+      return (
+          <ul className="nav-tabs nav nav-overflow">
+            {backtests.map((backtest, i) => <li className="tab" key={i}> {backtest}</li> )}
+          </ul>
+      );
     }
 }
 

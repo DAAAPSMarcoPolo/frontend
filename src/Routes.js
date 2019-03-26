@@ -7,7 +7,6 @@ import Settings from './pages/admin/Settings';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 import Upload from './pages/upload/Upload';
-import Algorithm from './pages/algorithm/Algorithm';
 import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
 import AlgorithmList from './pages/algorithm/AlgorithmList';
 import Universe from "./pages/universe/Universe";
