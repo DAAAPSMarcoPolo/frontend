@@ -30,10 +30,11 @@ class Upload extends Component {
         e.preventDefault();
         e.persist();
         const uploadedFile = e.target.files[0];
-        console.log("uhhh");
         this.setState({ files: uploadedFile, filename: uploadedFile.name });
-        this.showUploadButton();
-        console.log(this.state.filename, this.state.algoName, this.state.algoDescription)
+        if (this.state.algoName != null &&
+            this.state.algoDescription != null){
+            this.showUploadButton();
+        }
     }
 
     handleAlgoName(e) {
@@ -41,7 +42,10 @@ class Upload extends Component {
         e.persist();
         const algoName = e.target.value;
         this.setState({ algoName: algoName});
-        this.showUploadButton();
+        if (this.state.files != null &&
+            this.state.algoDescription != null){
+            this.showUploadButton();
+        }
     }
 
     handleAlgoDescription(e) {
@@ -49,7 +53,10 @@ class Upload extends Component {
         e.persist();
         const algoDescription = e.target.value;
         this.setState({ algoDescription: algoDescription});
-        this.showUploadButton();
+        if (this.state.files != null &&
+            this.state.algoName != null){
+            this.showUploadButton();
+        }
     }
 
     async handleFileUpload(e) {
@@ -96,7 +103,6 @@ class Upload extends Component {
         // if (isAuthenticated === "false" || !isAuthenticated) {
         //     return (<Redirect to="/login"/>);
         // }
-        console.log(this.state.uploadButtonStatus);
         let uploadButton;
         if (this.state.uploadButtonStatus === 'Enabled') {
             uploadButton = (

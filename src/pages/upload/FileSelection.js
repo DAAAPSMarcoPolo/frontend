@@ -32,8 +32,8 @@ class FileSelection extends Component {
                 <form action="">
                     <input className="file-upload" type="file" name="file" id="file"
                            onChange={this.props.handleFileSelection}/>
-                    <input type="text" name="Algo Name" onChange={this.props.handleAlgoName}/>
-                    <input type="text" name="Algorithm Description" onChange={this.props.handleAlgoDescription}/>
+                    <input type="text" name="Algo Name" defaultValue="Name" onChange={this.props.handleAlgoName}/>
+                    <input type="text" name="Algorithm Description" defaultValue="Description" onChange={this.props.handleAlgoDescription}/>
                     <label htmlFor="file">{labelValue}</label>
                 </form>
             </div>
