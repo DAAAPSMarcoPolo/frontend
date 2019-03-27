@@ -32,29 +32,31 @@ class BacktestList extends Component {
           <ul className="nav-tabs nav nav-overflow scroll">
             {backtests.map((backtest, i) => <li className="tab" key={i}> {backtest}</li> )}
           </ul>
-          <table className="con-table">
-            <tr>
-              <th>Transactions</th>
-              <th>Stock</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Change</th>
-            </tr>
-            <tr>
-              <td>Transactions</td>
-              <td>Stock</td>
-              <td>Date</td>
-              <td>Amount</td>
-              <td>Change</td>
-            </tr>
-            <tr>
-              <td>Transactions</td>
-              <td>Stock</td>
-              <td>Date</td>
-              <td>Amount</td>
-              <td>Change</td>
-            </tr>
-          </table>
+          <div className="padding">
+            <table className="transaction-table center">
+              <tr>
+                <th>Transactions</th>
+                <th>Stock</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Change</th>
+              </tr>
+              <tr>
+                <td>Transactions</td>
+                <td>Stock</td>
+                <td>Date</td>
+                <td>Amount</td>
+                <td>Change</td>
+              </tr>
+              <tr>
+                <td>Transactions</td>
+                <td>Stock</td>
+                <td>Date</td>
+                <td>Amount</td>
+                <td>Change</td>
+              </tr>
+            </table>
+          </div>
         </div>
       );
     }

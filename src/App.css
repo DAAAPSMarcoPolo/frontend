@@ -157,22 +157,31 @@ ul, li {
     border-radius: 5px;
     margin-bottom: 20px;
   }
-.con-table {
+.transaction-table {
   padding: 20px;
+  background: #1F1F1F;
+  border-radius: 0px 5px;
+  width: 100%;
+}
+.con-table {
+  padding: 0px 0px;
   background: #1F1F1F;
   border-radius: 0px 5px;
   margin-bottom: 20px;
   width: 100%;
 }
-.con-table tr {
+.transaction-table tr {
   text-transform: uppercase;
   padding: 5px;
-  text-align: center;
 }
-.con-table th, td {
+.transaction-table th, td {
   padding: 10px;
 }
 
+.con-table th, td {
+  padding: 5px 0px;
+  text-transform: uppercase;
+}
 .li {
     padding: 10px 20px;
     margin: 10px 0;
@@ -281,4 +290,38 @@ h1 {
 }
 .transform:hover  {
   text-decoration: none;
+}
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.subtext {
+  font-size: 12px;
+  color: #7C7C7C;
+}
+
+.percent {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 100%;
+  border: 3px solid #3ECC9A;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 59px;
+  right: 55px;
+}
+.margin-auto {
+  margin: auto;
+  display: inline-grid;
+}
+.padding {
+  padding: 10px;
+  background: #1F1F1F;
+  margin-bottom: 20px;
 }
