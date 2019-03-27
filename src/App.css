@@ -155,6 +155,22 @@ ul, li {
     max-width: 400px;
     background: #1F1F1F;
     border-radius: 5px;
+    margin-bottom: 20px;
+  }
+.con-table {
+  padding: 20px;
+  background: #1F1F1F;
+  border-radius: 0px 5px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.con-table tr {
+  text-transform: uppercase;
+  padding: 5px;
+  text-align: center;
+}
+.con-table th, td {
+  padding: 10px;
 }
 
 .li {
