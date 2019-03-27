@@ -8,13 +8,7 @@ class UniverseList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            universeList: null,
-            mockUniverseList : [
-                "Universe 1",
-                "Universe 2",
-                "Universe 3",
-                "Universe 4"
-            ]
+            universeList: null
         };
         this.getUniverses = this.getUniverses.bind();
     }

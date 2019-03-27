@@ -15,30 +15,55 @@ class Upload extends Component {
         this.state = {
             files: null,
             filename: null,
+            algoName : null,
+            algoDescription: null,
             uploadButtonStatus: 'Disabled'
         };
         this.handleFileSelection = this.handleFileSelection.bind(this);
+        this.handleAlgoName = this.handleAlgoName.bind(this);
+        this.handleAlgoDescription = this.handleAlgoDescription.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.showUploadButton = this.showUploadButton.bind(this);
     }
 
-    async handleFileSelection(e) {
+    handleFileSelection(e) {
         e.preventDefault();
         e.persist();
         const uploadedFile = e.target.files[0];
-        console.log(uploadedFile);
+        console.log("uhhh");
         this.setState({ files: uploadedFile, filename: uploadedFile.name });
+        this.showUploadButton();
+        console.log(this.state.filename, this.state.algoName, this.state.algoDescription)
+    }
+
+    handleAlgoName(e) {
+        e.preventDefault();
+        e.persist();
+        const algoName = e.target.value;
+        this.setState({ algoName: algoName});
+        this.showUploadButton();
+    }
+
+    handleAlgoDescription(e) {
+        e.preventDefault();
+        e.persist();
+        const algoDescription = e.target.value;
+        this.setState({ algoDescription: algoDescription});
         this.showUploadButton();
     }
 
     async handleFileUpload(e) {
         e.preventDefault();
         e.persist();
-        if (this.state.files != null) {
+        if (this.state.files != null &&
+                this.state.algoName != null &&
+                this.state.algoDescription != null) {
             this.setState({ uploadButtonStatus: 'Uploading' });
             console.log('Sending file to backend');
             const formData = new FormData();
             formData.append('strategy_file', this.state.files);
+            formData.append('name', this.state.algoName);
+            formData.append('description', this.state.algoDescription);
             const response = await api.PostFile('/algofile/', formData);
             console.log(response);
             if (response.status === 200) {
@@ -125,9 +150,12 @@ class Upload extends Component {
             <div className="algo-upload-con">
                 <FileSelection
                     handleFileSelection={this.handleFileSelection}
+                    handleAlgoName={this.handleAlgoName}
+                    handleAlgoDescription={this.handleAlgoDescription}
                     handleFileUpload={this.handleFileUpload}
                     filename={this.state.filename}
                 />
+
                 {uploadButton}
             </div>
         );
