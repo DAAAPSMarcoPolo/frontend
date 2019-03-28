@@ -78,7 +78,7 @@ class UniverseList extends Component {
                                             <ul className="list-group stock-list">
                                                 <li>
                                                     <form onSubmit={event => this.add(event, item)}>
-                                                        <input type="text" name="newstockname"/>
+                                                        <input type="text" name="newstockname" placeholder="Add Stock"/>
                                                         <input type="submit"/>
                                                     </form>
                                                 </li>
