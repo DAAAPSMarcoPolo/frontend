@@ -184,9 +184,9 @@ class AlgorithmDetail extends Component {
                             data={this.state.backtestSelected.backtest}
                         />
                     )}
-                    {/* {this.state.response && (
+                    {this.state.backtestSelected && (
                         <BacktestVote data={this.state.backtestSelected} />
-                    )} */}
+                    )}
                 </div>
             );
         } else {

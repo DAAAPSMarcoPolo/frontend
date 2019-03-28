@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const BacktestVote = ({ data }) => {
     let title;
-    switch (data.voteStatus) {
+    switch (data.votes.status) {
         case 'approved':
             title = <h5>Approved</h5>;
             break;
