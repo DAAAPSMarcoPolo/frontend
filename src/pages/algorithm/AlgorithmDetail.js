@@ -15,6 +15,7 @@ class AlgorithmDetail extends Component {
             error: null,
             showBacktestForm: false,
             strategy: 34,
+            universeId: null,
             backtestSelected: '',
             start_date: new Date(), /* 2019-3-1 */
             end_date: new Date(),
@@ -51,6 +52,7 @@ class AlgorithmDetail extends Component {
         this.createBacktest = this.createBacktest.bind(this);
         this.handleStartDateSelect = this.handleStartDateSelect.bind(this);
         this.handleEndDateSelect = this.handleEndDateSelect.bind(this);
+        this.handleSelectUniverse = this.handleSelectUniverse.bind(this);
     }
 
     toggleBacktestForm = () => {
@@ -60,20 +62,24 @@ class AlgorithmDetail extends Component {
     createBacktest = async (e) => {
       e.preventDefault();
       e.persist();
+      if (!this.state.strategy || !this.state.universeId) {
+        this.setState({ error: 'All fields are required!'});
+        setTimeout(() => {
+          this.setState({error: null});
+        }, 5000)
+      }
       const formData = {
           strategy: this.state.strategy,
-          universe: e.target.universe.value,
+          universe: this.state.universeId,
           start_date: e.target.startDate.value,
           end_date: e.target.endDate.value,
           initial_funds: e.target.initial_funds.value
       }
       const res = await api.Post('/backtest/', formData);
       if (res.status !== 200) {
-        console.log('uhhhh');
         this.setState({ error:res.statusText});
-      } else {
-        this.toggleBacktestForm();
       }
+      this.toggleBacktestForm();
       setTimeout(() => {
         this.setState({error: null});
       }, 5000)
@@ -86,7 +92,10 @@ class AlgorithmDetail extends Component {
     handleEndDateSelect(endDate) {
         this.setState({ endDate });
     }
-
+    handleSelectUniverse = async (id, e) => {
+      e.persist();
+      await this.setState({ universeId: id });
+    };
     async componentDidMount() {
       const { algoID } = this.props.match.params;
 
@@ -119,6 +128,7 @@ class AlgorithmDetail extends Component {
                         submitForm={this.createBacktest}
                         exitForm={this.toggleBacktestForm}
                         parent={this}
+                        handleSelectUniverse={this.handleSelectUniverse}
                     />
                 ) : (
                     <button className="maxWidth position-corner greenButton" onClick={this.toggleBacktestForm}>

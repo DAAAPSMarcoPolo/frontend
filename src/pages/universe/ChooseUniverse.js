@@ -11,13 +11,8 @@ class ChooseUniverse extends Component {
             error: null,
             showUniverse: null,
             universe: null,
-            universeList: null,
-            mockUniverseList : [
-                "Universe 1",
-                "Universe 2",
-                "Universe 3",
-                "Universe 4"
-            ]
+            universeName: null,
+            universeList: null
         };
         this.getUniverses = this.getUniverses.bind();
         this.selectUniverse = this.selectUniverse.bind();
@@ -28,7 +23,6 @@ class ChooseUniverse extends Component {
     getUniverses = async ()=> {
         //TODO: call API to get the universe list
         const response = await api.Get('/universe/');
-        console.log(response);
         if (response.status !== 200){
           this.setState({ error:response.statusText });
           setTimeout(() => {
@@ -36,19 +30,20 @@ class ChooseUniverse extends Component {
           }, 5000)
         } else {
           this.setState({universeList: response.data});
-          console.log("response.data", response.data);
         }
     };
     hide = () => { this.setState({ showUniverse: !this.state.showUniverse })};
-    selectUniverse = (name) => {
+    selectUniverse = (name, id, e) => {
       if (this.state.universe) {
         if (this.state.showUniverse) {
-          this.setState({ showUniverse: false, universe: name });
+          this.setState({ showUniverse: false, universeName: name, universe: id });
+          this.props.selectUniverse(id, e);
         } else {
-          this.setState({ showUniverse: true, universe: null });
+          this.setState({ showUniverse: true, universeName: null, universe: null });
         }
       } else  {
-        this.setState({ showUniverse: false, universe: name });
+        this.setState({ showUniverse: false, universeName: name, universe: id });
+        this.props.selectUniverse(id, e);
       }
     };
     render() {
@@ -64,13 +59,13 @@ class ChooseUniverse extends Component {
                   />
                   <div className="errorClass"> {this.state.error && this.state.error} </div>
                   {this.state.showUniverse && this.state.universeList.map((item) => (
-                      <div key={item} className='panel-title'  onClick={(name) => this.selectUniverse(item.name)}>
+                      <div key={item.id} className='panel-title'  onClick={(e) => this.selectUniverse(item.name, item.id, e)}>
                         <a>{item.name}</a>
                       </div>
                   ))}
                   {this.state.universe &&
-                    <button className='greenButton'  onClick={(name) => this.selectUniverse(this.state.universe)}>
-                      <a>{this.state.universe}</a>
+                    <button className='greenButton'  onClick={(e) => this.selectUniverse(this.state.universe, this.state.universe, e)}>
+                      <a>{this.state.universeName}</a>
                     </button>
                   }
                 </div>

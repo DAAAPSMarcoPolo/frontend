@@ -4,7 +4,7 @@ import ChooseUniverse from '../universe/ChooseUniverse';
 import 'react-datepicker/dist/react-datepicker.css';
 import x from '../../assets/images/x-icon.png';
 
-const BacktestForm = ({ submitForm, exitForm, parent, error }) => {
+const BacktestForm = ({ submitForm, exitForm, parent, error, handleSelectUniverse }) => {
     return (
         <div className="con rel">
         <img
@@ -32,8 +32,7 @@ const BacktestForm = ({ submitForm, exitForm, parent, error }) => {
                         dateFormat="yyyy-MM-dd"
                         name="endDate"
                     />
-                    <ChooseUniverse/>
-                    <input type="text" placeholder="Universe" name="universe" required/>
+                    <ChooseUniverse selectUniverse={parent.handleSelectUniverse}/>
                     <input type="text" placeholder="Initial Funds" name="initial_funds" required/>
                 </div>
                 <button type="submit">Submit</button>
