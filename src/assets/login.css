@@ -108,3 +108,19 @@ form {
         font-size: calc(10px + 11.5vw);
     }
 }
+
+.login button {
+  background-color: #3ECC9A;
+  color: white;
+}
+
+.login input::placeholder {
+  color: white;
+}
+
+.login input, .login input:hover, .login input:focus, .login input:active, .login input:-internal-autofill-selected, .login textarea:-internal-autofill-previewed, .login textarea:-internal-autofill-selected, .login select:-internal-autofill-previewed, .login select:-internal-autofill-selected {
+    outline: none;
+    background-color: #3ECC9A;
+    color: white !important;
+    border: none;
+}

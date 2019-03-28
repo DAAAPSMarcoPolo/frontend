@@ -22,10 +22,11 @@ button {
 
 input, input:hover, input:focus, input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected {
     outline: none;
-    background-color: #3ECC9A !important;
+    background-color: #1F1F1F;
+    color: #3ECC9A !important;
     border-radius: 30px;
     outline-offset: 0px;
-    border: none;
+    border: 1px solid #3ECC9A;
 }
 
 input, label, button {
@@ -42,13 +43,14 @@ input, label, button {
 
 button {
     outline: none;
-    color: #3ECC9A;
+    color: white;
+    background-color: #3ECC9A;
     outline: 0px solid transparent;
     border: 0px solid transparent;
 }
 
 input::placeholder {
-    color: white;
+    color: #3ECC9A;
     text-align: center;
 }
 
@@ -128,7 +130,6 @@ input:focus:-ms-input-placeholder {
 /* IE 10+ */
 
 input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected, input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-    background-color: green;
     background-image: none;
     color: rgb(0, 0, 0);
 }
@@ -152,11 +153,36 @@ ul, li {
 
 .con {
     padding: 20px;
-    background: #1F1F1F;
     max-width: 400px;
+    background: #1F1F1F;
     border-radius: 5px;
+    margin-bottom: 20px;
+  }
+.transaction-table {
+  padding: 20px;
+  background: #1F1F1F;
+  border-radius: 0px 5px;
+  width: 100%;
+}
+.con-table {
+  padding: 0px 0px;
+  background: #1F1F1F;
+  border-radius: 0px 5px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.transaction-table tr {
+  text-transform: uppercase;
+  padding: 5px;
+}
+.transaction-table th, td {
+  padding: 10px;
 }
 
+.con-table th, td {
+  padding: 5px 0px;
+  text-transform: uppercase;
+}
 .li {
     padding: 10px 20px;
     margin: 10px 0;
@@ -169,7 +195,7 @@ button:focus {
 }
 
 button:hover {
-    background-color: rgba(255, 255, 255, .8);
+    opacity: .9;
     cursor: pointer;
 }
 
@@ -190,10 +216,6 @@ button:hover {
 
 .overlay input, .overlay input:hover, .overlay input:focus {
     border: 1px solid rgba(0, 0, 0, .2);
-}
-
-.errorClass {
-    display: inline-block;
 }
 
 h1 {
@@ -257,8 +279,56 @@ h1 {
   min-height: 100vh;
   display: flex;
   padding: 40px;
+  width: 100%;
 }
 
+.fullWidth {
+  width: 100%;
+}
 .transform:hover  {
   text-decoration: none;
+}
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.subtext {
+  font-size: 12px;
+  color: #7C7C7C;
+}
+
+.percent {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 100%;
+  border: 3px solid #3ECC9A;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 59px;
+  right: 55px;
+}
+.margin-auto {
+  margin: auto;
+  display: inline-grid;
+}
+.padding {
+  padding: 10px;
+  background: #1F1F1F;
+}
+
+.margins {
+  margin: 20px 0px;
+}
+.greenButton {
+  background-color: #3ECC9A;
+  color: white;
+}
+.hover:hover {
+  opacity: .8;
 }
