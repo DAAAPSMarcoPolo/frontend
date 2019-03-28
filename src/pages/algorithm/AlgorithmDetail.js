@@ -20,7 +20,7 @@ class AlgorithmDetail extends Component {
             universeId: null,
             algo_details: null,
             backtests: null,
-            backtestSelected: '',
+            backtestSelected: null,
             start_date: new Date(), /* 2019-3-1 */
             end_date: new Date(),
             stats: {
