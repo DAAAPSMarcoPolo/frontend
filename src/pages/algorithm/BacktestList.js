@@ -33,9 +33,9 @@ class BacktestList extends Component {
     render() {
       const { backtests } = this.props;
       return (
-        <div>
+        <div className="margins">
           <ul className="nav-tabs nav nav-overflow scroll">
-            {backtests.map((backtest, i) => <li className="tab" key={i}> {backtest}</li> )}
+            {backtests.map((backtest, i) => <li className="tab" key={i}> {backtest.toString}</li> )}
           </ul>
           <div className="padding">
             <table className="transaction-table center">

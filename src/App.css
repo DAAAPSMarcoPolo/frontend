@@ -320,9 +320,11 @@ h1 {
 .padding {
   padding: 10px;
   background: #1F1F1F;
-  margin-bottom: 20px;
 }
 
+.margins {
+  margin: 20px 0px;
+}
 .greenButton {
   background-color: #3ECC9A;
   color: white;

@@ -13,27 +13,16 @@ class AlgorithmDetail extends Component {
         super(props);
         this.state = {
             error: null,
+            backtestCount: '--',
+            response: false,
             showBacktestForm: false,
             strategy: 34,
             universeId: null,
+            algo_details: null,
+            backtests: null,
             backtestSelected: '',
             start_date: new Date(), /* 2019-3-1 */
             end_date: new Date(),
-            algo_details: {
-                approved: null,
-                created_at: '',
-                description: '',
-                name: 'name',
-                user: null,
-                backtests: [
-                  "backtest 1",
-                  "backtest 2",
-                  "backtest 3",
-                  "backtest 4",
-                  "backtest 5",
-                  "backtest 6"
-                ]
-            },
             stats: {
               "id": 16,
               "complete": true,
@@ -53,8 +42,48 @@ class AlgorithmDetail extends Component {
         this.handleStartDateSelect = this.handleStartDateSelect.bind(this);
         this.handleEndDateSelect = this.handleEndDateSelect.bind(this);
         this.handleSelectUniverse = this.handleSelectUniverse.bind(this);
-    }
+        this.getAlgorithmList = this.getAlgorithmList.bind(this);
+        this.getBacktestList = this.getBacktestList.bind(this);
+        this.getAlgorithmList = this.getAlgorithmList.bind(this);
 
+    }
+    componentDidMount() {
+      this.getBacktestList();
+      this.getAlgorithmList();
+    }
+    getBacktestList = async () => {
+      const { algoID } = this.props.match.params;
+      console.log('algoId', algoID);
+      // GET /api/algorithm/
+      const res = await api.Get(`/strategybacktests/${algoID}`);
+      console.log('getBacktestList',res);
+      if (res.status !== 200) {
+        this.setState({ error:res.statusText});
+      } else if (res.data) {
+        this.setState({ response: true, backtestCount: res.data.length, backtests: res.data });
+      }
+      setTimeout(() => {
+        this.setState({error: null});
+      }, 5000)
+
+    };
+    getAlgorithmList = async () => {
+      const { algoID } = this.props.match.params;
+      console.log('algoId', algoID);
+      // GET /api/algorithm/
+      const res = await api.Get(`/algorithm/${algoID}`);
+      console.log('AlgorithmList', res);
+      if (res.status !== 200) {
+        this.setState({ error:res.statusText});
+      } else if (res.data) {
+          this.setState({ algo_details: res.data.algo_details });
+          // res.data.length
+      }
+      setTimeout(() => {
+        this.setState({error: null});
+      }, 5000)
+
+    };
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
@@ -96,49 +125,39 @@ class AlgorithmDetail extends Component {
       e.persist();
       await this.setState({ universeId: id });
     };
-    async componentDidMount() {
-      const { algoID } = this.props.match.params;
-
-      // TODO get algorithm
-      // const { data } = await api.Get(`/algorithms/${this.props.strategy}`);
-
-      // const universe = await api.Get(`/universe/`);
-      // console.log('universe'. universe);
-      //
-      // const backtests = await api.Get(`/backtest/${this.state.backtestSelected}/`);
-      // console.log('backtests'. backtests);
-      //
-      // this.setState({
-      //     algo_details: data.algo_details,
-      //     bt_list: data.bt_list
-      // });
-    }
 
     render() {
         const { algoID } = this.props.match.params;
         const { algo_details } = this.state;
-        return (
-            <div className="fullWidth">
-                <h3>{this.state.algo_details.name}</h3>
-                <h5>2 Backtests in Progress</h5>
-                <div className="errorClass"> {this.state.error && this.state.error} </div>
-                {this.state.showBacktestForm ? (
-                    <BacktestForm
-                        error={this.state.error}
-                        submitForm={this.createBacktest}
-                        exitForm={this.toggleBacktestForm}
-                        parent={this}
-                        handleSelectUniverse={this.handleSelectUniverse}
-                    />
-                ) : (
-                    <button className="maxWidth position-corner greenButton" onClick={this.toggleBacktestForm}>
-                        Create new Backtest
-                    </button>
-                )}
-                <BacktestList id={algoID} backtests={this.state.algo_details.backtests} />
-                <Stats stats={this.state.stats}/>
-            </div>
-        );
+        if (this.state.algo_details) {
+          return (
+              <div className="fullWidth">
+                  <h3>{this.state.algo_details.name}</h3>
+                  <h5>{this.state.backtestCount} Backtests Total</h5>
+                  <p>{this.state.algo_details.description}</p>
+                  <div className="errorClass"> {this.state.error && this.state.error} </div>
+                  {this.state.showBacktestForm ? (
+                      <BacktestForm
+                          error={this.state.error}
+                          submitForm={this.createBacktest}
+                          exitForm={this.toggleBacktestForm}
+                          parent={this}
+                          handleSelectUniverse={this.handleSelectUniverse}
+                      />
+                  ) : (
+                      <button className="maxWidth position-corner greenButton" onClick={this.toggleBacktestForm}>
+                          Create new Backtest
+                      </button>
+                  )}
+                  {this.state.response && <BacktestList id={algoID} backtests={this.state.backtests} />}
+                  <Stats
+                    start={this.state.algo_details.created_at}
+                  />
+              </div>
+          );
+        } else {
+          return <p>Algorithm Details Loading</p>
+        }
     }
 }
 

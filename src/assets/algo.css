@@ -119,6 +119,7 @@ table {
 }
 
 .position-corner {
+  z-index: 1000;
   position: absolute;
   top: 50px;
   right: 20px;

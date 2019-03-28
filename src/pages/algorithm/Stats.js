@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Stats = () => (
+const Stats = ({ name, algoId, description, user, created_at, approved, best_backtest, start, end, sharpe, complete }) => (
     <div className="con rel">
       <h3>Statistics</h3>
 
