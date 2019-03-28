@@ -158,3 +158,42 @@ p {
     color: white;
     text-align: left;
 }
+.transaction_table {
+    border-radius: 0px 5px;
+    width: 100%;
+    padding: 10px;
+    background: #282828;
+}
+
+.backtest .active {
+    background: #282828;
+}
+
+.select-backtest {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.tab {
+    min-width: 200px;
+    max-width: 250px;
+    padding: 10px;
+    background: #1f1f1f;
+    border-radius: 30px 30px 0px 0px;
+    text-align: center;
+    border-bottom: 0px;
+    text-transform: uppercase;
+    font-family: 'Proxima Nova', sans-serif;
+    font-weight: bold;
+}
+
+.transaction_table .tab {
+    text-align: left;
+    border: none;
+    border-radius: 0px;
+    background-color: #282828;
+}
+
+.active {
+    background: #282828;
+}
