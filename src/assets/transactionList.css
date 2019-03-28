@@ -1,0 +1,11 @@
+.transaction-head {
+    color: #3ECC9A;
+}
+
+.transaction-row {
+    color: white;
+}
+
+.transaction-container{
+    max-height: 500px;
+}

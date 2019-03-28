@@ -157,13 +157,8 @@ ul, li {
     background: #1F1F1F;
     border-radius: 5px;
     margin-bottom: 20px;
-  }
-.transaction-table {
-  padding: 20px;
-  background: #1F1F1F;
-  border-radius: 0px 5px;
-  width: 100%;
 }
+
 .con-table {
   padding: 0px 0px;
   background: #1F1F1F;
@@ -319,9 +314,7 @@ h1 {
 }
 .padding {
   padding: 10px;
-  background: #1F1F1F;
 }
-
 .margins {
   margin: 20px 0px;
 }
