@@ -10,6 +10,7 @@ import Upload from './pages/upload/Upload';
 import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
 import AlgorithmList from './pages/algorithm/AlgorithmList';
 import Universe from "./pages/universe/Universe";
+import TransTest from "./pages/algorithm/TransTest";
 
 const Routes = () => (
     <Switch>
@@ -30,6 +31,7 @@ const Routes = () => (
         />
         <ProtectedRoute path="/algorithms" component={AlgorithmList} />
         <ProtectedRoute path="/universes" component={Universe} />
+        <ProtectedRoute path="/trans" component={TransTest} />
         />
     </Switch>
 );
