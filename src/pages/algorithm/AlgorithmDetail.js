@@ -14,8 +14,10 @@ class AlgorithmDetail extends Component {
         this.state = {
             error: null,
             showBacktestForm: false,
-            startDate: new Date(),
-            endDate: new Date(),
+            strategy: 34,
+            backtestSelected: '',
+            start_date: new Date(), /* 2019-3-1 */
+            end_date: new Date(),
             algo_details: {
                 approved: null,
                 created_at: '',
@@ -30,6 +32,19 @@ class AlgorithmDetail extends Component {
                   "backtest 5",
                   "backtest 6"
                 ]
+            },
+            stats: {
+              "id": 16,
+              "complete": true,
+              "start_date": "2018-01-01T00:00:00Z",
+              "end_date": "2019-03-01T00:00:00Z",
+              "initial_cash": 2000,
+              "end_cash": 4093.0496,
+              "sharpe": 2.89,
+              "created_at": "2019-03-27T00:18:08.572453Z",
+              "strategy": 34,
+              "universe": 20,
+              "user": 5
             }
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
@@ -42,8 +57,26 @@ class AlgorithmDetail extends Component {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
 
-    createBacktest = () => {
-        console.log('form submitted');
+    createBacktest = async (e) => {
+      e.preventDefault();
+      e.persist();
+      const formData = {
+          strategy: this.state.strategy,
+          universe: e.target.universe.value,
+          start_date: e.target.startDate.value,
+          end_date: e.target.endDate.value,
+          initial_funds: e.target.initial_funds.value
+      }
+      const res = await api.Post('/backtest/', formData);
+      if (res.status !== 200) {
+        console.log('uhhhh');
+        this.setState({ error:res.statusText});
+      } else {
+        this.toggleBacktestForm();
+      }
+      setTimeout(() => {
+        this.setState({error: null});
+      }, 5000)
     };
 
     handleStartDateSelect(startDate) {
@@ -55,17 +88,21 @@ class AlgorithmDetail extends Component {
     }
 
     async componentDidMount() {
-        // TODO get algorithm
-        const { data } = await api.Get(
-            `/algorithms/${this.props.match.params.algoID}`
-        );
-        //
-        // this.setState({
-        //     algo_details: data.algo_details,
-        //     bt_list: data.bt_list
-        // });
+      const { algoID } = this.props.match.params;
 
-        console.log(data);
+      // TODO get algorithm
+      // const { data } = await api.Get(`/algorithms/${this.props.strategy}`);
+
+      // const universe = await api.Get(`/universe/`);
+      // console.log('universe'. universe);
+      //
+      // const backtests = await api.Get(`/backtest/${this.state.backtestSelected}/`);
+      // console.log('backtests'. backtests);
+      //
+      // this.setState({
+      //     algo_details: data.algo_details,
+      //     bt_list: data.bt_list
+      // });
     }
 
     render() {
@@ -75,19 +112,21 @@ class AlgorithmDetail extends Component {
             <div className="fullWidth">
                 <h3>{this.state.algo_details.name}</h3>
                 <h5>2 Backtests in Progress</h5>
+                <div className="errorClass"> {this.state.error && this.state.error} </div>
                 {this.state.showBacktestForm ? (
                     <BacktestForm
+                        error={this.state.error}
                         submitForm={this.createBacktest}
                         exitForm={this.toggleBacktestForm}
                         parent={this}
                     />
                 ) : (
-                    <button onClick={this.toggleBacktestForm}>
+                    <button className="maxWidth position-corner greenButton" onClick={this.toggleBacktestForm}>
                         Create new Backtest
                     </button>
                 )}
                 <BacktestList id={algoID} backtests={this.state.algo_details.backtests} />
-                <Stats/>
+                <Stats stats={this.state.stats}/>
             </div>
         );
     }

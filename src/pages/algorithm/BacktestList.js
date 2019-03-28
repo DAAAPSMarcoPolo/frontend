@@ -6,23 +6,28 @@ class BacktestList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            transactions: [
-                {
-                    transactions: '#2193891823',
-                    date: '2019-02-03T08:15:30-05:00',
-                    stock: 'APPL'
-                },
-                {
-                    transactions: '#2193891823',
-                    date: '2019-02-03T08:15:30-05:00',
-                    stock: 'APPL'
-                },
-                {
-                    transactions: '#3193891823',
-                    date: '2019-02-03T08:15:30-05:00',
-                    stock: 'APPL'
-                }
-            ]
+              "trades": [
+                  {
+                      "id": 207,
+                      "backtest_id": 16,
+                      "symbol": "DGAZ",
+                      "buy_time": "2019-03-27T00:18:17.251256Z",
+                      "sell_time": "2019-03-27T00:18:17.251316Z",
+                      "buy_price": 24.65,
+                      "sell_price": 32.15,
+                      "qty": 32
+                  },
+                  {
+                      "id": 208,
+                      "backtest_id": 16,
+                      "symbol": "MSFT",
+                      "buy_time": "2019-03-27T00:18:17.398419Z",
+                      "sell_time": "2019-03-27T00:18:17.398472Z",
+                      "buy_price": 87.66,
+                      "sell_price": 88.2,
+                      "qty": 88
+                  }
+              ]
         };
     }
     render() {

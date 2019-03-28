@@ -117,3 +117,36 @@ table {
   top: 59px;
   right: 55px;
 }
+
+.position-corner {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+}
+
+.maxWidth {
+  max-width: 300px;
+}
+
+.panel-overflow {
+  overflow: scroll;
+  max-height: 500px;
+}
+
+.list-group-item {
+  background: none;
+  color: white;
+  border-top: 1px solid rgba(0,0,0,.3);
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  font-size: 16px;
+}
+.list-group {
+  overflow: scroll;
+  max-height: 500px;
+}
+.panel-title a {
+  color: white;
+  text-align: left;
+}

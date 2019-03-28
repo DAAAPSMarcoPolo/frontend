@@ -22,10 +22,11 @@ button {
 
 input, input:hover, input:focus, input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected {
     outline: none;
-    background-color: #3ECC9A !important;
+    background-color: #1F1F1F;
+    color: #3ECC9A !important;
     border-radius: 30px;
     outline-offset: 0px;
-    border: none;
+    border: 1px solid #3ECC9A;
 }
 
 input, label, button {
@@ -42,13 +43,14 @@ input, label, button {
 
 button {
     outline: none;
-    color: #3ECC9A;
+    color: white;
+    background-color: #3ECC9A;
     outline: 0px solid transparent;
     border: 0px solid transparent;
 }
 
 input::placeholder {
-    color: white;
+    color: #3ECC9A;
     text-align: center;
 }
 
@@ -128,7 +130,6 @@ input:focus:-ms-input-placeholder {
 /* IE 10+ */
 
 input:active, input:-internal-autofill-selected, textarea:-internal-autofill-previewed, textarea:-internal-autofill-selected, select:-internal-autofill-previewed, select:-internal-autofill-selected, input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-    background-color: green;
     background-image: none;
     color: rgb(0, 0, 0);
 }
@@ -194,7 +195,7 @@ button:focus {
 }
 
 button:hover {
-    background-color: rgba(255, 255, 255, .8);
+    opacity: .9;
     cursor: pointer;
 }
 
@@ -215,10 +216,6 @@ button:hover {
 
 .overlay input, .overlay input:hover, .overlay input:focus {
     border: 1px solid rgba(0, 0, 0, .2);
-}
-
-.errorClass {
-    display: inline-block;
 }
 
 h1 {
@@ -324,4 +321,9 @@ h1 {
   padding: 10px;
   background: #1F1F1F;
   margin-bottom: 20px;
+}
+
+.greenButton {
+  background-color: #3ECC9A;
+  color: white;
 }

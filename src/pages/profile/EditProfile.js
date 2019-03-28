@@ -1,7 +1,7 @@
 import React from 'react';
 
 const EditProfile = ({submit, error, username, phone_number, first_name, last_name}) => (
-    <form onSubmit={submit} className="con ref">
+    <form onSubmit={submit} className="ref">
         <div className="errorClass">
             {error ? {error} : null}
         </div>
