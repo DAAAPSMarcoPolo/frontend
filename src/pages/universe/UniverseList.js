@@ -11,6 +11,12 @@ class UniverseList extends Component {
             universeList: null
         };
         this.getUniverses = this.getUniverses.bind();
+        this.addStock = this.addStock.bind();
+        this.add = this.add.bind();
+    }
+    
+    componentDidMount(){
+        this.getUniverses();
     }
 
     getUniverses = async ()=> {
@@ -24,47 +30,72 @@ class UniverseList extends Component {
         }
     };
 
+    addStock = async (e)=> {
+        console.log("This.");
+    };
+
+    add = async (e, universe) => {
+        e.preventDefault();
+        e.persist();
+        if (e.target.newstockname !== null && e.target.newstockname.value != ""){
+            console.log("Adding stock", e.target.newstockname.value);
+            console.log(universe.id);
+            console.log(universe);
+            let stocks = universe.stocks;
+            stocks.unshift(e.target.newstockname.value);
+            const formdata = {
+                "universe": stocks,
+            };
+            //console.log("/universe/" + universe.id + "/");
+            console.log(formdata)
+            const response = await api.Put("/universe/" + universe.id + "/", formdata);
+            console.log(response);
+        }
+    };
+
     render(){
         const { cookies } = this.props;
         const isAuthenticated = cookies.get('isAuthenticated');
         const isAdmin = cookies.get('isAdmin');
-        let mylist;
-        if (this.state.universeList != null){
-            mylist = (
-                <div className="panel-group">
-                    {this.state.universeList.map((item) => (
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                <h4 className="panel-title">
-                                    <a data-toggle="collapse" href={"#expand" + item.id}>{item.name}</a>
-                                </h4>
-                            </div>
-                            <div id={"expand" + item.id} className="panel-collapse collapse">
-                                <ul className="list-group stock-list">
-                                    <li><button>Add a Stock (no functionality ATM)</button></li>
-                                    {
-                                        item.stocks.map((stock) => (
-                                            <li className="list-group-item">{stock}</li>
-                                        ))
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            );
-        } else {
-            mylist = (<div>Loading Universes</div>);
-            this.getUniverses();
-        }
-
 
         return (
             <div>
                 <div className="container">
                     <h2>Universes</h2>
                     <div className="panel-group">
-                        {mylist}
+                        {
+                            this.state.universeList != null ?
+                            (
+                                <div className="panel-group">
+                                {this.state.universeList.map((item) => (
+                                    <div className="panel panel-default">
+                                        <div className="panel-heading">
+                                            <h4 className="panel-title">
+                                                <a data-toggle="collapse" href={"#expand" + item.id}>{item.name}</a>
+                                            </h4>
+                                        </div>
+                                        <div id={"expand" + item.id} className="panel-collapse collapse">
+                                            <ul className="list-group stock-list">
+                                                <li>
+                                                    <form onSubmit={event => this.add(event, item)}>
+                                                        <input type="text" name="newstockname"/>
+                                                        <input type="submit"/>
+                                                    </form>
+                                                </li>
+                                                {
+                                                    item.stocks.map((stock) => (
+                                                        <li className="list-group-item">{stock}</li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                ))}
+                                </div>
+                            ):(
+                                <div>Loading Universes</div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
