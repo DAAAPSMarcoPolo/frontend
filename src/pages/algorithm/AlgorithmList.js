@@ -25,6 +25,7 @@ class AlgorithmList extends Component {
         this.setState({ error:res.statusText});
       } else {
         this.setState({ algolist: res.data });
+        console.log(res.data)
       }
       setTimeout(() => {
         this.setState({error: null});
@@ -37,11 +38,11 @@ class AlgorithmList extends Component {
               <div className="errorClass"> {this.state.error && this.state.error} </div>
               <ul className="list">
                 {this.state.algolist && this.state.algolist.map((algo, i) =>
-                  <Link className="transform" to={`/algorithms/${algo.best_backtest.strategy_id}`}>
+                  <Link className="transform" to={`/algorithms/${algo.algo_details.id}`}>
                     <Algo
                       key={i}
                       name={algo.algo_details.name}
-                      algoId={algo.best_backtest.strategy_id}
+                      algoId={algo.algo_details.id}
                       description={algo.algo_details.description}
                       user={algo.algo_details.user}
                       created_at={algo.algo_details.created_at}

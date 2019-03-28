@@ -157,7 +157,7 @@ class AlgorithmDetail extends Component {
               </div>
           );
         } else {
-          return <p>Algorithm Details Loading</p>
+          return <p className="loading"></p>
         }
     }
 }
