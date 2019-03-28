@@ -173,7 +173,6 @@ ul, li {
 }
 .transaction-table tr {
   text-transform: uppercase;
-  padding: 5px;
 }
 .transaction-table th, td {
   padding: 10px;

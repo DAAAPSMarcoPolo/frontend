@@ -41,7 +41,13 @@ const Algo = ({ name, algoId, description, user, created_at, approved, best_back
             {/* row three */}
             <div className="row">
                 <p className="col-5 boundaries-algo">
-                    Backtest status: {complete ? 'Backtest Complete' : 'Backest in Progress'}
+                    Backtest status: {
+                      (!best_backtest)
+                      ? 'No Backtests Created'
+                      : (complete)
+                      ? 'Backtest Complete'
+                      : 'Backest in Progress'
+                    }
                 </p>
                 <p className="col-1 boundaries-algo secondary-text">${start}</p>
                 <p className="col-1 boundaries-algo secondary-text">${end}</p>

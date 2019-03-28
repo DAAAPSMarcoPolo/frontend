@@ -135,6 +135,7 @@ class AlgorithmDetail extends Component {
               <div className="fullWidth">
                   <h3>{this.state.algo_details.name}</h3>
                   <h5>{this.state.backtestCount} Backtests Total</h5>
+                  <h5>BACKTEST STATUS: {this.state.algo_details.complete ? 'Backtest Complete' : 'Backest in Progress'}</h5>
                   <p>{this.state.algo_details.description}</p>
                   <div className="errorClass"> {this.state.error && this.state.error} </div>
                   {this.state.showBacktestForm ? (
