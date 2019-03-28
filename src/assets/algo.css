@@ -1,7 +1,23 @@
+.tab {
+    min-width: 200px;
+    max-width: 250px;
+    padding: 10px;
+    background: #1f1f1f;
+    border-radius: 30px 30px 0px 0px;
+    text-align: center;
+    border-bottom: 0px;
+    text-transform: uppercase;
+    font-family: 'Proxima Nova', sans-serif;
+    font-weight: bold;
+}
+
+.active {
+    background: #282828;
+}
 .nav-overflow {
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: -webkit-box;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: -webkit-box;
 }
 
 .algo-card {
@@ -20,9 +36,8 @@
     margin-bottom: 20px;
 }
 
-
 .algo-card:hover {
-  background-color: rgba(40,40,40, .9);
+    background-color: rgba(40, 40, 40, 0.9);
 }
 .boundaries-algo {
     padding-left: 0.2rem;
@@ -63,11 +78,19 @@
 }
 
 table {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 .nav-tabs {
-  border: 0px;
+    border: 0px;
+}
+
+.bt-nav-tab {
+    cursor: pointer;
+}
+
+.active {
+    background-color: #838383;
 }
 /*
 .scroll::-webkit-scrollbar {
@@ -84,93 +107,93 @@ table {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 } */
 
-.margin-auto h1, p {
-  margin: auto;
+.margin-auto h1,
+p {
+    margin: auto;
 }
 
-
 .percent {
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 100%;
-  border: 3px solid #3ECC9A;
-  width: 150px;
-  height: 150px;
-  position: absolute;
-  top: 59px;
-  right: 55px;
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 100%;
+    border: 3px solid #3ecc9a;
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 59px;
+    right: 55px;
 }
 
 .position-corner {
-  z-index: 1000;
-  position: absolute;
-  top: 50px;
-  right: 20px;
+    z-index: 1000;
+    position: absolute;
+    top: 50px;
+    right: 20px;
 }
 
 .maxWidth {
-  max-width: 300px;
+    max-width: 300px;
 }
 
 .panel-overflow {
-  overflow: scroll;
-  max-height: 500px;
+    overflow: scroll;
+    max-height: 500px;
 }
 
 .list-group-item {
-  background: none;
-  color: white;
-  border-top: 1px solid rgba(0,0,0,.3);
-  border-right: none;
-  border-bottom: none;
-  border-left: none;
-  font-size: 16px;
+    background: none;
+    color: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    font-size: 16px;
 }
 .list-group {
-  overflow: scroll;
-  max-height: 500px;
+    overflow: scroll;
+    max-height: 500px;
 }
 .panel-title a {
-  color: white;
-  text-align: left;
+    color: white;
+    text-align: left;
 }
 .transaction_table {
-  border-radius: 0px 5px;
-  width: 100%;
-  padding: 10px;
-  background: #282828;
+    border-radius: 0px 5px;
+    width: 100%;
+    padding: 10px;
+    background: #282828;
 }
 
 .backtest .active {
-  background: #282828;
+    background: #282828;
 }
 
 .select-backtest {
-  cursor: pointer;
-  opacity: .8;
+    cursor: pointer;
+    opacity: 0.8;
 }
 
 .tab {
-  min-width: 200px;
-  max-width: 250px;
-  padding: 10px;
-  background: #1F1F1F;
-  border-radius: 30px 30px 0px 0px;
-  text-align: center;
-  border-bottom: 0px;
-  text-transform: uppercase;
-  font-family: 'Proxima Nova', sans-serif;
-  font-weight: bold;
+    min-width: 200px;
+    max-width: 250px;
+    padding: 10px;
+    background: #1f1f1f;
+    border-radius: 30px 30px 0px 0px;
+    text-align: center;
+    border-bottom: 0px;
+    text-transform: uppercase;
+    font-family: 'Proxima Nova', sans-serif;
+    font-weight: bold;
 }
 
 .transaction_table .tab {
-  text-align: left;
-  border: none;
-  border-radius: 0px;
-  background-color: #282828;
+    text-align: left;
+    border: none;
+    border-radius: 0px;
+    background-color: #282828;
 }
 
 .active {
-  background: #282828;
+    background: #282828;
 }
