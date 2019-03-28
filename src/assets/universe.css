@@ -1,0 +1,25 @@
+.stock-list {
+    color: black;
+}
+
+.choose-universe .panel-title {
+  padding: 10px 20px;
+  margin: 10px 0;
+  background: #282828;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.panel-title:hover {
+  opacity: .8;
+}
+
+.drop-icon {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+}
+.choose-universe .selected {
+  color: white;
+  background-color: #3ECC9A;
+}

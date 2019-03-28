@@ -66,10 +66,11 @@ const Get = async (endpoint, includeToken = true, options = {}) => {
     return response;
 }
 
-const Put = async (endpoint, includeToken = true, options = {}) => {
+const Put = async (endpoint, data, includeToken = true, options = {}) => {
     const config = {
         url: `${API_BASE_URL}${endpoint}`,
         method: 'put',
+        data
     }
     const response = await Request(config, includeToken);
     if (response.status === 500) {

@@ -44,6 +44,7 @@ class Nav extends Component {
                                 <Link to='/algorithms' onClick={this.handleClick}>Algorithms</Link>
                                 <Link to='/upload' onClick={this.handleClick}>Upload an Algorithm</Link>
                                 <Link to='/proposals' onClick={this.handleClick}>Proposals</Link>
+                                <Link to='/universes' onClick={this.handleClick}>Universes</Link>
                                 <Link to='/settings' onClick={this.handleClick}>Settings</Link>
                                 <Link to='/' onClick={this.logout}>Logout</Link>
                             </div>

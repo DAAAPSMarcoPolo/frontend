@@ -1,47 +1,51 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/algo.css';
 
-class BacktestList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            transactions: [
-                {
-                    transactions: '#2193891823',
-                    date: '2019-02-03T08:15:30-05:00',
-                    stock: 'APPL'
-                },
-                {
-                    transactions: '#2193891823',
-                    date: '2019-02-03T08:15:30-05:00',
-                    stock: 'APPL'
-                },
-                {
-                    transactions: '#3193891823',
-                    date: '2019-02-03T08:15:30-05:00',
-                    stock: 'APPL'
-                }
-            ]
-        };
-    }
-    ComponentDidMount() {
-        // pull list of algorithms
-    }
-    render() {
-        return (
-            <div>
-                <h5>(backtest) TODO:</h5>
-                <ul>
-                    <li>retrieve list of backtest ids/names</li>
-                    <li>
-                        for each item in list, create BacktestDetails object
-                        (and tab)
-                    </li>
-                </ul>
-            </div>
-        );
-    }
-}
+const BacktestList = ({ backtests }) => (
+  <div className="margins">
+    <ul className="nav-tabs nav nav-overflow scroll">
+      {backtests.map((backtest, i) => <li className="tab" key={i}> {backtest.backtest.id}</li> )}
+    </ul>
+    <div className="padding">
+      <table className="transaction-table center nav-overflow">
+        <tr>
+          <th>Transaction Id</th>
+          <th>Stock</th>
+          <th>Buy Price</th>
+          <th>Buy Time</th>
+          <th>Quantity</th>
+          <th>Sell Price</th>
+          <th>Sell Time</th>
+        </tr>
+        {backtests.map((trades, i) =>
+          <tr key={i}>
+             <td className="tab">
+              #{trades.trades.id}
+             </td>
+             <td className="tab">
+              {trades.trades.symbol}
+             </td>
+             <td className="tab">
+              ${trades.trades.buy_price}
+             </td>
+             <td className="tab">
+              {trades.trades.buy_time}
+             </td>
+             <td className="tab">
+              {trades.trades.qty}
+             </td>
+             <td className="tab">
+              {trades.trades.sell_price}
+             </td>
+             <td className="tab">
+              {trades.trades.sell_time}
+             </td>
+          </tr>
+        )}
+      </table>
+    </div>
+  </div>
+);
 
 export default BacktestList;
