@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/algo.css';
 
-const BacktestList = ({ backtests }) => (
+const BacktestList = ({ backtests, selectTab, backtestSelected }) => (
   <div className="backtest margins">
     <ul className="nav-tabs nav nav-overflow scroll">
-      {backtests.map((backtest, i) => <li className="tab select-backtest" key={i}> {backtest.backtest.id}</li> )}
+      {backtests.map((backtest, i) => <li className={`tab select-backtest ${backtestSelected === backtest.backtest.id && 'active'}`} key={i} onClick={(e) => selectTab(backtest.backtest.id, e)}> {backtest.backtest.id}</li> )}
     </ul>
     <div className="transaction_table">
       <table className="transaction-table nav-overflow">

@@ -61,7 +61,11 @@ class AlgorithmDetail extends Component {
         this.setState({ error:res.statusText});
       } else if (res.data) {
         this.setState({ response: true, backtestCount: res.data.length, backtests: res.data });
-        console.log('backtests', this.state.backtests);
+        if (res.data.length > 0) {
+          console.log('res.length', res.data.length, res.data[0].backtest.id);
+          this.setState({ backtestSelected:  res.data[0].backtest.id });
+        }
+        console.log('backtest selected', this.state.backtestSelected);
       }
       setTimeout(() => {
         this.setState({error: null});
@@ -126,7 +130,14 @@ class AlgorithmDetail extends Component {
       e.persist();
       await this.setState({ universeId: id });
     };
-
+    selectBacktest = (backtestId, e) => {
+      e.persist();
+      console.log('backtestId', backtestId);
+      if (backtestId !== this.state.backtestSelected) {
+        this.setState({ backtestSelected: backtestId });
+      }
+      this.getBacktestList();
+    };
     render() {
         const { algoID } = this.props.match.params;
         const { algo_details } = this.state;
@@ -150,7 +161,14 @@ class AlgorithmDetail extends Component {
                           Create new Backtest
                       </button>
                   )}
-                  {this.state.response && <BacktestList id={algoID} backtests={this.state.backtests} />}
+                  {this.state.response &&
+                    <BacktestList
+                      id={algoID}
+                      backtests={this.state.backtests}
+                      selectTab={this.selectBacktest}
+                      backtestSelected={this.state.backtestSelected}
+                    />
+                  }
                   <Stats
                     start={this.state.algo_details.created_at}
                   />

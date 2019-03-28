@@ -22,7 +22,7 @@
 
 
 .algo-card:hover {
-  background-color: rgba(40,40,40, .9);
+  opacity: .9;
 }
 .boundaries-algo {
     padding-left: 0.2rem;
