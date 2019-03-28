@@ -5,7 +5,7 @@ import '../../assets/algo.css';
 const BacktestList = ({ backtests }) => (
   <div className="backtest margins">
     <ul className="nav-tabs nav nav-overflow scroll">
-      {backtests.map((backtest, i) => <li className="tab" key={i}> {backtest.backtest.id}</li> )}
+      {backtests.map((backtest, i) => <li className="tab select-backtest" key={i}> {backtest.backtest.id}</li> )}
     </ul>
     <div className="transaction_table">
       <table className="transaction-table nav-overflow">
