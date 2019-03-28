@@ -29,9 +29,9 @@ const Stats = ({ name, algoId, description, user, created_at, approved, best_bac
           <th>End</th>
         </tr>
         <tr>
-          <td>Transactions</td>
-          <td>Stock</td>
-          <td>Date</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
         </tr>
         <tr>
           <th>Sharpe Ratio</th>

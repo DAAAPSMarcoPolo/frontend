@@ -61,6 +61,7 @@ class AlgorithmDetail extends Component {
         this.setState({ error:res.statusText});
       } else if (res.data) {
         this.setState({ response: true, backtestCount: res.data.length, backtests: res.data });
+        console.log('backtests', this.state.backtests);
       }
       setTimeout(() => {
         this.setState({error: null});
