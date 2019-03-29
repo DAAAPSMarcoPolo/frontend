@@ -2,7 +2,7 @@ import React from 'react'
 import '../../assets/upload.css';
 import '../../App.css';
 
-const FileSelection = ({ handleFileSelection, handleFileUpload, fileName, file }) => (
+const FileSelection = ({ handleFileSelection, handleFileUpload, fileName, file, uploadButtonStatus }) => (
   <div>
     <form onSubmit={handleFileSelection}>
         <input type="text" name="name" placeholder="Name" required/>
@@ -11,7 +11,7 @@ const FileSelection = ({ handleFileSelection, handleFileUpload, fileName, file }
         <label htmlFor="file">{fileName}</label>
         {file &&
           <button id="upload-button">
-            Upload Algorithm
+            {uploadButtonStatus}
           </button>
         }
     </form>

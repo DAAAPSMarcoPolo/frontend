@@ -19,7 +19,7 @@ class Upload extends Component {
         this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
-    handleFileSelection(e) {
+    handleFileSelection = () => {
         e.preventDefault();
         e.persist();
         const uploadedFile = e.target.files[0];
@@ -27,10 +27,10 @@ class Upload extends Component {
         if (e.target.files[0].name) {
           fileName = e.target.files[0].name;
         }
-        this.setState({ files: uploadedFile, fileName,   uploadButtonStatus: `You have selected ${fileName}` });
-    }
+        this.setState({ files: uploadedFile, fileName, uploadButtonStatus: `You have selected ${fileName}` });
+    };
 
-    async handleFileUpload(e) {
+    handleFileUpload = async () => {
         e.preventDefault();
         e.persist();
         if (this.state.files != null) {
@@ -60,24 +60,22 @@ class Upload extends Component {
         } else {
             console.log('No file chosen to upload');
         }
-    }
+    };
 
     render() {
         return (
-            <div className="algo-upload-con">
-                <FileSelection
-                    handleFileSelection={this.handleFileSelection}
-                    handleFileUpload={this.handleFileUpload}
-                    fileName={this.state.fileName}
-                    file={this.state.files}
-                />
-                  <button
-                        id="upload-button"
-                        onClick={this.handleFileUpload}
-                        disabled
-                  >
-                      {this.state.uploadButtonStatus}
+            <div className="con">
+            <form onSubmit={this.handleFileSelection} className="algo-upload-con">
+                <input type="text" name="name" placeholder="Name" required/>
+                <input type="text" name="description" placeholder="Description" required/>
+                <input className="file-upload" type="file" name="file" id="file" onChange={this.handleFileSelection}/>
+                <label htmlFor="file">{this.state.fileName}</label>
+                {this.state.file &&
+                  <button id="upload-button">
+                    {this.state.uploadButtonStatus}
                   </button>
+                }
+            </form>
             </div>
         );
     }
