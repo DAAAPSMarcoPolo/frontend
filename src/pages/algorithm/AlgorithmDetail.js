@@ -24,7 +24,8 @@ class AlgorithmDetail extends Component {
             backtestSelected: null,
             start_date: new Date() /* 2019-3-1 */,
             end_date: new Date(),
-            stats: {}
+            stats: {},
+            loading: true
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
@@ -35,9 +36,12 @@ class AlgorithmDetail extends Component {
         this.getBacktestList = this.getBacktestList.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
     }
-    componentDidMount() {
-        this.getBacktestList();
-        this.getAlgorithmDetails();
+    async componentDidMount() {
+        Promise.all([this.getBacktestList(), this.getAlgorithmDetails()]).then(
+            () => {
+                this.setState({ loading: false });
+            }
+        );
     }
     getBacktestList = async () => {
         const { algoID } = this.props.match.params;
@@ -98,8 +102,11 @@ class AlgorithmDetail extends Component {
     };
     selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
-        if (this.state.backtestSelected && id === this.state.backtestSelected.backtest.id) {
-          return;
+        if (
+            this.state.backtestSelected &&
+            id === this.state.backtestSelected.backtest.id
+        ) {
+            return;
         }
         const bt = backtestSelected.backtest;
         const start = new Date(bt.start_date);
@@ -144,24 +151,23 @@ class AlgorithmDetail extends Component {
                 this.setState({ error: null });
             }, 5000);
         } else {
-          const formData = {
-              strategy: this.state.strategy,
-              universe: this.state.universeId,
-              start_date: e.target.startDate.value,
-              end_date: e.target.endDate.value,
-              initial_funds: e.target.initial_funds.value
-          };
-          const res = await api.Post('/backtest/', formData);
-          if (res.status !== 200) {
-              this.setState({ error: res.statusText });
-              setTimeout(() => {
-                this.setState({ error: null });
-              }, 5000);
-          }
-          this.toggleBacktestForm();
+            const formData = {
+                strategy: this.state.strategy,
+                universe: this.state.universeId,
+                start_date: e.target.startDate.value,
+                end_date: e.target.endDate.value,
+                initial_funds: e.target.initial_funds.value
+            };
+            const res = await api.Post('/backtest/', formData);
+            if (res.status !== 200) {
+                this.setState({ error: res.statusText });
+                setTimeout(() => {
+                    this.setState({ error: null });
+                }, 5000);
+            }
+            this.toggleBacktestForm();
         }
     };
-
 
     handleStartDateSelect(startDate) {
         this.setState({ startDate });
