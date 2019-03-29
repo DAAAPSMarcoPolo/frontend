@@ -278,6 +278,7 @@ h1 {
   display: flex;
   padding: 40px;
   width: 90%;
+  max-width: 90vw;
 }
 
 .fullWidth {
