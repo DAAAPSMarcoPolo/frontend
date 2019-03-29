@@ -95,6 +95,9 @@ class AlgorithmDetail extends Component {
         const bt = backtestSelected.backtest;
         const start = new Date(bt.start_date);
         const end = new Date(bt.end_date);
+
+        console.log(start);
+        console.log(end);
         const timeDiff = Math.abs(end.getTime() - start.getTime());
         const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         const per_gain = (
@@ -106,9 +109,10 @@ class AlgorithmDetail extends Component {
         console.log(per_gain);
         backtestSelected.backtest.percent_gain =
             per_gain == !NaN ? 0 : per_gain;
-        backtestSelected.backtest.num_days = diffDays;
-        backtestSelected.backtest.start_date = `${start.getMonth()}-${start.getDay()}-${start.getFullYear()}`;
-        backtestSelected.backtest.end_date = `${end.getMonth()}-${end.getDay()}-${end.getFullYear()}`;
+        // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
+        backtestSelected.backtest.num_days = diffDays + 4;
+        backtestSelected.backtest.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
+        backtestSelected.backtest.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
         this.setState({ backtestSelected });
         console.log('set backtest: ' + backtestSelected);
         return;
