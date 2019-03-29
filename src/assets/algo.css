@@ -37,7 +37,8 @@
 }
 
 .algo-card:hover {
-    background-color: rgba(40, 40, 40, 0.9);
+  background-color: rgba(40, 40, 40, 0.9);
+  opacity: .9;
 }
 .boundaries-algo {
     padding-left: 0.2rem;
@@ -159,10 +160,12 @@ p {
     text-align: left;
 }
 .transaction_table {
-    border-radius: 0px 5px;
-    width: 100%;
-    padding: 10px;
-    background: #282828;
+  border-radius: 0px 5px;
+  width: 100%;
+  padding: 10px;
+  background: #282828;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .backtest .active {
@@ -172,6 +175,7 @@ p {
 .select-backtest {
     cursor: pointer;
     opacity: 0.8;
+  cursor: pointer;
 }
 
 .tab {
@@ -196,4 +200,13 @@ p {
 
 .active {
     background: #282828;
+}
+
+.transaction_table::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+.transaction_table::-webkit-scrollbar-thumb {
+    background: #FF0000;
 }
