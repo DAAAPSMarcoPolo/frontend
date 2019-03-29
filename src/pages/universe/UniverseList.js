@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import api from '../../utils/api';
-import { withCookies } from 'react-cookie';
 import '../../assets/universe.css'
 
 class UniverseList extends Component {
@@ -98,4 +97,4 @@ class UniverseList extends Component {
     }
 }
 
-export default withCookies(UniverseList);
+export default UniverseList;
