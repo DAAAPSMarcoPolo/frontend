@@ -21,7 +21,8 @@ class AlgorithmDetail extends Component {
             backtestSelected: null,
             start_date: new Date() /* 2019-3-1 */,
             end_date: new Date(),
-            stats: {}
+            stats: {},
+            loading: true
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
@@ -32,9 +33,12 @@ class AlgorithmDetail extends Component {
         this.getBacktestList = this.getBacktestList.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
     }
-    componentDidMount() {
-        this.getBacktestList();
-        this.getAlgorithmDetails();
+    async componentDidMount() {
+        Promise.all([this.getBacktestList(), this.getAlgorithmDetails()]).then(
+            () => {
+                this.setState({ loading: false });
+            }
+        );
     }
     getBacktestList = async () => {
         const { algoID } = this.props.match.params;
@@ -168,7 +172,7 @@ class AlgorithmDetail extends Component {
     };
     render() {
         const { algoID } = this.props.match.params;
-        if (this.state.algo_details && this.state.backtestSelected) {
+        if (!this.state.loading) {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
