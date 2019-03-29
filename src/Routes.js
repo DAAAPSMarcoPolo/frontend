@@ -9,7 +9,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Upload from './pages/upload/Upload';
 import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
 import AlgorithmList from './pages/algorithm/AlgorithmList';
-import Universe from "./pages/universe/Universe";
+import UniverseList from "./pages/universe/UniverseList";
 
 const Routes = () => (
     <Switch>
@@ -29,7 +29,7 @@ const Routes = () => (
             component={AlgorithmDetail}
         />
         <ProtectedRoute path="/algorithms" component={AlgorithmList} />
-        <ProtectedRoute path="/universes" component={Universe} />
+        <ProtectedRoute path="/universes" component={UniverseList} />
         />
     </Switch>
 );
