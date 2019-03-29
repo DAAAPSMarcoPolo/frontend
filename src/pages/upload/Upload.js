@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FileSelection from './FileSelection';
+import { Redirect } from 'react-router-dom';
+
 import api from '../../utils/api.js';
 import '../../assets/upload.css';
 import '../../App.css';
