@@ -4,7 +4,6 @@ import EditProfile from './EditProfile';
 import edit from '../../assets/images/edit-icon.png';
 import x from '../../assets/images/x-icon.png';
 import '../admin/admin.css';
-import {BACKEND_DIR} from '../../utils/config';
 
 class Settings extends Component {
     constructor(props) {
@@ -38,9 +37,6 @@ class Settings extends Component {
     }
 
     async componentDidMount() {
-        const formData = {
-            username: this.state.username
-        };
         this.getProfilePicture();
         const res = await api.Get('/api/user/settings/');
         const { user } = res.data;
@@ -65,6 +61,7 @@ class Settings extends Component {
                 } else if (res.status === 401) {
                     if (res.message) {
                         this.setState({ error: res.message });
+                        setTimeout(() => { this.setState({error: null}); }, 5000);
                     }
                 }
             });
@@ -82,11 +79,11 @@ class Settings extends Component {
             return res.json().then(data => {
                 if (res.status === 200 && data.token) {
                     // the response returned a success
-                    console.log('/user/settings/', 'success');
                     this.setState({ showConfirm: !this.state.showConfirm });
                 } else if (res.status === 401) {
                     if (res.message) {
                         this.setState({ error: res.message });
+                        setTimeout(() => { this.setState({error: null}); }, 5000);
                     }
                 }
             });
@@ -106,30 +103,23 @@ class Settings extends Component {
 
       if (this.state.file != null) {
         const formData = new FormData();
-        console.log('pic', this.state.file);
         formData.append('avatar', this.state.file);
         const response = await api.PostFile('/profilepicture/', formData);
         console.log(response);
         if (response.status === 200) {
             // the response returned a success
             const url = `https://marcopoloinvestment.club${response.data}`;
-            console.log('url', url);
-            console.log(
-                '/profilepicture/',
-                'success',
-                response,
-                'url',
-                response.data
-            );
             this.setState({ file: url });
             // this.setState({showConfirm: !this.state.showConfirm});
         } else if (response.status === 401) {
             if (response.message) {
               this.setState({ error: response.message });
+              setTimeout(() => { this.setState({error: null}); }, 5000);
             }
         }
       } else {
-        console.log("please upload a file");
+        this.setState({ error: "please upload a file" });
+        setTimeout(() => { this.setState({error: null}); }, 5000);
       }
     };
     showEditProfile = () => {

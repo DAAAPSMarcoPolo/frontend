@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
 import '../../assets/universe.css'
 import drop from '../../assets/images/drop-icon.png';
@@ -25,9 +24,7 @@ class ChooseUniverse extends Component {
         const response = await api.Get('/universe/');
         if (response.status !== 200){
           this.setState({ error:response.statusText });
-          setTimeout(() => {
-            this.setState({error: null});
-          }, 5000)
+          setTimeout(() => { this.setState({error: null}); }, 5000);
         } else {
           this.setState({universeList: response.data});
         }
@@ -60,12 +57,12 @@ class ChooseUniverse extends Component {
                   <div className="errorClass"> {this.state.error && this.state.error} </div>
                   {this.state.showUniverse && this.state.universeList.map((item) => (
                       <div key={item.id} className='panel-title'  onClick={(e) => this.selectUniverse(item.name, item.id, e)}>
-                        <a>{item.name}</a>
+                        {item.name}
                       </div>
                   ))}
                   {this.state.universe &&
                     <button className='greenButton'  onClick={(e) => this.selectUniverse(this.state.universe, this.state.universe, e)}>
-                      <a>{this.state.universeName}</a>
+                      {this.state.universeName}
                     </button>
                   }
                 </div>

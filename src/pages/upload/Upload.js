@@ -1,9 +1,4 @@
-//Module Dependencies
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { withCookies } from 'react-cookie';
-
-//Custom Dependencies
 import FileSelection from './FileSelection';
 import api from '../../utils/api.js';
 import '../../assets/upload.css';
@@ -96,13 +91,6 @@ class Upload extends Component {
     };
 
     render() {
-        const { cookies } = this.props;
-        const isAuthenticated = cookies.get('isAuthenticated');
-        const isAdmin = cookies.get('isAdmin');
-        // TODO: Remove after development
-        // if (isAuthenticated === "false" || !isAuthenticated) {
-        //     return (<Redirect to="/login"/>);
-        // }
         let uploadButton;
         if (this.state.uploadButtonStatus === 'Enabled') {
             uploadButton = (
@@ -168,4 +156,4 @@ class Upload extends Component {
     }
 }
 
-export default withCookies(Upload);
+export default Upload;

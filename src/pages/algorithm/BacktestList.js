@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import '../../assets/algo.css';
 
 const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
@@ -11,7 +10,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                         className={`tab select-backtest ${backtestSelected
                             .backtest.id === backtest.backtest.id && 'active'}`}
                         key={i}
-                        onClick={() => selectBacktest(i)}
+                        onClick={() => selectBacktest(i, backtest.backtest.id)}
                     >
                         {' '}
                         {backtest.backtest.id}
