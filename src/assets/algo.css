@@ -1,3 +1,5 @@
+
+
 .nav-overflow {
   overflow-x: auto;
   overflow-y: hidden;
@@ -140,6 +142,8 @@ table {
   width: 100%;
   padding: 10px;
   background: #282828;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .backtest .active {
@@ -148,7 +152,6 @@ table {
 
 .select-backtest {
   cursor: pointer;
-  opacity: .8;
 }
 
 .tab {
@@ -173,4 +176,13 @@ table {
 
 .active {
   background: #282828;
+}
+
+.transaction_table::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+.transaction_table::-webkit-scrollbar-thumb {
+    background: #FF0000;
 }

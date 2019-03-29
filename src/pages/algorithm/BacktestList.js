@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/algo.css';
 
-const BacktestList = ({ backtests, selectTab, backtestSelected }) => (
+const BacktestList = ({ backtests, selectTab, backtestSelected, transactions }) => (
   <div className="backtest margins">
     <ul className="nav-tabs nav nav-overflow scroll">
       {backtests.map((backtest, i) => <li className={`tab select-backtest ${backtestSelected === backtest.backtest.id && 'active'}`} key={i} onClick={(e) => selectTab(backtest.backtest.id, e)}> {backtest.backtest.id}</li> )}
@@ -18,28 +18,28 @@ const BacktestList = ({ backtests, selectTab, backtestSelected }) => (
           <th>Sell Price</th>
           <th>Sell Time</th>
         </tr>
-        {backtests.map((trades, i) =>
+        {transactions && transactions.map((transactions, i) =>
           <tr key={i}>
              <td className="tab">
-              #{trades.trades.id}
+              #{transactions.id}
              </td>
              <td className="tab">
-              {trades.trades.symbol}
+              {transactions.symbol}
              </td>
              <td className="tab">
-              ${trades.trades.buy_price}
+              ${transactions.buy_price}
              </td>
              <td className="tab">
-              {trades.trades.buy_time}
+              {transactions.buy_time}
              </td>
              <td className="tab">
-              {trades.trades.qty}
+              {transactions.qty}
              </td>
              <td className="tab">
-              {trades.trades.sell_price}
+              {transactions.sell_price}
              </td>
              <td className="tab">
-              {trades.trades.sell_time}
+              {transactions.sell_time}
              </td>
           </tr>
         )}

@@ -21,6 +21,7 @@ class AlgorithmDetail extends Component {
             algo_details: null,
             backtests: null,
             backtestSelected: null,
+            transactions: null,
             start_date: new Date(), /* 2019-3-1 */
             end_date: new Date(),
             stats: {
@@ -45,7 +46,7 @@ class AlgorithmDetail extends Component {
         this.getAlgorithmList = this.getAlgorithmList.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.getAlgorithmList = this.getAlgorithmList.bind(this);
-
+        this.getBacktestDetail = this.getBacktestDetail.bind(this);
     }
     componentDidMount() {
       this.getBacktestList();
@@ -53,7 +54,6 @@ class AlgorithmDetail extends Component {
     }
     getBacktestList = async () => {
       const { algoID } = this.props.match.params;
-      console.log('algoId', algoID);
       // GET /api/algorithm/
       const res = await api.Get(`/strategybacktests/${algoID}`);
       console.log('getBacktestList',res);
@@ -62,19 +62,16 @@ class AlgorithmDetail extends Component {
       } else if (res.data) {
         this.setState({ response: true, backtestCount: res.data.length, backtests: res.data });
         if (res.data.length > 0) {
-          console.log('res.length', res.data.length, res.data[0].backtest.id);
           this.setState({ backtestSelected:  res.data[0].backtest.id });
+          this.getBacktestDetail();
         }
-        console.log('backtest selected', this.state.backtestSelected);
       }
       setTimeout(() => {
         this.setState({error: null});
       }, 5000)
-
     };
     getAlgorithmList = async () => {
       const { algoID } = this.props.match.params;
-      console.log('algoId', algoID);
       // GET /api/algorithm/
       const res = await api.Get(`/algorithm/${algoID}`);
       console.log('AlgorithmList', res);
@@ -89,6 +86,14 @@ class AlgorithmDetail extends Component {
       }, 5000)
 
     };
+    getBacktestDetail = async () => {
+      const { algoID } = this.props.match.params;
+      const response = await api.Get("/backtest/"+ this.state.backtestSelected + "/");
+      console.log('transform', response);
+      this.setState({transactions: response.data.trades});
+      console.log('this.state.transactions', this.state.transactions);
+    };
+
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
@@ -132,11 +137,9 @@ class AlgorithmDetail extends Component {
     };
     selectBacktest = (backtestId, e) => {
       e.persist();
-      console.log('backtestId', backtestId);
-      if (backtestId !== this.state.backtestSelected) {
-        this.setState({ backtestSelected: backtestId });
-      }
-      this.getBacktestList();
+      this.setState({ backtestSelected: backtestId });
+      console.log('backtestId', this.state.backtestSelected);
+      this.getBacktestDetail();
     };
     render() {
         const { algoID } = this.props.match.params;
@@ -167,6 +170,7 @@ class AlgorithmDetail extends Component {
                       backtests={this.state.backtests}
                       selectTab={this.selectBacktest}
                       backtestSelected={this.state.backtestSelected}
+                      transactions={this.state.transactions}
                     />
                   }
                   <Stats
