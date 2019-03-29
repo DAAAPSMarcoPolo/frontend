@@ -154,10 +154,12 @@ class AlgorithmDetail extends Component {
         if (this.state.algo_details) {
             return (
                 <div className="fullWidth">
+                  <div className="title-info">
                     <h3>{this.state.algo_details.name}</h3>
                     <h5>{this.state.backtestCount} Backtests Total</h5>
                     <p>{this.state.algo_details.description}</p>
                     <div className="errorClass"> {this.state.error && this.state.error}</div>
+                    </div>
                     {this.state.showBacktestForm ? (
                         <BacktestForm
                             error={this.state.error}
@@ -167,12 +169,7 @@ class AlgorithmDetail extends Component {
                             handleSelectUniverse={this.handleSelectUniverse}
                         />
                     ) : (
-                        <button
-                            className="maxWidth position-corner greenButton"
-                            onClick={this.toggleBacktestForm}
-                        >
-                            Create new Backtest
-                        </button>
+                        <button className="maxWidth position-corner greenButton" onClick={this.toggleBacktestForm}>Create new Backtest</button>
                     )}
                     {this.state.backtestSelected && (
                         <BacktestList

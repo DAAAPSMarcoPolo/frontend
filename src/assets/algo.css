@@ -124,12 +124,12 @@ p {
     top: 59px;
     right: 55px;
 }
-
+.title-info {
+  display: inline-block;
+}
 .position-corner {
-    z-index: 1000;
-    position: absolute;
-    top: 50px;
-    right: 20px;
+  float: right;
+  margin-top: 0px;
 }
 
 .maxWidth {
