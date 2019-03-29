@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
 import { withCookies } from 'react-cookie';
 import '../../assets/universe.css'
@@ -14,7 +13,7 @@ class UniverseList extends Component {
         this.addStock = this.addStock.bind();
         this.add = this.add.bind();
     }
-    
+
     componentDidMount(){
         this.getUniverses();
     }
@@ -37,7 +36,7 @@ class UniverseList extends Component {
     add = async (e, universe) => {
         e.preventDefault();
         e.persist();
-        if (e.target.newstockname !== null && e.target.newstockname.value != ""){
+        if (e.target.newstockname !== null && e.target.newstockname.value !== ""){
             console.log("Adding stock", e.target.newstockname.value);
             console.log(universe.id);
             console.log(universe);
@@ -54,10 +53,6 @@ class UniverseList extends Component {
     };
 
     render(){
-        const { cookies } = this.props;
-        const isAuthenticated = cookies.get('isAuthenticated');
-        const isAdmin = cookies.get('isAdmin');
-
         return (
             <div>
                 <div className="container">
