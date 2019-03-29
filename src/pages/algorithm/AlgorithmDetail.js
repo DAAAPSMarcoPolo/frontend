@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { withCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
 import BacktestVote from './BacktestVote';
@@ -76,7 +74,6 @@ class AlgorithmDetail extends Component {
           }, 5000);
       };
     getBacktestDetail = async () => {
-      const { algoID } = this.props.match.params;
       const response = await api.Get("/backtest/"+ this.state.backtestSelected + "/");
       console.log('transform', response);
       this.setState({transactions: response.data.trades});
@@ -98,11 +95,9 @@ class AlgorithmDetail extends Component {
             ((bt.end_cash - bt.initial_cash) / bt.initial_cash) *
             100
         ).toFixed(2);
-        const a = 1;
-        const b = 2;
         console.log(per_gain);
         backtestSelected.backtest.percent_gain =
-            per_gain == !NaN ? 0 : per_gain;
+            per_gain === !NaN ? 0 : per_gain;
         backtestSelected.backtest.num_days = diffDays;
         backtestSelected.backtest.start_date = `${start.getMonth()}-${start.getDay()}-${start.getFullYear()}`;
         backtestSelected.backtest.end_date = `${end.getMonth()}-${end.getDay()}-${end.getFullYear()}`;
@@ -151,7 +146,6 @@ class AlgorithmDetail extends Component {
     };
     render() {
         const { algoID } = this.props.match.params;
-        const { algo_details } = this.state;
         if (this.state.algo_details) {
             return (
                 <div className="fullWidth">
@@ -197,4 +191,4 @@ class AlgorithmDetail extends Component {
     }
 }
 
-export default withCookies(AlgorithmDetail);
+export default AlgorithmDetail;
