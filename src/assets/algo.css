@@ -1,7 +1,6 @@
 .tab {
     min-width: 200px;
     max-width: 250px;
-    padding: 10px;
     background: #1f1f1f;
     border-radius: 30px 30px 0px 0px;
     text-align: center;
@@ -156,9 +155,9 @@ p {
 }
 
 .transaction-table {
+  table-layout: auto;
   border-radius: 0px 5px;
   width: 100%;
-  padding: 10px;
   background: #282828;
   overflow: scroll;
   max-height: 500px;
@@ -170,20 +169,9 @@ p {
 
 .select-backtest {
     cursor: pointer;
+    padding: 10px;
 }
 
-.tab {
-    min-width: 200px;
-    max-width: 250px;
-    padding: 10px;
-    background: #1f1f1f;
-    border-radius: 30px 30px 0px 0px;
-    text-align: center;
-    border-bottom: 0px;
-    text-transform: uppercase;
-    font-family: 'Proxima Nova', sans-serif;
-    font-weight: bold;
-}
 
 .transaction-table .tab {
     text-align: left;
