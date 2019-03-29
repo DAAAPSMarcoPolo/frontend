@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
 import '../../assets/universe.css'
 import drop from '../../assets/images/drop-icon.png';
