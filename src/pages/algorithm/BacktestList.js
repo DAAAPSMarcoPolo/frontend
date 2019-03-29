@@ -4,7 +4,7 @@ import '../../assets/algo.css';
 
 const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
     <div className="backtest margins">
-        <ul className="nav-tabs nav nav-overflow scroll">
+        <ul className="nav-tabs nav-overflow scroll-hide">
             {backtests && backtests.map((backtest, i) => <li className={`tab select-backtest ${backtestSelected.backtest.id === backtest.backtest.id && 'active'}`} key={i} onClick={() => selectBacktest(i)}> {backtest.backtest.id}</li> )}
         </ul>
         <div className="padding">

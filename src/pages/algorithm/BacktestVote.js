@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../assets/algo.css';
 
 const BacktestVote = ({ data }) => {
     let title;
@@ -28,7 +29,7 @@ const BacktestVote = ({ data }) => {
     }
 
     return (
-        <div className="card bg-dark">
+        <div className="con">
             <h4>Backtest vote component</h4>
             {title}
             <ul>{votes}</ul>

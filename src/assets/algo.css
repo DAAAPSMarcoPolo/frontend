@@ -15,8 +15,25 @@
     overflow-x: auto;
     overflow-y: hidden;
     display: -webkit-box;
+    margin: 0;
+    padding: 0;
 }
 
+.scroll-hide {
+
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+    width: 0px;
+    height: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.scroll-hide::-webkit-scrollbar { width: 0 !important }
 .algo-card {
     width: 700px;
     background-color: #282828;
@@ -186,4 +203,9 @@ p {
 .backtest .padding {
     background: #282828;
     border-radius: 0px 0px 5px 5px;
+}
+
+.percent h1 {
+  font-weight: bolder;
+  font-size: 30px;
 }
