@@ -59,12 +59,12 @@ class ChooseUniverse extends Component {
                   <div className="errorClass"> {this.state.error && this.state.error} </div>
                   {this.state.showUniverse && this.state.universeList.map((item) => (
                       <div key={item.id} className='panel-title'  onClick={(e) => this.selectUniverse(item.name, item.id, e)}>
-                        <a>{item.name}</a>
+                        {item.name}
                       </div>
                   ))}
                   {this.state.universe &&
                     <button className='greenButton'  onClick={(e) => this.selectUniverse(this.state.universe, this.state.universe, e)}>
-                      <a>{this.state.universeName}</a>
+                      {this.state.universeName}
                     </button>
                   }
                 </div>
