@@ -23,7 +23,8 @@ class AlgorithmDetail extends Component {
             backtests: null,
             backtestSelected: null,
             start_date: new Date() /* 2019-3-1 */,
-            end_date: new Date()
+            end_date: new Date(),
+            stats: {}
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
@@ -91,32 +92,40 @@ class AlgorithmDetail extends Component {
     };
     selectBacktest = i => {
         const backtestSelected = this.state.backtests[i];
-        console.log(this.state.backtests);
         const bt = backtestSelected.backtest;
         const start = new Date(bt.start_date);
         const end = new Date(bt.end_date);
-
-        console.log(start);
-        console.log(end);
         const timeDiff = Math.abs(end.getTime() - start.getTime());
         const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         const per_gain = (
             ((bt.end_cash - bt.initial_cash) / bt.initial_cash) *
             100
         ).toFixed(2);
-        const a = 1;
-        const b = 2;
-        console.log(per_gain);
-        backtestSelected.backtest.percent_gain =
-            per_gain == !NaN ? 0 : per_gain;
         // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
-        backtestSelected.backtest.num_days = diffDays + 4;
-        backtestSelected.backtest.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
-        backtestSelected.backtest.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
-        this.setState({ backtestSelected });
-        console.log('set backtest: ' + backtestSelected);
+        const stats = {};
+        stats.initial_cash =
+            '$ ' +
+            this.numberWithCommas(
+                backtestSelected.backtest.initial_cash.toFixed(2)
+            );
+        stats.end_cash =
+            '$ ' +
+            this.numberWithCommas(
+                backtestSelected.backtest.end_cash.toFixed(2)
+            );
+        stats.sharpe = backtestSelected.backtest.sharpe;
+        stats.percent_gain = per_gain == !NaN ? 0 : per_gain;
+        stats.num_days = diffDays + 4;
+        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
+        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
+        this.setState({ backtestSelected, stats });
         return;
     };
+
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     createBacktest = async e => {
         e.preventDefault();
         e.persist();
@@ -196,7 +205,7 @@ class AlgorithmDetail extends Component {
                     {this.state.backtestSelected && (
                         <Stats
                             start={this.state.algo_details.created_at}
-                            data={this.state.backtestSelected.backtest}
+                            data={this.state.stats}
                         />
                     )}
                     {this.state.backtestSelected && (
