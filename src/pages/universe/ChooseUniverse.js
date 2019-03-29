@@ -24,9 +24,7 @@ class ChooseUniverse extends Component {
         const response = await api.Get('/universe/');
         if (response.status !== 200){
           this.setState({ error:response.statusText });
-          setTimeout(() => {
-            this.setState({error: null});
-          }, 5000)
+          setTimeout(() => { this.setState({error: null}); }, 5000);
         } else {
           this.setState({universeList: response.data});
         }

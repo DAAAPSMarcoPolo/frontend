@@ -43,6 +43,7 @@ class AlgorithmDetail extends Component {
           console.log('getBacktestList', res);
           if (res.status !== 200) {
               this.setState({ error: res.statusText });
+              setTimeout(() => { this.setState({error: null}); }, 5000);
           } else if (res.data) {
               this.setState({
                   response: true,
@@ -64,14 +65,14 @@ class AlgorithmDetail extends Component {
           console.log('Algorithm Details', res);
           if (res.status !== 200) {
               this.setState({ error: res.statusText });
+              setTimeout(() => {
+                this.setState({ error: null });
+              }, 5000);
           } else if (res.data) {
               this.setState({
                   algo_details: res.data.algo_details
               });
           }
-          setTimeout(() => {
-              this.setState({ error: null });
-          }, 5000);
       };
     getBacktestDetail = async () => {
       const response = await api.Get("/backtest/"+ this.state.backtestSelected + "/");
@@ -124,11 +125,11 @@ class AlgorithmDetail extends Component {
           const res = await api.Post('/backtest/', formData);
           if (res.status !== 200) {
               this.setState({ error: res.statusText });
+              setTimeout(() => {
+                this.setState({ error: null });
+              }, 5000);
           }
           this.toggleBacktestForm();
-          setTimeout(() => {
-              this.setState({ error: null });
-          }, 5000);
         }
     };
 
