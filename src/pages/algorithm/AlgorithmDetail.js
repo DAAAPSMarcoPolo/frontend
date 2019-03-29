@@ -13,7 +13,6 @@ class AlgorithmDetail extends Component {
         this.state = {
             error: null,
             backtestCount: '--',
-            response: false,
             showBacktestForm: false,
             strategy: this.props.match.params.algoID,
             universeId: null,
@@ -167,7 +166,7 @@ class AlgorithmDetail extends Component {
     };
     render() {
         const { algoID } = this.props.match.params;
-        if (this.state.algo_details && this.state.backtestSelected) {
+        if (this.state.algo_details) {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
