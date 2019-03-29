@@ -40,10 +40,8 @@ class AlgorithmDetail extends Component {
     }
     getBacktestList = async () => {
           const { algoID } = this.props.match.params;
-          console.log('algoId', algoID);
           // GET /api/algorithm/
           const res = await api.Get(`/strategybacktests/${algoID}`);
-          console.log('getBacktestList', res);
           if (res.status !== 200) {
               this.setState({ error: res.statusText });
           } else if (res.data) {
@@ -52,7 +50,6 @@ class AlgorithmDetail extends Component {
                   backtestCount: res.data.length,
                   backtests: res.data
               });
-              console.log('backtests', this.state.backtests);
           }
           if (this.state.backtestCount > 0) {
               this.selectBacktest(0);
@@ -64,7 +61,6 @@ class AlgorithmDetail extends Component {
       getAlgorithmDetails = async () => {
           const { algoID } = this.props.match.params;
           const res = await api.Get(`/algorithm/${algoID}`);
-          console.log('Algorithm Details', res);
           if (res.status !== 200) {
               this.setState({ error: res.statusText });
           } else if (res.data) {
@@ -79,9 +75,7 @@ class AlgorithmDetail extends Component {
     getBacktestDetail = async () => {
       const { algoID } = this.props.match.params;
       const response = await api.Get("/backtest/"+ this.state.backtestSelected + "/");
-      console.log('transform', response);
       this.setState({transactions: response.data.trades});
-      console.log('this.state.transactions', this.state.transactions);
     };
 
     toggleBacktestForm = () => {
@@ -89,7 +83,6 @@ class AlgorithmDetail extends Component {
     };
     selectBacktest = i => {
         const backtestSelected = this.state.backtests[i];
-        console.log(this.state.backtests);
         const bt = backtestSelected.backtest;
         const start = new Date(bt.start_date);
         const end = new Date(bt.end_date);
@@ -101,14 +94,12 @@ class AlgorithmDetail extends Component {
         ).toFixed(2);
         const a = 1;
         const b = 2;
-        console.log(per_gain);
         backtestSelected.backtest.percent_gain =
             per_gain == !NaN ? 0 : per_gain;
         backtestSelected.backtest.num_days = diffDays;
         backtestSelected.backtest.start_date = `${start.getMonth()}-${start.getDay()}-${start.getFullYear()}`;
         backtestSelected.backtest.end_date = `${end.getMonth()}-${end.getDay()}-${end.getFullYear()}`;
         this.setState({ backtestSelected });
-        console.log('set backtest: ' + backtestSelected);
         return;
     };
     createBacktest = async e => {
@@ -119,23 +110,25 @@ class AlgorithmDetail extends Component {
             setTimeout(() => {
                 this.setState({ error: null });
             }, 5000);
+        } else {
+          const formData = {
+              strategy: this.state.strategy,
+              universe: this.state.universeId,
+              start_date: e.target.startDate.value,
+              end_date: e.target.endDate.value,
+              initial_funds: e.target.initial_funds.value
+          };
+          const res = await api.Post('/backtest/', formData);
+          if (res.status !== 200) {
+              this.setState({ error: res.statusText });
+          }
+          this.toggleBacktestForm();
+          setTimeout(() => {
+              this.setState({ error: null });
+          }, 5000);
         }
-        const formData = {
-            strategy: this.state.strategy,
-            universe: this.state.universeId,
-            start_date: e.target.startDate.value,
-            end_date: e.target.endDate.value,
-            initial_funds: e.target.initial_funds.value
-        };
-        const res = await api.Post('/backtest/', formData);
-        if (res.status !== 200) {
-            this.setState({ error: res.statusText });
-        }
-        this.toggleBacktestForm();
-        setTimeout(() => {
-            this.setState({ error: null });
-        }, 5000);
     };
+
 
     handleStartDateSelect(startDate) {
         this.setState({ startDate });
