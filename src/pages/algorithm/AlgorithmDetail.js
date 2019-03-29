@@ -17,7 +17,7 @@ class AlgorithmDetail extends Component {
             backtestCount: '--',
             response: false,
             showBacktestForm: false,
-            strategy: null,
+            strategy: this.props.match.params.algoID,
             universeId: null,
             algo_details: null,
             backtests: null,
