@@ -13,6 +13,9 @@ class AlgorithmDetail extends Component {
         this.state = {
             error: null,
             backtestCount: '--',
+            response1: false,
+            response2: false,
+            loaded: false,
             showBacktestForm: false,
             strategy: this.props.match.params.algoID,
             universeId: null,
@@ -42,11 +45,14 @@ class AlgorithmDetail extends Component {
         // GET /api/algorithm/
         const res = await api.Get(`/strategybacktests/${algoID}`);
         console.log('getBacktestList', res);
+        this.setState({ response1: true });
+        if (this.state.response2) {
+          this.setState({loaded:true});
+        }
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
         } else if (res.data) {
             this.setState({
-                response: true,
                 backtestCount: res.data.length,
                 backtests: res.data
             });
@@ -63,6 +69,10 @@ class AlgorithmDetail extends Component {
         const { algoID } = this.props.match.params;
         const res = await api.Get(`/algorithm/${algoID}`);
         console.log('Algorithm Details', res);
+        this.setState({response2:true});
+        if (this.state.response1) {
+          this.setState({loaded:true});
+        }
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
         } else if (res.data) {
@@ -166,7 +176,7 @@ class AlgorithmDetail extends Component {
     };
     render() {
         const { algoID } = this.props.match.params;
-        if (this.state.algo_details) {
+        if (this.state.algo_details && this.state.loaded) {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
