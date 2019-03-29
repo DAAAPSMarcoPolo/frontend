@@ -1,44 +1,21 @@
-import React, {Component} from 'react'
+import React from 'react'
 import '../../assets/upload.css';
 import '../../App.css';
 
-
-class FileSelection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            filename: ""
+const FileSelection = ({ handleFileSelection, handleFileUpload, fileName, file }) => (
+  <div>
+    <form onSubmit={handleFileSelection}>
+        <input type="text" name="name" placeholder="Name" required/>
+        <input type="text" name="description" placeholder="Description" required/>
+        <input className="file-upload" type="file" name="file" id="file" onChange={handleFileSelection}/>
+        <label htmlFor="file">{fileName}</label>
+        {file &&
+          <button id="upload-button">
+            Upload Algorithm
+          </button>
         }
-    }
-
-    filename = () => {
-        if (this.props.file != null) {
-            return this.props.file.name
-        } else {
-            return ""
-        }
-    };
-
-    render() {
-        let labelValue;
-        if (this.props.filename == null) {
-            labelValue = "Choose algorithm here";
-        } else {
-            labelValue = this.props.filename;
-        }
-
-        return (
-            <div>
-                <form action="">
-                    <input className="file-upload" type="file" name="file" id="file"
-                           onChange={this.props.handleFileSelection}/>
-                    <input type="text" name="Algo Name" defaultValue="Name" onChange={this.props.handleAlgoName} required/>
-                    <input type="text" name="Algorithm Description" defaultValue="Description" onChange={this.props.handleAlgoDescription} required/>
-                    <label htmlFor="file">{labelValue}</label>
-                </form>
-            </div>
-        )
-    }
-}
+    </form>
+  </div>
+);
 
 export default FileSelection;
