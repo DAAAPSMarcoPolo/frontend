@@ -30,9 +30,11 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                 {backtestSelected.trades &&
                     backtestSelected.trades.map((el, i) => (
                         <tr key={i}>
-                            <td className="tab">{el.symbol}</td>
-                            <td className="tab">${el.buy_price}</td>
-                            <td className="tab">
+                            <td className="tab trans-col">{el.symbol}</td>
+                            <td className="tab trans-col">
+                                $ {el.buy_price.toFixed(2)}
+                            </td>
+                            <td className="tab trans-col">
                                 {`${new Date(
                                     el.buy_time
                                 ).getFullYear()}-${new Date(
@@ -41,9 +43,11 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                                     el.buy_time
                                 ).getDate()}`}
                             </td>
-                            <td className="tab">{el.qty}</td>
-                            <td className="tab">{el.sell_price}</td>
-                            <td className="tab">
+                            <td className="tab trans-col">{el.qty}</td>
+                            <td className="tab trans-col">
+                                $ {el.sell_price.toFixed(2)}
+                            </td>
+                            <td className="tab trans-col">
                                 {`${new Date(
                                     el.sell_time
                                 ).getFullYear()}-${new Date(

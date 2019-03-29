@@ -10,6 +10,10 @@
     font-weight: bold;
 }
 
+.trans-col {
+    min-width: 175px;
+}
+
 .nav-overflow {
     overflow-x: auto;
     overflow-y: hidden;
@@ -20,20 +24,21 @@
 }
 
 .scroll-hide {
-
-  overflow: -moz-scrollbars-none;
-  -ms-overflow-style: none;
-  scrollbar-width: none; /* Firefox */
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* Firefox */
 }
 
 .scroll-hide::-webkit-scrollbar {
-  display: none;
+    display: none;
     width: 0px;
     height: 0px;
     background: transparent; /* make scrollbar transparent */
 }
 
-.scroll-hide::-webkit-scrollbar { width: 0 !important }
+.scroll-hide::-webkit-scrollbar {
+    width: 0 !important;
+}
 .algo-card {
     width: 700px;
     background-color: #282828;
@@ -51,7 +56,7 @@
 }
 
 .algo-card:hover {
-  opacity: .9;
+    opacity: 0.9;
 }
 .boundaries-algo {
     padding-left: 0.2rem;
@@ -125,11 +130,11 @@ p {
     right: 55px;
 }
 .title-info {
-  display: inline-block;
+    display: inline-block;
 }
 .position-corner {
-  float: right;
-  margin-top: 0px;
+    float: right;
+    margin-top: 0px;
 }
 
 .maxWidth {
@@ -155,12 +160,12 @@ p {
 }
 
 .transaction-table {
-  table-layout: auto;
-  border-radius: 0px 5px;
-  width: 100%;
-  background: #282828;
-  overflow: scroll;
-  max-height: 500px;
+    table-layout: auto;
+    border-radius: 0px 5px;
+    width: 100%;
+    background: #282828;
+    overflow: scroll;
+    max-height: 500px;
 }
 
 .backtest .active {
@@ -171,7 +176,6 @@ p {
     cursor: pointer;
     padding: 10px;
 }
-
 
 .transaction-table .tab {
     text-align: left;
@@ -185,7 +189,7 @@ p {
 }
 
 .backtest {
-  max-width: 1200px;
+    max-width: 1200px;
 }
 .backtest .padding {
     background: #282828;
@@ -193,6 +197,6 @@ p {
 }
 
 .percent h1 {
-  font-weight: bolder;
-  font-size: 30px;
+    font-weight: bolder;
+    font-size: 30px;
 }

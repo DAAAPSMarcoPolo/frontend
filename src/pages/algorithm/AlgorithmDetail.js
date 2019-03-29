@@ -88,8 +88,11 @@ class AlgorithmDetail extends Component {
     };
     selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
-        if (this.state.backtestSelected && id === this.state.backtestSelected.backtest.id) {
-          return;
+        if (
+            this.state.backtestSelected &&
+            id === this.state.backtestSelected.backtest.id
+        ) {
+            return;
         }
         const bt = backtestSelected.backtest;
         const start = new Date(bt.start_date);
@@ -134,24 +137,23 @@ class AlgorithmDetail extends Component {
                 this.setState({ error: null });
             }, 5000);
         } else {
-          const formData = {
-              strategy: this.state.strategy,
-              universe: this.state.universeId,
-              start_date: e.target.startDate.value,
-              end_date: e.target.endDate.value,
-              initial_funds: e.target.initial_funds.value
-          };
-          const res = await api.Post('/backtest/', formData);
-          if (res.status !== 200) {
-              this.setState({ error: res.statusText });
-              setTimeout(() => {
-                this.setState({ error: null });
-              }, 5000);
-          }
-          this.toggleBacktestForm();
+            const formData = {
+                strategy: this.state.strategy,
+                universe: this.state.universeId,
+                start_date: e.target.startDate.value,
+                end_date: e.target.endDate.value,
+                initial_funds: e.target.initial_funds.value
+            };
+            const res = await api.Post('/backtest/', formData);
+            if (res.status !== 200) {
+                this.setState({ error: res.statusText });
+                setTimeout(() => {
+                    this.setState({ error: null });
+                }, 5000);
+            }
+            this.toggleBacktestForm();
         }
     };
-
 
     handleStartDateSelect(startDate) {
         this.setState({ startDate });
@@ -166,7 +168,7 @@ class AlgorithmDetail extends Component {
     };
     render() {
         const { algoID } = this.props.match.params;
-        if (this.state.algo_details) {
+        if (this.state.algo_details && this.state.backtestSelected) {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
