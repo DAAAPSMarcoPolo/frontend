@@ -171,7 +171,10 @@ ul, li {
   padding: 5px;
 }
 .transaction-table th, td {
-  padding: 10px;
+  padding: 5px;
+}
+.transaction-table td {
+  font-weight: lighter;
 }
 
 .con-table th, td {
@@ -274,7 +277,8 @@ h1 {
   min-height: 100vh;
   display: flex;
   padding: 40px;
-  width: 100%;
+  width: 90%;
+  max-width: 90vw;
 }
 
 .fullWidth {

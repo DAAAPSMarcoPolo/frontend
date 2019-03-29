@@ -1,7 +1,6 @@
 .tab {
     min-width: 200px;
     max-width: 250px;
-    padding: 10px;
     background: #1f1f1f;
     border-radius: 30px 30px 0px 0px;
     text-align: center;
@@ -11,15 +10,30 @@
     font-weight: bold;
 }
 
-.active {
-    background: #282828;
-}
 .nav-overflow {
     overflow-x: auto;
     overflow-y: hidden;
     display: -webkit-box;
+    margin: 0;
+    padding: 0;
+    max-height: 500px;
 }
 
+.scroll-hide {
+
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+    width: 0px;
+    height: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.scroll-hide::-webkit-scrollbar { width: 0 !important }
 .algo-card {
     width: 700px;
     background-color: #282828;
@@ -37,7 +51,7 @@
 }
 
 .algo-card:hover {
-    background-color: rgba(40, 40, 40, 0.9);
+  opacity: .9;
 }
 .boundaries-algo {
     padding-left: 0.2rem;
@@ -92,20 +106,6 @@ table {
 .active {
     background-color: #838383;
 }
-/*
-.scroll::-webkit-scrollbar {
-    width: 50px;
-}
-
-.scroll::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
-
-.scroll::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-} */
 
 .margin-auto h1,
 p {
@@ -124,21 +124,16 @@ p {
     top: 59px;
     right: 55px;
 }
-
+.title-info {
+  display: inline-block;
+}
 .position-corner {
-    z-index: 1000;
-    position: absolute;
-    top: 50px;
-    right: 20px;
+  float: right;
+  margin-top: 0px;
 }
 
 .maxWidth {
     max-width: 300px;
-}
-
-.panel-overflow {
-    overflow: scroll;
-    max-height: 500px;
 }
 
 .list-group-item {
@@ -158,11 +153,14 @@ p {
     color: white;
     text-align: left;
 }
-.transaction_table {
-    border-radius: 0px 5px;
-    width: 100%;
-    padding: 10px;
-    background: #282828;
+
+.transaction-table {
+  table-layout: auto;
+  border-radius: 0px 5px;
+  width: 100%;
+  background: #282828;
+  overflow: scroll;
+  max-height: 500px;
 }
 
 .backtest .active {
@@ -171,23 +169,11 @@ p {
 
 .select-backtest {
     cursor: pointer;
-    opacity: 0.8;
-}
-
-.tab {
-    min-width: 200px;
-    max-width: 250px;
     padding: 10px;
-    background: #1f1f1f;
-    border-radius: 30px 30px 0px 0px;
-    text-align: center;
-    border-bottom: 0px;
-    text-transform: uppercase;
-    font-family: 'Proxima Nova', sans-serif;
-    font-weight: bold;
 }
 
-.transaction_table .tab {
+
+.transaction-table .tab {
     text-align: left;
     border: none;
     border-radius: 0px;
@@ -196,4 +182,17 @@ p {
 
 .active {
     background: #282828;
+}
+
+.backtest {
+  max-width: 1200px;
+}
+.backtest .padding {
+    background: #282828;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.percent h1 {
+  font-weight: bolder;
+  font-size: 30px;
 }

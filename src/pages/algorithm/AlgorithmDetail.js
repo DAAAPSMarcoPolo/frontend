@@ -17,13 +17,14 @@ class AlgorithmDetail extends Component {
             backtestCount: '--',
             response: false,
             showBacktestForm: false,
-            strategy: null,
+            strategy: this.props.match.params.algoID,
             universeId: null,
             algo_details: null,
             backtests: null,
             backtestSelected: null,
             start_date: new Date() /* 2019-3-1 */,
-            end_date: new Date()
+            end_date: new Date(),
+            stats: {}
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
@@ -76,12 +77,21 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
+    getBacktestDetail = async () => {
+        const { algoID } = this.props.match.params;
+        const response = await api.Get(
+            '/backtest/' + this.state.backtestSelected + '/'
+        );
+        console.log('transform', response);
+        this.setState({ transactions: response.data.trades });
+        console.log('this.state.transactions', this.state.transactions);
+    };
+
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
     selectBacktest = i => {
         const backtestSelected = this.state.backtests[i];
-        console.log(this.state.backtests);
         const bt = backtestSelected.backtest;
         const start = new Date(bt.start_date);
         const end = new Date(bt.end_date);
@@ -91,18 +101,31 @@ class AlgorithmDetail extends Component {
             ((bt.end_cash - bt.initial_cash) / bt.initial_cash) *
             100
         ).toFixed(2);
-        const a = 1;
-        const b = 2;
-        console.log(per_gain);
-        backtestSelected.backtest.percent_gain =
-            per_gain == !NaN ? 0 : per_gain;
-        backtestSelected.backtest.num_days = diffDays;
-        backtestSelected.backtest.start_date = `${start.getMonth()}-${start.getDay()}-${start.getFullYear()}`;
-        backtestSelected.backtest.end_date = `${end.getMonth()}-${end.getDay()}-${end.getFullYear()}`;
-        this.setState({ backtestSelected });
-        console.log('set backtest: ' + backtestSelected);
+        // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
+        const stats = {};
+        stats.initial_cash =
+            '$ ' +
+            this.numberWithCommas(
+                backtestSelected.backtest.initial_cash.toFixed(2)
+            );
+        stats.end_cash =
+            '$ ' +
+            this.numberWithCommas(
+                backtestSelected.backtest.end_cash.toFixed(2)
+            );
+        stats.sharpe = backtestSelected.backtest.sharpe;
+        stats.percent_gain = per_gain == !NaN ? 0 : per_gain;
+        stats.num_days = diffDays + 4;
+        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
+        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
+        this.setState({ backtestSelected, stats });
         return;
     };
+
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     createBacktest = async e => {
         e.preventDefault();
         e.persist();
@@ -140,19 +163,20 @@ class AlgorithmDetail extends Component {
         e.persist();
         await this.setState({ universeId: id });
     };
-
     render() {
         const { algoID } = this.props.match.params;
         const { algo_details } = this.state;
-        if (this.state.algo_details) {
+        if (this.state.algo_details && this.state.backtestSelected) {
             return (
                 <div className="fullWidth">
-                    <h3>{this.state.algo_details.name}</h3>
-                    <h5>{this.state.backtestCount} Backtests Total</h5>
-                    <p>{this.state.algo_details.description}</p>
-                    <div className="errorClass">
-                        {' '}
-                        {this.state.error && this.state.error}{' '}
+                    <div className="title-info">
+                        <h3>{this.state.algo_details.name}</h3>
+                        <h5>{this.state.backtestCount} Backtests Total</h5>
+                        <p>{this.state.algo_details.description}</p>
+                        <div className="errorClass">
+                            {' '}
+                            {this.state.error && this.state.error}
+                        </div>
                     </div>
                     {this.state.showBacktestForm ? (
                         <BacktestForm
@@ -181,7 +205,7 @@ class AlgorithmDetail extends Component {
                     {this.state.backtestSelected && (
                         <Stats
                             start={this.state.algo_details.created_at}
-                            data={this.state.backtestSelected.backtest}
+                            data={this.state.stats}
                         />
                     )}
                     {this.state.backtestSelected && (
