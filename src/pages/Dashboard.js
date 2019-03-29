@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
-import BacktestVote from './algorithm/BacktestVote';
 
 class Dashboard extends Component {
     render() {

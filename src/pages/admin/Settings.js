@@ -44,6 +44,7 @@ class Settings extends Component {
         if (response.status === 401) {
             if (response.message) {
                 this.setState({ error: response.message });
+                setTimeout(() => { this.setState({error: null}); }, 5000);
             }
         }
     };

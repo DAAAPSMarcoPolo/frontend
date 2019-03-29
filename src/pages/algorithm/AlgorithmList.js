@@ -27,10 +27,7 @@ class AlgorithmList extends Component {
         this.setState({ algolist: res.data });
         console.log(res.data)
       }
-      setTimeout(() => {
-        this.setState({error: null});
-      }, 5000)
-
+      setTimeout(() => { this.setState({error: null}); }, 5000);
     };
     render() {
         return (

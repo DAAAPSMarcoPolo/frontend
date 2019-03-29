@@ -60,6 +60,7 @@ class Login extends Component {
             case 400:
                 if (data.non_field_errors[0] === 'Unable to log in with provided credentials.') {
                     this.setState({error: 'Invalid credentials.'});
+                    setTimeout(() => { this.setState({error: null}); }, 5000);
                     console.log('Invalid credents.');
                     return;
                 }
@@ -75,6 +76,7 @@ class Login extends Component {
             case 500:
                 console.log('server error');
                 this.setState({error: 'Server Error.'});
+                setTimeout(() => { this.setState({error: null}); }, 5000);
             // fallthrough
             default:
                 console.log(`Responded with status ${res.status}`);
@@ -109,6 +111,7 @@ class Login extends Component {
             case 400:
                 if (data.error === 'incorrect code') {
                     this.setState({error: 'Incorrect code.'});
+                    setTimeout(() => { this.setState({error: null}); }, 5000);
                     return;
                 }
                 break;
@@ -118,7 +121,8 @@ class Login extends Component {
                 cookies.set('isAuthenticated', false, {path: '/'});
                 break;
             case 404:
-                this.setState({error: 'Invalid credentials.'})
+                this.setState({error: 'Invalid credentials.'});
+                setTimeout(() => { this.setState({error: null}); }, 5000);
                 break;
             default:
                 console.log('unknown response')
@@ -144,10 +148,10 @@ class Login extends Component {
                     this.setState({redirectToReferrer: true})
                 } else {
                     console.log(data)
-                    //this.setState({error: 'Something went wrong updating your profile. Check log for more info.'});
                     console.log(`HTTP Status (for error): ${res.status}`)
                     console.log(`HTTP Status Text (for error): ${res.statusText}`)
                     this.setState({error: res.data.message});
+                    setTimeout(() => { this.setState({error: null}); }, 5000);
                 }
                 break;
             // TODO handle case when information is missing
@@ -155,6 +159,8 @@ class Login extends Component {
                 // this.setState({ error: 'Something went wrong updating your profile. Check log for more info.'});
                 console.log(`HTTP Status (for error): ${res.status}`);
                 console.log(`HTTP Status Text (for error): ${res.statusText}`);
+                this.setState({ error: res.message });
+                setTimeout(() => { this.setState({error: null}); }, 5000);
         }
 
     }

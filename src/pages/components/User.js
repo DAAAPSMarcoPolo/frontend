@@ -27,7 +27,6 @@ class User extends Component {
   getUserInfo = async () => {
     const res = await api.Get('/api/user/settings/');
     const { user } = res.data;
-    console.log('user', user);
     if (user.username) {
       this.setState({ username: user.username });
     }

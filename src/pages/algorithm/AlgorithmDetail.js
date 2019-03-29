@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { withCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
 import BacktestVote from './BacktestVote';
@@ -15,7 +13,6 @@ class AlgorithmDetail extends Component {
         this.state = {
             error: null,
             backtestCount: '--',
-            response: false,
             showBacktestForm: false,
             strategy: this.props.match.params.algoID,
             universeId: null,
@@ -56,7 +53,7 @@ class AlgorithmDetail extends Component {
             console.log('backtests', this.state.backtests);
         }
         if (this.state.backtestCount > 0) {
-            this.selectBacktest(0);
+            this.selectBacktest(0, -1);
         }
         setTimeout(() => {
             this.setState({ error: null });
@@ -78,7 +75,6 @@ class AlgorithmDetail extends Component {
         }, 5000);
     };
     getBacktestDetail = async () => {
-        const { algoID } = this.props.match.params;
         const response = await api.Get(
             '/backtest/' + this.state.backtestSelected + '/'
         );
@@ -90,8 +86,14 @@ class AlgorithmDetail extends Component {
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
-    selectBacktest = i => {
+    selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
+        if (
+            this.state.backtestSelected &&
+            id === this.state.backtestSelected.backtest.id
+        ) {
+            return;
+        }
         const bt = backtestSelected.backtest;
         const start = new Date(bt.start_date);
         const end = new Date(bt.end_date);
@@ -114,7 +116,7 @@ class AlgorithmDetail extends Component {
                 backtestSelected.backtest.end_cash.toFixed(2)
             );
         stats.sharpe = backtestSelected.backtest.sharpe;
-        stats.percent_gain = per_gain == !NaN ? 0 : per_gain;
+        stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
         stats.num_days = diffDays + 4;
         stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
         stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
@@ -134,22 +136,23 @@ class AlgorithmDetail extends Component {
             setTimeout(() => {
                 this.setState({ error: null });
             }, 5000);
+        } else {
+            const formData = {
+                strategy: this.state.strategy,
+                universe: this.state.universeId,
+                start_date: e.target.startDate.value,
+                end_date: e.target.endDate.value,
+                initial_funds: e.target.initial_funds.value
+            };
+            const res = await api.Post('/backtest/', formData);
+            if (res.status !== 200) {
+                this.setState({ error: res.statusText });
+                setTimeout(() => {
+                    this.setState({ error: null });
+                }, 5000);
+            }
+            this.toggleBacktestForm();
         }
-        const formData = {
-            strategy: this.state.strategy,
-            universe: this.state.universeId,
-            start_date: e.target.startDate.value,
-            end_date: e.target.endDate.value,
-            initial_funds: e.target.initial_funds.value
-        };
-        const res = await api.Post('/backtest/', formData);
-        if (res.status !== 200) {
-            this.setState({ error: res.statusText });
-        }
-        this.toggleBacktestForm();
-        setTimeout(() => {
-            this.setState({ error: null });
-        }, 5000);
     };
 
     handleStartDateSelect(startDate) {
@@ -165,7 +168,6 @@ class AlgorithmDetail extends Component {
     };
     render() {
         const { algoID } = this.props.match.params;
-        const { algo_details } = this.state;
         if (this.state.algo_details && this.state.backtestSelected) {
             return (
                 <div className="fullWidth">
@@ -219,4 +221,4 @@ class AlgorithmDetail extends Component {
     }
 }
 
-export default withCookies(AlgorithmDetail);
+export default AlgorithmDetail;
