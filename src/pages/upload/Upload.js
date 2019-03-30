@@ -19,7 +19,7 @@ class Upload extends Component {
         this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
-    handleFileSelection = () => {
+    handleFileSelection = (e) => {
         e.preventDefault();
         e.persist();
         const uploadedFile = e.target.files[0];
@@ -30,7 +30,7 @@ class Upload extends Component {
         this.setState({ files: uploadedFile, fileName, uploadButtonStatus: `You have selected ${fileName}` });
     };
 
-    handleFileUpload = async () => {
+    handleFileUpload = async (e) => {
         e.preventDefault();
         e.persist();
         if (this.state.files != null) {
