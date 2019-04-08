@@ -4,17 +4,24 @@ import ChooseUniverse from '../universe/ChooseUniverse';
 import 'react-datepicker/dist/react-datepicker.css';
 import x from '../../assets/images/x-icon.png';
 
-const BacktestForm = ({ submitForm, exitForm, parent, error, handleSelectUniverse }) => {
+const BacktestForm = ({
+    submitForm,
+    exitForm,
+    parent,
+    error,
+    handleSelectUniverse
+}) => {
     return (
         <div className="con rel">
-        <img
-            className="icon roster"
-            src={x}
-            alt="x-icon"
-            onClick={exitForm}
-        />
-          <h3>Start a new Backtest</h3>
-            <form onSubmit={submitForm}>
+            <img
+                className="icon roster"
+                src={x}
+                alt="x-icon"
+                onClick={exitForm}
+            />
+            <h3>Start a new Backtest</h3>
+            <form onSubmit={submitForm} autocomplete="off">
+                <input type="hidden" value="something" />
                 <div>
                     <DatePicker
                         selected={parent.state.startDate}
@@ -32,8 +39,15 @@ const BacktestForm = ({ submitForm, exitForm, parent, error, handleSelectUnivers
                         dateFormat="yyyy-MM-dd"
                         name="endDate"
                     />
-                    <ChooseUniverse selectUniverse={parent.handleSelectUniverse}/>
-                    <input type="text" placeholder="Initial Funds" name="initial_funds" required/>
+                    <ChooseUniverse
+                        selectUniverse={parent.handleSelectUniverse}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Initial Funds"
+                        name="initial_funds"
+                        required
+                    />
                 </div>
                 <button type="submit">Submit</button>
             </form>
