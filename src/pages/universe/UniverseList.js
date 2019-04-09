@@ -18,7 +18,7 @@ const UniverseList = (props) => {
                 {props.universeList.map((item, key)=>(
                     <li
                         className={listItemClass(props.selection, item)}
-                        onClick={(e) => props.setUniverse(e, item)}
+                        onClick={(e) => props.setUniverse(e, item.id)}
                         key={key}
                     >
                         {item.name}

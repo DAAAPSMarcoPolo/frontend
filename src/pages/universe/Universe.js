@@ -12,14 +12,13 @@ class Universe extends Component {
         this.state = {
             universeList: null,
             addingUniverse: false,
-            currentUniverse: null
+            currentUniverseId: null
         };
         this.getUniverses = this.getUniverses.bind();
-        this.addStock = this.addStock.bind();
-        this.add = this.add.bind();
         this.setUniverse = this.setUniverse.bind();
         this.changeAddUniverseState = this.changeAddUniverseState.bind();
         this.handleAddUniverse = this.handleAddUniverse.bind();
+        this.updateCurrentUniverse = this.updateCurrentUniverse.bind();
     }
 
     componentDidMount(){
@@ -27,7 +26,6 @@ class Universe extends Component {
     }
 
     getUniverses = async ()=> {
-        //TODO: call API to get the universe list
         const response = await api.Get('/universe/');
         console.log(response);
         if (response.status === 200){
@@ -35,35 +33,29 @@ class Universe extends Component {
         } else {
             console.log("Could not retrieve universe data");
         }
-    };
 
-    addStock = async (e)=> {
-        console.log("This.");
-    };
-
-    add = async (e, universe) => {
-        e.preventDefault();
-        e.persist();
-        if (e.target.newstockname !== null && e.target.newstockname.value !== ""){
-            console.log("Adding stock", e.target.newstockname.value);
-            console.log(universe.id);
-            console.log(universe);
-            let stocks = universe.stocks;
-            stocks.unshift(e.target.newstockname.value);
-            const formdata = {
-                "universe": stocks,
-            };
-            //console.log("/universe/" + universe.id + "/");
-            console.log(formdata)
-            const response = await api.Put("/universe/" + universe.id + "/", formdata);
-            console.log(response);
+        if (this.state.currentUniverseId !== null){
+            this.updateCurrentUniverse(this.state.currentUniverseId);
         }
     };
 
-    setUniverse = (e, item) =>{
-        this.setState({currentUniverse: item});
+    setUniverse = (e, id) =>{
+        this.setState({currentUniverseId: id}); //item is expecting an id for the corresponding universe
         this.setState({addingUniverse: false});
-        console.log()
+        this.updateCurrentUniverse(id);
+    };
+
+    updateCurrentUniverse = (id) => {
+        console.log("Getting universe:", id);
+        if (this.state.universeList === null){
+            this.setState({currentUniverse: null});
+        }
+        this.state.universeList.map((universe) => {
+           if (universe.id === id){
+               this.setState({currentUniverse: universe});
+           }
+        });
+        return null;
     };
 
     changeAddUniverseState = () =>{
@@ -80,7 +72,7 @@ class Universe extends Component {
 
     render(){
         return (
-            <div className="flex-container">
+            <div className="container flex-container">
                 <div className="universe-pane">
                     <div className="flex-container">
                         <h2>Universes</h2>
@@ -95,7 +87,7 @@ class Universe extends Component {
                     <UniverseList universeList={this.state.universeList} setUniverse={this.setUniverse} selection={this.state.currentUniverse}/>
                 </div>
                 <div className="universe-pane">
-                    <StockList currentUniverse={this.state.currentUniverse} />
+                    <StockList currentUniverse={this.state.currentUniverse} updateUniverse={this.getUniverses} />
                 </div>
                 <div className="universe-pane">
                     <AddUniverse enabled={this.state.addingUniverse} handleAddUniverse={this.handleAddUniverse}/>

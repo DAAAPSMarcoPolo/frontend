@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Select from 'react-select';
+import api from '../../utils/api';
 
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -11,13 +12,48 @@ class AddStocks extends Component{
     constructor(props){
         super(props);
         this.state = {
-            selectedOption: null
-        }
+            selectedOption: [],
+            availableStocks: [],
+            currUniverseId: null
+        };
+        this.getAvailableStocks = this.getAvailableStocks.bind();
+        this.populateStockList = this.populateStockList.bind();
     }
 
     componentDidMount() {
-        console.log("Populate the list of options");
+        this.getAvailableStocks();
+        this.populateStockList();
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.universe.id !== prevProps.universe.id){
+            this.setState({selectedOption: []});
+            this.populateStockList();
+        }
     }
+
+    populateStockList = () => {
+        const currStockList = this.props.universe.stocks;
+        var currList = [];
+        currStockList.map((item) => {
+            currList.push({value:item, label:item});
+        });
+        this.setState({selectedOption: currList});
+        this.setState({currUniverse: this.props.universe.id});
+    };
+
+    getAvailableStocks = async () => {
+        const response = await api.Get("/stocks/");
+        if (response.status === 200){
+            response.data.stocks.map((item) => {
+                var currList = this.state.availableStocks.slice();
+                currList.push({value: item.symbol, label: item.symbol});
+                this.setState({availableStocks: currList});
+            });
+        } else {
+
+        }
+    };
 
     handleChange = (selectedOption) => {
         this.setState({selectedOption: selectedOption});
@@ -30,11 +66,15 @@ class AddStocks extends Component{
             const selectedOption = this.state.selectedOption;
             return(
                 <div className="multiselect">
-                    <Select
-                    value={selectedOption}
-                    onChange={this.handleChange}
-                    options={options}
-                    isMulti="true"/>
+                    <form onSubmit={(e) => this.props.handleAddStocks(e, this.state.selectedOption)}>
+                        <Select
+                            value={selectedOption}
+                            onChange={this.handleChange}
+                            options={this.state.availableStocks}
+                            isMulti="true"
+                            name="stocknames"/>
+                        <input type="submit"/>
+                    </form>
                 </div>
             );
         }
