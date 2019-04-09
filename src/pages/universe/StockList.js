@@ -12,28 +12,33 @@ class StockList extends Component{
             additionalStockList: [],
             stocklist: null
         };
-        this.setAddStocks = this.setAddStocks.bind();
-        this.handleAddingStocks = this.handleAddingStocks.bind();
+        this.modifyStocksSwitch = this.modifyStocksSwitch.bind();
+        this.handleModifyingStocks = this.handleModifyingStocks.bind();
     }
 
-    setAddStocks = () => {
+
+    //Controls the addition of stocks
+    modifyStocksSwitch = () => {
         this.setState({addingStocks: !this.state.addingStocks});
     };
 
-    handleAddingStocks = async (e, stocks) =>{
+    handleModifyingStocks = async (e, stocks) =>{
         e.preventDefault();
         e.persist();
+
+        //Format the stored data of selected stocks
         var synthesizedStockList = [];
         stocks.map((item) =>{
             synthesizedStockList.push(item.value);
         });
-        console.log(synthesizedStockList);
+
+        //Prepare and make the API call
         const formdata = {
             "universe": synthesizedStockList,
         };
-        console.log(formdata)
         const response = await api.Put("/universe/" + this.props.currentUniverse.id + "/", formdata);
-        console.log(response);
+
+        //Response handling
         if (response.status !== 200){
             console.log("Something went wrong with updating the universe");
         } else {
@@ -56,7 +61,7 @@ class StockList extends Component{
                                     src={plus}
                                     className="universe-add"
                                     alt="x-icon"
-                                    onClick={this.setAddStocks}/>
+                                    onClick={this.modifyStocksSwitch}/>
                             </div>
                         </div>
                         <ul className="universe-list">
@@ -66,7 +71,7 @@ class StockList extends Component{
                         </ul>
                     </div>
                     <div>
-                        <AddStocks enable={this.state.addingStocks} handleAddStocks={this.handleAddingStocks} universe={this.props.currentUniverse}/>
+                        <AddStocks enable={this.state.addingStocks} handleModifyStocks={this.handleModifyingStocks} universe={this.props.currentUniverse}/>
                     </div>
                 </div>
             )

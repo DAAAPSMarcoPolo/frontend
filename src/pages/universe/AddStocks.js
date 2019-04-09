@@ -26,6 +26,9 @@ class AddStocks extends Component{
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.universe == null){
+            return;
+        }
         if (this.props.universe.id !== prevProps.universe.id){
             this.setState({selectedOption: []});
             this.populateStockList();
@@ -33,6 +36,9 @@ class AddStocks extends Component{
     }
 
     populateStockList = () => {
+        if (this.props.universe == null){
+            return;
+        }
         const currStockList = this.props.universe.stocks;
         var currList = [];
         currStockList.map((item) => {
@@ -66,7 +72,7 @@ class AddStocks extends Component{
             const selectedOption = this.state.selectedOption;
             return(
                 <div className="multiselect">
-                    <form onSubmit={(e) => this.props.handleAddStocks(e, this.state.selectedOption)}>
+                    <form onSubmit={(e) => this.props.handleModifyStocks(e, this.state.selectedOption)}>
                         <Select
                             value={selectedOption}
                             onChange={this.handleChange}
