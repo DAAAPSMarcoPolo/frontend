@@ -66,19 +66,17 @@ class Universe extends Component {
     handleAddUniverse = async (e) => {
         e.preventDefault();
         e.persist();
-        console.log(e.target.universeName.value, "Add function call to create new universe");
         const formdata = {
             "universe": [],
             "name": e.target.universeName.value
-        }
+        };
 
         const response = await api.Post("/universe/", formdata);
         console.log(response);
         if (response.status === 201){
-            //Perform redirection
             this.changeAddUniverseState();
             this.getUniverses();
-            this.setState({currentUniverseId: response.data.id}); //item is expecting an id for the corresponding universe
+            this.setState({currentUniverseId: response.data.id});
             this.updateCurrentUniverse(response.data.id);
             console.log(response);
         } else {
