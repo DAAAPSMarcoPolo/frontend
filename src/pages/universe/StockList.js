@@ -26,16 +26,9 @@ class StockList extends Component{
         e.preventDefault();
         e.persist();
 
-        //Format the stored data of selected stocks
-        var synthesizedStockList = [];
-        stocks.map((item) =>{
-            synthesizedStockList.push(item.value);
-        });
-
-        //Prepare and make the API call
-        const formdata = {
-            "universe": synthesizedStockList,
-        };
+        var synthesizedStocks = new Set(this.props.currentUniverse.stocks);
+        stocks.map((item) => { synthesizedStocks.add(item) });
+        const formdata = { "universe": Array.from(synthesizedStocks.values()) };
         const response = await api.Put("/universe/" + this.props.currentUniverse.id + "/", formdata);
 
         //Response handling
@@ -64,7 +57,7 @@ class StockList extends Component{
                                     onClick={this.modifyStocksSwitch}/>
                             </div>
                         </div>
-                        <ul className="universe-list">
+                        <ul className="universe-list stock-list">
                             {this.props.currentUniverse.stocks.map((stock, key)=>(
                                 <li key={key}>{stock}</li>
                             ))}

@@ -1,84 +1,74 @@
 import React, {Component} from 'react';
 import Select from 'react-select';
+import { Dropdown } from 'semantic-ui-react';
+import AsyncSelect from 'react-select/lib/Async';
 import api from '../../utils/api';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-];
+const sampleStocks = ["AAPL", "BA", "TSLA", "TTWO", "DGAZ", "GDL", "UGAZ"];
 
 class AddStocks extends Component{
     constructor(props){
         super(props);
         this.state = {
-            selectedOption: [],
+            selectedOption: sampleStocks,
             availableStocks: [],
-            currUniverseId: null
+            currUniverseId: null,
+            value: []
         };
-        this.getAvailableStocks = this.getAvailableStocks.bind();
-        this.populateStockList = this.populateStockList.bind();
+        this.handleSearchChange = this.handleSearchChange.bind();
     }
 
-    componentDidMount() {
-        this.getAvailableStocks();
-        this.populateStockList();
+    //Sets the state of the selected values
+    handleChange = (e, { searchQuery, value }) => {
+        this.setState({searchQuery: "", value});
     };
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.universe == null){
-            return;
-        }
-        if (this.props.universe.id !== prevProps.universe.id){
-            this.setState({selectedOption: []});
-            this.populateStockList();
-        }
-    }
+    handleSearchChange = async (e, { searchQuery }) => {
+        this.setState({ searchQuery });
 
-    populateStockList = () => {
-        if (this.props.universe == null){
-            return;
-        }
-        const currStockList = this.props.universe.stocks;
+        //Populate values with selected options (necessary for proper functionality)
         var currList = [];
-        currStockList.map((item) => {
-            currList.push({value:item, label:item});
+        this.state.value.map((item) =>{
+            currList.push({key: item, text: item, value: item});
         });
-        this.setState({selectedOption: currList});
-        this.setState({currUniverse: this.props.universe.id});
-    };
 
-    getAvailableStocks = async () => {
-        const response = await api.Get("/stocks/");
-        if (response.status === 200){
-            response.data.stocks.map((item) => {
-                var currList = this.state.availableStocks.slice();
-                currList.push({value: item.symbol, label: item.symbol});
-                this.setState({availableStocks: currList});
-            });
+        if (searchQuery.length < 2){
+            //Must have a minimum 2 letter search query
+            this.setState({availableStocks: currList});
+            return;
         } else {
-
+            //Populate options with remaining query options if query is valid
+            const response = await api.Get("/stocks/" + searchQuery);
+            if (response.status === 200){
+                response.data.stocks.map((item) => {
+                    if (!(item.symbol in currList)){
+                        currList.push({key: item.symbol, text: item.symbol, value: item.symbol});
+                    }
+                });
+            }
+            this.setState({availableStocks: currList});
         }
-    };
-
-    handleChange = (selectedOption) => {
-        this.setState({selectedOption: selectedOption});
     };
 
     render(){
         if (this.props.enable === false){
             return null;
         } else {
-            const selectedOption = this.state.selectedOption;
+            const { searchQuery, value, availableStocks } = this.state;
             return(
-                <div className="multiselect">
-                    <form onSubmit={(e) => this.props.handleModifyStocks(e, this.state.selectedOption)}>
-                        <Select
-                            value={selectedOption}
+                <div>
+                    <form onSubmit={(e) => {this.setState({value: [], searchQuery: ""}); this.props.handleModifyStocks(e, value)}}>
+                        <Dropdown
+                            fluid
+                            multiple
                             onChange={this.handleChange}
-                            options={this.state.availableStocks}
-                            isMulti="true"
-                            name="stocknames"/>
+                            onSearchChange={this.handleSearchChange}
+                            options={availableStocks}
+                            search
+                            searchQuery={searchQuery}
+                            selection
+                            value={value}
+                        />
                         <input type="submit"/>
                     </form>
                 </div>

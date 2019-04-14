@@ -29,8 +29,11 @@
 }
 
 .universe-list{
+  color: white;
   list-style: none;
   padding-left: 0;
+  overflow-y: auto;
+  max-height: 500px;
 }
 
 .universe-list-item {
@@ -66,4 +69,11 @@
   margin-left: 30px;
   width: 300px;
   color: black;
+}
+
+.stocksearch {
+  color: yellow;
+}
+#newUniverseName {
+  text-transform: none;
 }

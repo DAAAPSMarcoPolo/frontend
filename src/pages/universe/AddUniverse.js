@@ -9,7 +9,15 @@ class AddUniverse extends Component{
         this.state = {
             stockList : []
         };
+        this.handleModifyStocks = this.handleModifyStocks.bind();
     }
+
+    handleModifyStocks = (e, value) => {
+        e.preventDefault();
+        e.persist();
+        this.setState({stocklist: value});
+        console.log(value);
+    };
 
     render(){
         if (!this.props.enabled){
@@ -17,11 +25,10 @@ class AddUniverse extends Component{
         } else {
             return (
                 <div>
-                    <form onSubmit={(e) => this.props.handleAddUniverse(e, this.state.stockList)}>
-                        <input type="text" name="universeName"/>
+                    <form onSubmit={this.props.handleAddUniverse}>
+                        <input id="newUniverseName" type="text" name="universeName"/>
                         <input type="submit"/>
                     </form>
-                    <AddStocks enabled={true}/>
                 </div>
             )
         }
