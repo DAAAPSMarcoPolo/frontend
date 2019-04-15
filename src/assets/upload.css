@@ -8,14 +8,7 @@
 }
 
 .file-upload + label {
-    font-size: 1em;
-    font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
     cursor: pointer;
-    border-style: solid;
-    border-radius: 30px;
 }
 
 .algo-upload-con {
@@ -53,4 +46,7 @@
   border-radius: 5px;
   background-color: #282828;
   margin: 0px;
+}
+.algo-upload-con button {
+  border-radius: 5px;
 }

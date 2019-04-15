@@ -72,13 +72,17 @@ class Upload extends Component {
                 <label htmlFor="description">Description</label>
                 <input type="text" name="description" placeholder="Description" required/>
                 <input className="file-upload" type="file" name="file" id="file" onChange={this.handleFileSelection}/>
-                <label htmlFor="file">{this.state.fileName}</label>
+                <label htmlFor="file">{this.state.fileName}
+                File Upload</label>
                 <br/>
                 {this.state.file &&
                   <button id="upload-button">
                     {this.state.uploadButtonStatus}
                   </button>
                 }
+                <button id="upload-button">
+                  boop
+                </button>
             </form>
             </div>
         );
