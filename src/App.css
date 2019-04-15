@@ -300,18 +300,6 @@ h1 {
   color: #7C7C7C;
 }
 
-.percent {
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 100%;
-  border: 3px solid #3ECC9A;
-  width: 150px;
-  height: 150px;
-  position: absolute;
-  top: 25px;
-  right: 55px;
-}
 .margin-auto {
   margin: auto;
   display: inline-grid;

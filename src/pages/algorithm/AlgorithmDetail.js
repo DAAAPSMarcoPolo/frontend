@@ -244,6 +244,7 @@ class AlgorithmDetail extends Component {
                 }, 5000);
             }
             this.toggleBacktestForm();
+            this.getBacktestList();
         }
     };
     createLiveInstance = async e => {
@@ -264,12 +265,13 @@ class AlgorithmDetail extends Component {
         };
         const res = await api.Post('/live/', formData);
         if (res.status !== 200) {
-            this.setState({ error: res.statusText });
+            this.setState({ error: res.statusText, isLive: true });
             setTimeout(() => {
                 this.setState({ error: null });
             }, 5000);
         }
         this.toggleLiveInstanceForm();
+        this.getLiveInstanceList();
       }
     };
     stopLiveInstance = async e => {
