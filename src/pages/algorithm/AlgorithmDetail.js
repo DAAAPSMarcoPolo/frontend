@@ -48,7 +48,7 @@ class AlgorithmDetail extends Component {
         this.toggleLive = this.toggleLive.bind(this);
     }
     async componentDidMount() {
-        Promise.all([this.getBacktestList(), this.getAlgorithmDetails()]).then(
+        Promise.all([this.getBacktestList(), this.getLiveInstanceList(), this.getAlgorithmDetails()]).then(
             () => {
                 this.setState({ loading: false });
             }
@@ -129,14 +129,15 @@ class AlgorithmDetail extends Component {
         this.setState({ showLiveInstanceForm: !this.state.showLiveInstanceForm });
     };
     toggleLive = () => {
-        if (this.state.algo_details.live) {
-          this.setState({ isLive: !this.state.isLive });
-        } else {
-          this.setState({ error: 'No live instances yet, Create a new live instance from a backtest!' });
-          setTimeout(() => {
-              this.setState({ error: null });
-          }, 5000);
-        }
+      this.setState({ isLive: !this.state.isLive });
+        // if (this.state.algo_details.live) {
+        //   this.setState({ isLive: !this.state.isLive });
+        // } else {
+        //   this.setState({ error: 'No live instances yet, Create a new live instance from a backtest!' });
+        //   setTimeout(() => {
+        //       this.setState({ error: null });
+        //   }, 5000);
+        // }
     };
     selectLiveInstance = (i, id) => {
         const liveInstanceSelected = this.state.liveInstances[i];
@@ -318,7 +319,11 @@ class AlgorithmDetail extends Component {
                 <div className="fullWidth">
                     <div className="title-info">
                         <h3>{this.state.algo_details.name}</h3>
-                        <h5>{this.state.backtestCount} Backtests Total</h5>
+                        {!this.state.isLive ?
+                          <h5>{this.state.backtestCount} Backtests Total</h5>
+                          :
+                          <h5>{this.state.liveInstanceCount} Livetests Total</h5>
+                        }
                         <p>{this.state.algo_details.description}</p>
                         <div className="nav isLiveNav">
                           <p onClick={this.toggleLive} className={`${!this.state.isLive && 'toggleLive'} click`}>Backtest</p>
