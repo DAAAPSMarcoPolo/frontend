@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../assets/algo.css';
 
-const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
+const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) => (
     <div className="backtest margins">
         <ul className="nav-tabs nav-overflow scroll-hide">
             {backtests &&
@@ -13,7 +13,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                         onClick={() => selectBacktest(i, backtest.backtest.id)}
                     >
                         {' '}
-                        {backtest.backtest.id}
+                        <div style={{color: `${isLive ? '#FA6353' : '#44E8AE'}`, display: 'inline'}}>•&nbsp;</div>{backtest.backtest.id}
                     </li>
                 ))}
         </ul>
