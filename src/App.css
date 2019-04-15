@@ -337,6 +337,10 @@ h1 {
     margin-right: 20px;
 }
 
+.user p {
+  font-size: 12px;
+}
+
 .marginLeft {
   margin-left: 20px;
 }

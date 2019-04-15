@@ -22,6 +22,9 @@
     z-index: 5;
 }
 
+.nav a {
+  line-height: 30px;
+}
 .contain:hover {
     opacity: 1;
 }

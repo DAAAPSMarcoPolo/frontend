@@ -183,7 +183,7 @@ class AlgorithmDetail extends Component {
       e.persist();
       // create live instance
       //Post /api/live/
-      if (!this.state.strategy || !this.state.universeId || !this.state.backtestSelected) {
+      if (!this.state.strategy || !this.state.backtestSelected) {
           this.setState({ error: 'All fields are required!' });
           setTimeout(() => {
               this.setState({ error: null });
