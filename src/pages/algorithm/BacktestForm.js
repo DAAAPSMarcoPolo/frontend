@@ -14,6 +14,10 @@ const BacktestForm = ({ submitForm, parent, error, handleSelectUniverse, showMod
             toggleState={toggleState}
             name={name}
             >
+                <div className="errorClass">
+                  {' '}
+                  {error && error}
+                </div>
                 <form onSubmit={submitForm}>
                     <div>
                         <DatePicker

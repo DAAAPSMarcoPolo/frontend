@@ -132,6 +132,7 @@ class AlgorithmDetail extends Component {
         stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
         stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
         this.setState({ backtestSelected, stats });
+        console.log('backtestSelected', backtestSelected);
         return;
     };
 
@@ -169,6 +170,27 @@ class AlgorithmDetail extends Component {
       e.preventDefault();
       e.persist();
       // create live instance
+      //Post /api/live/
+      if (!this.state.strategy || !this.state.universeId || !this.state.backtestSelected) {
+          this.setState({ error: 'All fields are required!' });
+          setTimeout(() => {
+              this.setState({ error: null });
+          }, 5000);
+      } else {
+        const formData = {
+            mode: "start",
+            backtest: this.state.backtestSelected.backtest.id,
+            funds: e.target.initial_funds.value
+        };
+        const res = await api.Post('/live/', formData);
+        if (res.status !== 200) {
+            this.setState({ error: res.statusText });
+            setTimeout(() => {
+                this.setState({ error: null });
+            }, 5000);
+        }
+        this.toggleLiveInstanceForm();
+      }
     };
 
     handleStartDateSelect(startDate) {

@@ -5,9 +5,12 @@ const Stats = ({ data }) => (
         <h3>Statistics</h3>
 
         <table className="con-table left">
+          <thead>
             <tr>
                 <th>Start Amount</th>
             </tr>
+          </thead>
+          <tbody>
             <tr>
                 <td>{data.initial_cash}</td>
             </tr>
@@ -17,7 +20,7 @@ const Stats = ({ data }) => (
             <tr>
                 <td>{data.end_cash}</td>
             </tr>
-            <br />
+            
             <tr>
                 <th>Length of Test</th>
                 <th>Start</th>
@@ -38,6 +41,7 @@ const Stats = ({ data }) => (
                 <td>--</td>
                 <td>--</td>
             </tr>
+          </tbody>
         </table>
         <div className="percent">
             <div className="margin-auto">

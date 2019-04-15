@@ -1,5 +1,4 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
 import ModalWrapper from '../components/ModalWrapper';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -13,18 +12,12 @@ const LiveInstanceForm = ({ submitForm, parent, error, showModal, toggleState, n
             toggleState={toggleState}
             name={name}
             >
+                <div className="errorClass">
+                    {' '}
+                    {error && error}
+                </div>
                 <form onSubmit={submitForm}>
-                    <div>
-                        <DatePicker
-                            selected={parent.state.endDate}
-                            onChange={parent.handleEndDateSelect}
-                            maxDate={new Date()}
-                            placeholderText="End Date"
-                            dateFormat="yyyy-MM-dd"
-                            name="endDate"
-                        />
-                        <input type="text" placeholder="Initial Funds" name="initial_funds" required/>
-                    </div>
+                    <input type="text" placeholder="Initial Funds" name="initial_funds" required/>
                     <button type="submit">Submit</button>
                 </form>
         </ModalWrapper>

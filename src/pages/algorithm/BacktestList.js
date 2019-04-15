@@ -19,14 +19,17 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
         </ul>
         <div className="padding">
             <table className="transaction-table nav-overflow">
-                <tr>
-                    <th>Stock</th>
-                    <th>Buy Price</th>
-                    <th>Buy Date</th>
-                    <th>Quantity</th>
-                    <th>Sell Price</th>
-                    <th>Sell Date</th>
-                </tr>
+              <thead>
+                  <tr>
+                      <th>Stock</th>
+                      <th>Buy Price</th>
+                      <th>Buy Date</th>
+                      <th>Quantity</th>
+                      <th>Sell Price</th>
+                      <th>Sell Date</th>
+                  </tr>
+                </thead>
+                <tbody>
                 {backtestSelected.trades &&
                     backtestSelected.trades.map((el, i) => (
                         <tr key={i}>
@@ -58,6 +61,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                             </td>
                         </tr>
                     ))}
+                    </tbody>
             </table>
         </div>
     </div>
