@@ -41,7 +41,7 @@ class AlgorithmList extends Component {
                       name={algo.algo_details.name}
                       algoId={algo.algo_details.id}
                       description={algo.algo_details.description}
-                      user={algo.algo_details.user}
+                      user={algo.algo_details.user_id}
                       created_at={algo.algo_details.created_at}
                       approved={algo.algo_details.approved}
                       best_backtest={algo.best_backtest.id}
