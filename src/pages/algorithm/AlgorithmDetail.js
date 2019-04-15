@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
+import LiveInstanceForm from './LiveInstanceForm';
 import BacktestVote from './BacktestVote';
 import api from '../../utils/api.js';
 import Stats from './Stats';
@@ -14,6 +15,7 @@ class AlgorithmDetail extends Component {
             error: null,
             backtestCount: '--',
             showBacktestForm: false,
+            showLiveInstanceForm: false,
             strategy: this.props.match.params.algoID,
             universeId: null,
             algo_details: null,
@@ -25,7 +27,9 @@ class AlgorithmDetail extends Component {
             loading: true
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
+        this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
+        this.createLiveInstance = this.createLiveInstance.bind(this);
         this.handleStartDateSelect = this.handleStartDateSelect.bind(this);
         this.handleEndDateSelect = this.handleEndDateSelect.bind(this);
         this.handleSelectUniverse = this.handleSelectUniverse.bind(this);
@@ -89,6 +93,9 @@ class AlgorithmDetail extends Component {
 
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
+    };
+    toggleLiveInstanceForm = () => {
+        this.setState({ showLiveInstanceForm: !this.state.showLiveInstanceForm });
     };
     selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
@@ -158,6 +165,11 @@ class AlgorithmDetail extends Component {
             this.toggleBacktestForm();
         }
     };
+    createLiveInstance = async e => {
+      e.preventDefault();
+      e.persist();
+      // create live instance
+    };
 
     handleStartDateSelect(startDate) {
         this.setState({ startDate });
@@ -188,16 +200,35 @@ class AlgorithmDetail extends Component {
                         <BacktestForm
                             error={this.state.error}
                             submitForm={this.createBacktest}
-                            exitForm={this.toggleBacktestForm}
                             parent={this}
                             handleSelectUniverse={this.handleSelectUniverse}
+                            showModal={this.state.showBacktestForm}
+                            toggleState={this.toggleBacktestForm}
+                            name="Backtest"
+                        />
+                    ) : (
+                        <button
+                            className="maxWidth position-corner greenButton marginLeft"
+                            onClick={this.toggleBacktestForm}
+                        >
+                            Create new Backtest
+                        </button>
+                    )}
+                    {this.state.showLiveInstanceForm ? (
+                        <LiveInstanceForm
+                            error={this.state.error}
+                            submitForm={this.createLiveInstance}
+                            parent={this}
+                            showModal={this.state.showLiveInstanceForm}
+                            toggleState={this.toggleLiveInstanceForm}
+                            name="Live Instance"
                         />
                     ) : (
                         <button
                             className="maxWidth position-corner greenButton"
-                            onClick={this.toggleBacktestForm}
+                            onClick={this.toggleLiveInstanceForm}
                         >
-                            Create new Backtest
+                            Create new Live Instance
                         </button>
                     )}
                     {this.state.backtestSelected && (
