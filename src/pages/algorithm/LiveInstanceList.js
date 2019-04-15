@@ -1,16 +1,16 @@
 import React from 'react';
 import '../../assets/algo.css';
 
-const LiveInstanceList = ({ backtests, backtestSelected, selectBacktest }) => (
+const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInstance }) => (
     <div className="backtest margins">
         <ul className="nav-tabs nav-overflow scroll-hide">
-            {backtests &&
-                backtests.map((backtest, i) => (
+            {liveInstances &&
+                liveInstances.map((backtest, i) => (
                     <li
-                        className={`tab select-backtest ${backtestSelected
+                        className={`tab select-backtest ${liveInstanceSelected
                             .backtest.id === backtest.backtest.id && 'active'}`}
                         key={i}
-                        onClick={() => selectBacktest(i, backtest.backtest.id)}
+                        onClick={() => selectLiveInstance(i, backtest.backtest.id)}
                     >
                         {' '}
                         {backtest.backtest.id}
@@ -19,45 +19,49 @@ const LiveInstanceList = ({ backtests, backtestSelected, selectBacktest }) => (
         </ul>
         <div className="padding">
             <table className="transaction-table nav-overflow">
-                <tr>
-                    <th>Stock</th>
-                    <th>Buy Price</th>
-                    <th>Buy Date</th>
-                    <th>Quantity</th>
-                    <th>Sell Price</th>
-                    <th>Sell Date</th>
-                </tr>
-                {backtestSelected.trades &&
-                    backtestSelected.trades.map((el, i) => (
-                        <tr key={i}>
-                            <td className="tab trans-col">{el.symbol}</td>
-                            <td className="tab trans-col">
-                                $ {el.buy_price.toFixed(2)}
-                            </td>
-                            <td className="tab trans-col">
-                                {`${new Date(
-                                    el.buy_time
-                                ).getFullYear()}-${new Date(
-                                    el.buy_time
-                                ).getMonth()}-${new Date(
-                                    el.buy_time
-                                ).getDate()}`}
-                            </td>
-                            <td className="tab trans-col">{el.qty}</td>
-                            <td className="tab trans-col">
-                                $ {el.sell_price.toFixed(2)}
-                            </td>
-                            <td className="tab trans-col">
-                                {`${new Date(
-                                    el.sell_time
-                                ).getFullYear()}-${new Date(
-                                    el.sell_time
-                                ).getMonth()}-${new Date(
-                                    el.sell_time
-                                ).getDate()}`}
-                            </td>
-                        </tr>
-                    ))}
+              <thead>
+                  <tr>
+                      <th>Stock</th>
+                      <th>Open Price</th>
+                      <th>Buy Date</th>
+                      <th>Quantity</th>
+                      <th>Close Price</th>
+                      <th>Close Date</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {liveInstanceSelected.trades &&
+                      liveInstanceSelected.trades.map((el, i) => (
+                          <tr key={i}>
+                              <td className="tab trans-col">{el.symbol}</td>
+                              <td className="tab trans-col">
+                                  $ {el.open_price.toFixed(2)}
+                              </td>
+                              <td className="tab trans-col">
+                                  {`${new Date(
+                                      el.open_date
+                                  ).getFullYear()}-${new Date(
+                                      el.open_date
+                                  ).getMonth()}-${new Date(
+                                      el.open_date
+                                  ).getDate()}`}
+                              </td>
+                              <td className="tab trans-col">{el.qty}</td>
+                              <td className="tab trans-col">
+                                  $ {el.close_price.toFixed(2)}
+                              </td>
+                              <td className="tab trans-col">
+                                  {`${new Date(
+                                      el.close_date
+                                  ).getFullYear()}-${new Date(
+                                      el.close_date
+                                  ).getMonth()}-${new Date(
+                                      el.close_date
+                                  ).getDate()}`}
+                              </td>
+                          </tr>
+                      ))}
+              </tbody>
             </table>
         </div>
     </div>
