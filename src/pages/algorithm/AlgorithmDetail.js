@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
+import LiveInstanceList from './LiveInstanceList';
 import LiveInstanceForm from './LiveInstanceForm';
 import BacktestVote from './BacktestVote';
 import api from '../../utils/api.js';
 import Stats from './Stats';
+import LiveStats from './LiveStats';
 import '../../assets/algo.css';
 
 class AlgorithmDetail extends Component {
@@ -21,6 +23,8 @@ class AlgorithmDetail extends Component {
             algo_details: null,
             backtests: null,
             backtestSelected: null,
+            liveInstances: null,
+            liveInstanceSelected: null,
             start_date: new Date() /* 2019-3-1 */,
             end_date: new Date(),
             stats: {},
@@ -31,12 +35,14 @@ class AlgorithmDetail extends Component {
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
         this.createLiveInstance = this.createLiveInstance.bind(this);
+        this.stopLiveInstance = this.stopLiveInstance.bind(this);
         this.handleStartDateSelect = this.handleStartDateSelect.bind(this);
         this.handleEndDateSelect = this.handleEndDateSelect.bind(this);
         this.handleSelectUniverse = this.handleSelectUniverse.bind(this);
         this.getAlgorithmDetails = this.getAlgorithmDetails.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
+        this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
     }
     async componentDidMount() {
@@ -92,7 +98,6 @@ class AlgorithmDetail extends Component {
         this.setState({ transactions: response.data.trades });
         console.log('this.state.transactions', this.state.transactions);
     };
-
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
@@ -109,6 +114,57 @@ class AlgorithmDetail extends Component {
           }, 5000);
         }
     };
+    selectLiveInstance = (i, id) => {
+      /*
+      "id": 1,
+      "live_trade_instance_id": 19,
+      "symbol": "AAPL",
+      "open": true,
+      "open_date": "2019-04-10T16:43:15.619000Z",
+      "close_date": null,
+      "qty": 1,
+      "open_price": 2,
+      "close_price": null
+      */
+
+        const liveInstanceSelected = this.state.liveInstances[i];
+        if (
+            this.state.liveInstanceSelected &&
+            id === this.state.liveInstanceSelected.backtest.id
+        ) {
+            return;
+        }
+        const bt = liveInstanceSelected.backtest;
+        const start = new Date(bt.start_date);
+        const end = new Date(bt.end_date);
+        const timeDiff = Math.abs(end.getTime() - start.getTime());
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        const per_gain = (
+            ((bt.end_cash - bt.initial_cash) / bt.initial_cash) *
+            100
+        ).toFixed(2);
+        // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
+        const stats = {};
+        stats.initial_cash =
+            '$ ' +
+            this.numberWithCommas(
+                liveInstanceSelected.backtest.initial_cash.toFixed(2)
+            );
+        stats.end_cash =
+            '$ ' +
+            this.numberWithCommas(
+                liveInstanceSelected.backtest.end_cash.toFixed(2)
+            );
+        stats.sharpe = liveInstanceSelected.backtest.sharpe;
+        stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
+        stats.num_days = diffDays + 4;
+        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
+        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
+        this.setState({ liveInstanceSelected, stats });
+        console.log('liveInstanceSelected', liveInstanceSelected);
+        return;
+    };
+
     selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
         if (
@@ -204,6 +260,31 @@ class AlgorithmDetail extends Component {
         this.toggleLiveInstanceForm();
       }
     };
+    stopLiveInstance = async e => {
+      e.preventDefault();
+      e.persist();
+      // create live instance
+      //Post /api/live/
+      if (!this.state.strategy || !this.state.liveInstanceSelected) {
+          this.setState({ error: 'All fields are required!' });
+          setTimeout(() => {
+              this.setState({ error: null });
+          }, 5000);
+      } else {
+        const formData = {
+            mode: "stop",
+            id: '0'
+        };
+        const res = await api.Post('/live/', formData);
+        if (res.status !== 200) {
+            this.setState({ error: res.statusText });
+            setTimeout(() => {
+                this.setState({ error: null });
+            }, 5000);
+        }
+        this.toggleLiveInstanceForm();
+      }
+    };
 
     handleStartDateSelect(startDate) {
         this.setState({ startDate });
@@ -269,7 +350,7 @@ class AlgorithmDetail extends Component {
                       {' '}
                       {this.state.error && this.state.error}
                     </div>
-                    {this.state.backtestSelected && (
+                    {!this.state.isLive && this.state.backtestSelected && (
                       <div>
                         <BacktestList
                             id={algoID}
@@ -282,6 +363,20 @@ class AlgorithmDetail extends Component {
                           data={this.state.stats}
                         />
                         <BacktestVote data={this.state.backtestSelected} />
+                      </div>
+                    )}
+                    {this.state.isLive && this.state.liveInstanceSelected && (
+                      <div>
+                        <LiveInstanceList
+                            id={algoID}
+                            liveInstances={this.state.liveInstances}
+                            liveInstanceSelected={this.state.liveInstanceSelected}
+                            selectLiveInstance={this.selectLiveInstance}
+                        />
+                        <LiveStats
+                          start={this.state.algo_details.created_at}
+                          data={this.state.stats}
+                        />
                       </div>
                     )}
                 </div>
