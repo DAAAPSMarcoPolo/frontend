@@ -65,11 +65,15 @@ class Upload extends Component {
     render() {
         return (
             <div className="con">
+            <h3>Upload an Algorithm</h3>
             <form onSubmit={this.handleFileSelection} className="algo-upload-con">
+                <label htmlFor="name">Name</label>
                 <input type="text" name="name" placeholder="Name" required/>
+                <label htmlFor="description">Description</label>
                 <input type="text" name="description" placeholder="Description" required/>
                 <input className="file-upload" type="file" name="file" id="file" onChange={this.handleFileSelection}/>
                 <label htmlFor="file">{this.state.fileName}</label>
+                <br/>
                 {this.state.file &&
                   <button id="upload-button">
                     {this.state.uploadButtonStatus}

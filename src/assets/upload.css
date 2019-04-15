@@ -32,3 +32,25 @@
     background-color: rgba(255, 255, 255, .8);
     cursor: pointer;
 }
+
+.algo-upload-con input {
+  color: white;
+  border-radius: 5px;
+  margin: 0px;
+  text-align: left;
+  border-color: transparent;
+  background: #282828;
+}
+
+.algo-upload-con label {
+  color: white;
+  margin: 0px;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.algo-upload-con input:hover, .algo-upload-con input:focus, .algo-upload-con input:active, .algo-upload-con input:-internal-autofill-selected, .algo-upload-con textarea:-internal-autofill-previewed, .algo-upload-con textarea:-internal-autofill-selected, .algo-upload-con select:-internal-autofill-previewed, .algo-upload-con select:-internal-autofill-selected {
+  border-radius: 5px;
+  background-color: #282828;
+  margin: 0px;
+}

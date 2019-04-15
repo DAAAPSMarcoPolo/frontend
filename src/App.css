@@ -50,8 +50,8 @@ button {
 }
 
 input::placeholder {
-    color: #3ECC9A;
-    text-align: center;
+    color: white;
+    text-align: left;
 }
 
 .App {
