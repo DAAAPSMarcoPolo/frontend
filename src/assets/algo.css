@@ -200,3 +200,19 @@ p {
     font-weight: bolder;
     font-size: 30px;
 }
+
+.toggleLive {
+  border: 3px solid #3ecc9a;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #3ecc9a;
+}
+
+.click {
+  cursor: pointer;
+}
+
+.isLiveNav {
+  margin: 10px 0px;
+  font-family: 'Proxima Nova', sans-serif;
+}

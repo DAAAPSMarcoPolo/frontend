@@ -1,7 +1,6 @@
 /* The Modal (background) */
 .modal {
     display:inline-block;
-    position: absolute;
     padding-bottom: 30px;
     z-index: 100000000; /* Sit on top */
     left: 0;

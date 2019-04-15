@@ -24,7 +24,8 @@ class AlgorithmDetail extends Component {
             start_date: new Date() /* 2019-3-1 */,
             end_date: new Date(),
             stats: {},
-            loading: true
+            loading: true,
+            isLive: false
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -36,6 +37,7 @@ class AlgorithmDetail extends Component {
         this.getAlgorithmDetails = this.getAlgorithmDetails.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
+        this.toggleLive = this.toggleLive.bind(this);
     }
     async componentDidMount() {
         Promise.all([this.getBacktestList(), this.getAlgorithmDetails()]).then(
@@ -96,6 +98,16 @@ class AlgorithmDetail extends Component {
     };
     toggleLiveInstanceForm = () => {
         this.setState({ showLiveInstanceForm: !this.state.showLiveInstanceForm });
+    };
+    toggleLive = () => {
+        if (this.state.algo_details.live) {
+          this.setState({ isLive: !this.state.isLive });
+        } else {
+          this.setState({ error: 'No live instances yet, Create a new live instance from a backtest!' });
+          setTimeout(() => {
+              this.setState({ error: null });
+          }, 5000);
+        }
     };
     selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
@@ -213,12 +225,12 @@ class AlgorithmDetail extends Component {
                         <h3>{this.state.algo_details.name}</h3>
                         <h5>{this.state.backtestCount} Backtests Total</h5>
                         <p>{this.state.algo_details.description}</p>
-                        <div className="errorClass">
-                            {' '}
-                            {this.state.error && this.state.error}
+                        <div className="nav isLiveNav">
+                          <p onClick={this.toggleLive} className={`${!this.state.isLive && 'toggleLive'} click`}>Backtest</p>
+                          <p onClick={this.toggleLive} className={`${this.state.isLive && 'toggleLive'} marginLeft click`}>Live</p>
                         </div>
                     </div>
-                    {this.state.showBacktestForm ? (
+                    {!this.state.isLive && this.state.showBacktestForm ? (
                         <BacktestForm
                             error={this.state.error}
                             submitForm={this.createBacktest}
@@ -253,22 +265,24 @@ class AlgorithmDetail extends Component {
                             Create new Live Instance
                         </button>
                     )}
+                    <div className="errorClass">
+                      {' '}
+                      {this.state.error && this.state.error}
+                    </div>
                     {this.state.backtestSelected && (
+                      <div>
                         <BacktestList
                             id={algoID}
                             backtests={this.state.backtests}
                             backtestSelected={this.state.backtestSelected}
                             selectBacktest={this.selectBacktest}
                         />
-                    )}
-                    {this.state.backtestSelected && (
                         <Stats
-                            start={this.state.algo_details.created_at}
-                            data={this.state.stats}
+                          start={this.state.algo_details.created_at}
+                          data={this.state.stats}
                         />
-                    )}
-                    {this.state.backtestSelected && (
                         <BacktestVote data={this.state.backtestSelected} />
+                      </div>
                     )}
                 </div>
             );
