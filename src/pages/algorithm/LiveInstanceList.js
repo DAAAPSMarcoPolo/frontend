@@ -36,29 +36,31 @@ const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInsta
                           <tr key={i}>
                               <td className="tab trans-col">{el.symbol}</td>
                               <td className="tab trans-col">
-                                  $ {el.open_price.toFixed(2)}
+                                  $ {el.open_price ? el.open_price.toFixed(2) : '--'}
                               </td>
                               <td className="tab trans-col">
-                                  {`${new Date(
+                                  {el.open_date ? `${new Date(
                                       el.open_date
                                   ).getFullYear()}-${new Date(
                                       el.open_date
                                   ).getMonth()}-${new Date(
                                       el.open_date
-                                  ).getDate()}`}
+                                  ).getDate()}` : '--'}
                               </td>
                               <td className="tab trans-col">{el.qty}</td>
                               <td className="tab trans-col">
-                                  $ {el.close_price.toFixed(2)}
+                                  $ {el.close_price ? el.close_price.toFixed(2) : '--'}
                               </td>
                               <td className="tab trans-col">
-                                  {`${new Date(
+                                  {el.close_date ?
+                                    `${new Date(
                                       el.close_date
                                   ).getFullYear()}-${new Date(
                                       el.close_date
                                   ).getMonth()}-${new Date(
                                       el.close_date
-                                  ).getDate()}`}
+                                  ).getDate()}`
+                                  : '--'}
                               </td>
                           </tr>
                       ))}
