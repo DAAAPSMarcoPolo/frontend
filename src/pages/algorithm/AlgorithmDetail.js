@@ -86,8 +86,7 @@ class AlgorithmDetail extends Component {
         }, 5000);
     };
     getAlgorithmDetails = async () => {
-        const { algoID } = this.props.match.params;
-        const res = await api.Get(`/algorithm/${algoID}`);
+        const res = await api.Get(`/algorithm/${this.state.strategy}`);
         console.log('Algorithm Details', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
@@ -109,8 +108,8 @@ class AlgorithmDetail extends Component {
         console.log('this.state.transactions', this.state.transactions);
     };
     getLiveInstanceList = async () => {
-      // GET /api/live/
-      const res = await api.Get(`/live/`);
+      // GET /api/live/<strategy_id>
+      const res = await api.Get(`/live/${this.state.strategy}`);
       console.log('getLiveInstanceList', res);
       if (res.status !== 200) {
           this.setState({ error: res.statusText });
