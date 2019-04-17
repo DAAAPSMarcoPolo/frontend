@@ -6,6 +6,7 @@ import BacktestVote from './BacktestVote';
 import api from '../../utils/api.js';
 import Stats from './Stats';
 import '../../assets/algo.css';
+import { getFromLocalStorage } from '../../utils/localstorage';
 
 class AlgorithmDetail extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class AlgorithmDetail extends Component {
             universeId: null,
             algo_details: null,
             backtests: null,
+            votes: null,
             backtestSelected: null,
             start_date: new Date() /* 2019-3-1 */,
             end_date: new Date(),
@@ -170,6 +172,49 @@ class AlgorithmDetail extends Component {
         e.persist();
         await this.setState({ universeId: id });
     };
+    castVote = async vote => {
+        const bt_id = this.state.backtestSelected.backtest.id;
+        const formData = {
+            vote
+        };
+        console.log(formData);
+        const res = await api.Post(`/backtest/${bt_id}/vote`, formData);
+        if (res.status === 200) {
+            await this.retrieveVotes();
+        } else {
+            this.setState({ error: res.statusText });
+            setTimeout(() => {
+                this.setState({ error: null });
+            }, 5000);
+        }
+    };
+
+    retrieveVotes = async () => {
+        const bt_id = this.state.backtestSelected.backtest.id;
+        const res = await api.Get(`/backtest/${bt_id}/vote`);
+        if (res.status !== 200) {
+            this.setState({ error: res.statusText });
+            setTimeout(() => {
+                this.setState({ error: null });
+            }, 5000);
+            return;
+        }
+        let { backtests } = this.state;
+        let i;
+        for (i = 0; i < backtests.length; i++) {
+            if (backtests[i].backtest.id === bt_id) {
+                break;
+            }
+        }
+        let backtestSelected = this.state.backtestSelected;
+        backtestSelected.votes = res.data.votes;
+        backtests[i] = backtestSelected;
+        this.setState({ backtests, backtestSelected });
+        console.log(backtests);
+        console.log(i);
+        console.log(backtestSelected);
+    };
+
     render() {
         const { algoID } = this.props.match.params;
         if (!this.state.loading) {
@@ -215,7 +260,10 @@ class AlgorithmDetail extends Component {
                         />
                     )}
                     {this.state.backtestSelected && (
-                        <BacktestVote data={this.state.backtestSelected} />
+                        <BacktestVote
+                            data={this.state.backtestSelected}
+                            castVote={this.castVote}
+                        />
                     )}
                 </div>
             );
