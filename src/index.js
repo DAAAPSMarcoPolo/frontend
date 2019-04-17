@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';       // add this
 import 'bootstrap/dist/js/bootstrap.js';
+import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import {CookiesProvider} from 'react-cookie';
 import App from './App';
