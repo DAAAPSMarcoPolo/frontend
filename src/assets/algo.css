@@ -118,16 +118,16 @@ p {
 }
 
 .percent {
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 100%;
-    border: 3px solid #3ecc9a;
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    top: 25px;
-    right: 55px;
+  font-size: 64px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 100%;
+  border: 3px solid #3ecc9a;
+  width: 170px;
+  height: 170px;
+  position: absolute;
+  top: 72px;
+  right: 55px;
 }
 .title-info {
     display: inline-block;
