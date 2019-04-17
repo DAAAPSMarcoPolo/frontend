@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LiveStats = ({ data }) => (
-    <div className="con rel">
+    <div className="con rel live-stats">
         <h3>Live Statistics</h3>
 
         <table className="con-table left">

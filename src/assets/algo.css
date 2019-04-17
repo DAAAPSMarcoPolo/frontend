@@ -129,6 +129,12 @@ p {
   top: 72px;
   right: 55px;
 }
+.live-stats .percent {
+  font-size: 50px;
+  top: 25px;
+  width: 150px;
+  height: 150px;
+}
 .title-info {
     display: inline-block;
 }
