@@ -4,6 +4,7 @@ import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
 import LiveInstanceList from './LiveInstanceList';
 import LiveInstanceForm from './LiveInstanceForm';
+import CancelLiveInstanceForm from './CancelLiveInstanceForm';
 import BacktestVote from './BacktestVote';
 import api from '../../utils/api.js';
 import Stats from './Stats';
@@ -28,7 +29,14 @@ class AlgorithmDetail extends Component {
             liveInstanceSelected: null,
             start_date: new Date() /* 2019-3-1 */,
             end_date: new Date(),
-            stats: {},
+            stats: {
+              initial_cash: '$500',
+              end_cash: '--',
+              num_days: 4,
+              start_date: '4/9/2019',
+              end_data: '--',
+              percent_gain: '76%'
+            },
             loading: true,
             isLive: false
         };
@@ -130,14 +138,14 @@ class AlgorithmDetail extends Component {
     };
     toggleLive = () => {
       this.setState({ isLive: !this.state.isLive });
-        // if (this.state.algo_details.live) {
-        //   this.setState({ isLive: !this.state.isLive });
-        // } else {
-        //   this.setState({ error: 'No live instances yet, Create a new live instance from a backtest!' });
-        //   setTimeout(() => {
-        //       this.setState({ error: null });
-        //   }, 5000);
-        // }
+      if (this.state.algo_details.live) {
+        this.setState({ isLive: !this.state.isLive });
+      } else {
+        this.setState({ error: 'No live instances yet, Create a new live instance from a backtest!' });
+        setTimeout(() => {
+            this.setState({ error: null });
+        }, 5000);
+      }
     };
     selectLiveInstance = (i, id) => {
         const liveInstanceSelected = this.state.liveInstances[i];
@@ -147,7 +155,9 @@ class AlgorithmDetail extends Component {
         ) {
             return;
         }
+        /*
         const li = liveInstanceSelected.live_instance;
+
         const start = new Date(li.start_date);
         const end = new Date(li.end_date);
         const timeDiff = Math.abs(end.getTime() - start.getTime());
@@ -157,6 +167,7 @@ class AlgorithmDetail extends Component {
             100
         ).toFixed(2);
         // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
+
         const stats = {};
         stats.initial_cash =
             '$ ' +
@@ -168,12 +179,12 @@ class AlgorithmDetail extends Component {
             this.numberWithCommas(
                 liveInstanceSelected.live_instance.end_cash.toFixed(2)
             );
-        stats.sharpe = liveInstanceSelected.live_instance.sharpe;
         stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
         stats.num_days = diffDays + 4;
         stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
         stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
-        this.setState({ liveInstanceSelected, stats });
+        */
+        this.setState({ liveInstanceSelected });
         console.log('liveInstanceSelected', liveInstanceSelected);
         return;
     };
@@ -288,7 +299,7 @@ class AlgorithmDetail extends Component {
       } else {
         const formData = {
             mode: "stop",
-            id: '0'
+            id: this.state.liveInstanceSelected.live_instance.id
         };
         const res = await api.Post('/live/', formData);
         if (res.status !== 200) {
@@ -297,6 +308,7 @@ class AlgorithmDetail extends Component {
                 this.setState({ error: null });
             }, 5000);
         }
+        console.log('cancel live instance', res);
         this.toggleLiveInstanceForm();
       }
     };
@@ -362,9 +374,20 @@ class AlgorithmDetail extends Component {
                             className="maxWidth position-corner greenButton"
                             onClick={this.toggleLiveInstanceForm}
                         >
-                            Create new Live Instance
+                            {!this.state.isLive ? 'Create new Live Instance' : 'Cancel Live Instance'}
                         </button>
                     )}
+                    {this.state.isLive && this.state.showLiveInstanceForm ? (
+                        <CancelLiveInstanceForm
+                            error={this.state.error}
+                            submitForm={this.stopLiveInstance}
+                            parent={this}
+                            showModal={this.state.showLiveInstanceForm}
+                            toggleState={this.toggleLiveInstanceForm}
+                            name="Cancel Live Instance"
+                            id={this.state.liveInstanceSelected.live_instance.id}
+                        />
+                    ) : null}
                     <div className="errorClass">
                       {' '}
                       {this.state.error && this.state.error}
@@ -392,7 +415,7 @@ class AlgorithmDetail extends Component {
                             liveInstances={this.state.liveInstances}
                             liveInstanceSelected={this.state.liveInstanceSelected}
                             selectLiveInstance={this.selectLiveInstance}
-                            isLive={this.state.liveInstances.live_instance.live}
+                            isLive={this.state.liveInstanceSelected.live_instance.live}
                         />
                         <LiveStats
                           start={this.state.algo_details.created_at}
