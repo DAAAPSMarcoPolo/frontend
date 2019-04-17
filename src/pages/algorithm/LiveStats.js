@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Stats = ({ data }) => (
-    <div className="con rel">
-        <h3>Statistics</h3>
+const LiveStats = ({ data }) => (
+    <div className="con rel live-stats">
+        <h3>Live Statistics</h3>
 
         <table className="con-table left">
           <thead>
@@ -20,19 +20,14 @@ const Stats = ({ data }) => (
             <tr>
                 <td>{data.end_cash}</td>
             </tr>
-            <tr>
-            <th>Sharpe Ratio</th>
-            </tr>
-            <tr>
-            <td>{data.sharpe}</td>
-            </tr>
+
             <tr>
                 <th>Length of Test</th>
                 <th>Start</th>
                 <th>End</th>
             </tr>
             <tr>
-                <td>{data.num_days} Days</td>
+                <td>{data.num_days}</td>
                 <td>{data.start_date}</td>
                 <td>{data.end_date}</td>
             </tr>
@@ -47,4 +42,4 @@ const Stats = ({ data }) => (
     </div>
 );
 
-export default Stats;
+export default LiveStats;

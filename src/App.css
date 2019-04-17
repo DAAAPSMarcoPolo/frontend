@@ -300,18 +300,6 @@ h1 {
   color: #7C7C7C;
 }
 
-.percent {
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 100%;
-  border: 3px solid #3ECC9A;
-  width: 150px;
-  height: 150px;
-  position: absolute;
-  top: 59px;
-  right: 55px;
-}
 .margin-auto {
   margin: auto;
   display: inline-grid;
@@ -333,7 +321,17 @@ h1 {
 .loading {
     font-size: 4rem;
 }
+.marginRight {
+    margin-right: 20px;
+}
 
+.user p {
+  font-size: 12px;
+}
+
+.marginLeft {
+  margin-left: 20px;
+}
 .loading:after {
   content: '•  ';
   animation: dots 1s steps(5, end) infinite;}

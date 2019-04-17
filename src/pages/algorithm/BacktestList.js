@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../assets/algo.css';
 
-const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
+const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) => (
     <div className="backtest margins">
         <ul className="nav-tabs nav-overflow scroll-hide">
             {backtests &&
@@ -13,20 +13,23 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                         onClick={() => selectBacktest(i, backtest.backtest.id)}
                     >
                         {' '}
-                        {backtest.backtest.id}
+                        <div style={{color: `${isLive ? '#FA6353' : '#44E8AE'}`, display: 'inline'}}>•&nbsp;</div>{backtest.backtest.id}
                     </li>
                 ))}
         </ul>
         <div className="padding">
             <table className="transaction-table nav-overflow">
-                <tr>
-                    <th>Stock</th>
-                    <th>Buy Price</th>
-                    <th>Buy Date</th>
-                    <th>Quantity</th>
-                    <th>Sell Price</th>
-                    <th>Sell Date</th>
-                </tr>
+              <thead>
+                  <tr>
+                      <th>Stock</th>
+                      <th>Buy Price</th>
+                      <th>Buy Date</th>
+                      <th>Quantity</th>
+                      <th>Sell Price</th>
+                      <th>Sell Date</th>
+                  </tr>
+                </thead>
+                <tbody>
                 {backtestSelected.trades &&
                     backtestSelected.trades.map((el, i) => (
                         <tr key={i}>
@@ -58,6 +61,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                             </td>
                         </tr>
                     ))}
+                    </tbody>
             </table>
         </div>
     </div>

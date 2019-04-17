@@ -30,7 +30,7 @@ const Algo = ({
                 <p className="col-5 boundaries-algo">
                     {name}&nbsp;&nbsp;•&nbsp;&nbsp;
                     <Link to={`/algorithms/${algoId}`} className="algo-link">
-                        <p>Current backtest</p>
+                        <p>#{algoId}</p>
                     </Link>
                 </p>
                 <p className="col-4 boundaries-algo">
@@ -63,7 +63,7 @@ const Algo = ({
             <div className="row">
                 <p className="col-5 boundaries-algo">
                     Backtest status:{' '}
-                    {complete ? 'Backtest Complete' : 'Backest in Progress'}
+                    {complete ? 'Backtest Complete' : 'No Backtests Created'}
                 </p>
                 <p className="col-1 boundaries-algo secondary-text">${start}</p>
                 <p className="col-1 boundaries-algo secondary-text">${end}</p>
