@@ -5,16 +5,16 @@ const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInsta
     <div className="backtest margins">
         <ul className="nav-tabs nav-overflow scroll-hide">
             {liveInstances &&
-                liveInstances.map((backtest, i) => (
+                liveInstances.map((live, i) => (
                     <li
-                        className={`tab select-backtest ${liveInstanceSelected
-                            .backtest.id === backtest.backtest.id && 'active'}`}
+                        className={`tab select-backtest
+                          ${liveInstanceSelected.live_instance.id === live.live_instance.id && 'active'}`}
                         key={i}
-                        onClick={() => selectLiveInstance(i, backtest.backtest.id)}
+                        onClick={() => selectLiveInstance(i, live.live_instance.id)}
                     >
                         {' '}
-                        <div style={{color: `${isLive ? '#FA6353' : '#44E8AE'}`, display: 'inline'}}>•&nbsp;</div>
-                        {backtest.backtest.id}
+                        <div style={{color: `${isLive ? '#44E8AE' : '#FA6353'}`, display: 'inline'}}>•&nbsp;</div>
+                        {live.live_instance.id}
                     </li>
                 ))}
         </ul>
