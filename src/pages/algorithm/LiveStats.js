@@ -1,20 +1,8 @@
 import React from 'react';
 
-/*
-"id": 1,
-"live_trade_instance_id": 19,
-"symbol": "AAPL",
-"open": true,
-"open_date": "2019-04-10T16:43:15.619000Z",
-"close_date": null,
-"qty": 1,
-"open_price": 2,
-"close_price": null
-*/
-
 const LiveStats = ({ data }) => (
     <div className="con rel">
-        <h3>Statistics</h3>
+        <h3>Live Statistics</h3>
 
         <table className="con-table left">
           <thead>
@@ -42,16 +30,6 @@ const LiveStats = ({ data }) => (
                 <td>{data.num_days}</td>
                 <td>{data.start_date}</td>
                 <td>{data.end_date}</td>
-            </tr>
-            <tr>
-                <th>Sharpe Ratio</th>
-                <th>Alpha</th>
-                <th>Beta</th>
-            </tr>
-            <tr>
-                <td>{data.sharpe}</td>
-                <td>--</td>
-                <td>--</td>
             </tr>
           </tbody>
         </table>
