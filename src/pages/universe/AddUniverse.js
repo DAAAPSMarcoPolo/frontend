@@ -20,6 +20,7 @@ class AddUniverse extends Component{
     };
 
     render(){
+        const error = this.props.error
         if (!this.props.enabled){
             return null;
         } else {
@@ -27,7 +28,10 @@ class AddUniverse extends Component{
                 <div>
                     <form onSubmit={this.props.handleAddUniverse}>
                         <input id="newUniverseName" type="text" name="universeName"/>
-                        <input type="submit"/>
+                        <input className="submit-button" type="submit"/>
+                        <div>
+                            {error && error}
+                        </div>
                     </form>
                 </div>
             )

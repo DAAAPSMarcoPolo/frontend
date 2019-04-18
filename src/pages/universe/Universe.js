@@ -12,7 +12,9 @@ class Universe extends Component {
         this.state = {
             universeList: null,
             addingUniverse: false,
-            currentUniverseId: null
+            currentUniverseId: null,
+            error: null,
+            addUniverseError: null
         };
         this.getUniverses = this.getUniverses.bind();
         this.setUniverse = this.setUniverse.bind();
@@ -29,8 +31,9 @@ class Universe extends Component {
         const response = await api.Get('/universe/');
         console.log(response);
         if (response.status === 200){
-            this.setState({universeList: response.data});
+            this.setState({universeList: response.data, error:null});
         } else {
+            this.setState({error: "Could not retrieve universes"})
             console.log("Could not retrieve universe data");
         }
 
@@ -79,8 +82,12 @@ class Universe extends Component {
             this.setState({currentUniverseId: response.data.id});
             this.updateCurrentUniverse(response.data.id);
             console.log(response);
+        } else if (response.status === 409){
+            this.setState({addUniverseError: "Cannot create universe with duplicate name"});
+            setTimeout(() => { this.setState({error: null}); }, 5000);
         } else {
-            console.log("Creating new Universe didn't work");
+            this.setState({addUniverseError: "Error creating new universe"});
+            setTimeout(() => { this.setState({error: null}); }, 5000);
         }
     };
 
@@ -98,13 +105,16 @@ class Universe extends Component {
                                 onClick={this.changeAddUniverseState}/>
                         </div>
                     </div>
+                    <div className="errorClass">
+                        {this.state.error && this.state.error}
+                    </div>
                     <UniverseList universeList={this.state.universeList} setUniverse={this.setUniverse} selection={this.state.currentUniverse}/>
                 </div>
                 <div className="universe-pane">
                     <StockList currentUniverse={this.state.currentUniverse} updateUniverse={this.getUniverses} />
                 </div>
                 <div className="universe-pane">
-                    <AddUniverse enabled={this.state.addingUniverse} handleAddUniverse={this.handleAddUniverse}/>
+                    <AddUniverse enabled={this.state.addingUniverse} handleAddUniverse={this.handleAddUniverse} error={this.state.addUniverseError}/>
                 </div>
             </div>
         )

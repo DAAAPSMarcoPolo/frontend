@@ -13,41 +13,40 @@ class AddStocks extends Component{
             selectedOption: sampleStocks,
             availableStocks: [],
             currUniverseId: null,
-            value: []
+            value: [],
+            error: null
         };
         this.handleSearchChange = this.handleSearchChange.bind();
     }
 
-    //Sets the state of the selected values
     handleChange = (e, { searchQuery, value }) => {
         this.setState({searchQuery: "", value});
     };
 
     handleSearchChange = async (e, { searchQuery }) => {
         this.setState({ searchQuery });
-
-        //Populate values with selected options (necessary for proper functionality)
         var currList = [];
+
         this.state.value.map((item) =>{
             currList.push({key: item, text: item, value: item});
         });
 
         if (searchQuery.length < 2){
-            //Must have a minimum 2 letter search query
-            this.setState({availableStocks: currList});
             return;
         } else {
-            //Populate options with remaining query options if query is valid
-            const response = await api.Get("/stocks/" + searchQuery);
+            const response = await api.Get("/stocks/" + searchQuery.toUpperCase());
             if (response.status === 200){
                 response.data.stocks.map((item) => {
                     if (!(item.symbol in currList)){
                         currList.push({key: item.symbol, text: item.symbol, value: item.symbol});
                     }
                 });
+            } else {
+                this.setState({error: 'Error retrieving stocks for search'});
+                setTimeout(() => { this.setState({error: null}); }, 5000);
             }
-            this.setState({availableStocks: currList});
         }
+        this.setState({availableStocks: currList});
     };
 
     render(){
@@ -57,7 +56,11 @@ class AddStocks extends Component{
             const { searchQuery, value, availableStocks } = this.state;
             return(
                 <div>
-                    <form onSubmit={(e) => {this.setState({value: [], searchQuery: ""}); this.props.handleModifyStocks(e, value)}}>
+                    <form
+                        onSubmit={(e) => {
+                            this.setState({value: [], searchQuery: ""});
+                            this.props.handleModifyStocks(e, value)
+                        }}>
                         <Dropdown
                             fluid
                             multiple
@@ -69,7 +72,10 @@ class AddStocks extends Component{
                             selection
                             value={value}
                         />
-                        <input type="submit"/>
+                        <input className="submit-button" type="submit"/>
+                        <div className="errorClass">
+                            {this.state.error && this.state.error}
+                        </div>
                     </form>
                 </div>
             );

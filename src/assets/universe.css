@@ -44,10 +44,18 @@
   cursor: pointer;
 }
 
+.universe-list-item:hover {
+  opacity: .5;
+}
+
 .universe-list-item.selected {
   color: #3ECC9A;
   border-style: solid;
   border-radius: 30px;
+}
+
+.universe-list-item.selected:hover {
+  opacity: 1;
 }
 
 .flex-container{
@@ -69,6 +77,10 @@
   top: 3px;
 }
 
+.universe-add:hover{
+  opacity: .5;
+}
+
 .multiselect {
   margin-left: 30px;
   width: 300px;
@@ -81,5 +93,19 @@
 
 .stock-remove-button {
   position: relative;
-  max-width: 20px;
+  left: 10px;
+  width: 1em;
+}
+
+.stock-remove-button:hover {
+  opacity: .50;
+}
+
+.add-stocks {
+  padding-left: 50px;
+  min-width: 100%;
+}
+
+.submit-button:hover {
+  opacity: .60;
 }
