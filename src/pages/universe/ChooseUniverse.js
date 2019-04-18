@@ -20,7 +20,6 @@ class ChooseUniverse extends Component {
       this.getUniverses();
     }
     getUniverses = async ()=> {
-        //TODO: call API to get the universe list
         const response = await api.Get('/universe/');
         if (response.status !== 200){
           this.setState({ error:response.statusText });

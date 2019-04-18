@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './../../assets/universe.css';
-import minus from "../../assets/images/minus-icon.png";
+import x_icon from "../../assets/images/x-icon.png";
 import plus from "../../assets/images/plus-circle-icon.png";
 import AddStocks from "./AddStocks";
 import api from "../../utils/api";
@@ -11,7 +11,8 @@ class StockList extends Component{
         this.state = {
             addingStocks: false,
             additionalStockList: [],
-            stocklist: null
+            stocklist: null,
+            error: null
         };
         this.modifyStocksSwitch = this.modifyStocksSwitch.bind();
         this.handleModifyingStocks = this.handleModifyingStocks.bind();
@@ -35,6 +36,8 @@ class StockList extends Component{
 
         //Response handling
         if (response.status !== 200){
+            this.setState({ error: "Could not update universe" });
+            setTimeout(() => { this.setState({error: null}); }, 5000);
             console.log("Something went wrong with updating the universe");
         } else {
             this.props.updateUniverse();
@@ -52,6 +55,8 @@ class StockList extends Component{
 
         //Response handling
         if (response.status !== 200){
+            this.setState({ error: "Could not update universe" });
+            setTimeout(() => { this.setState({error: null}); }, 5000);
             console.log("Something went wrong with updating the universe");
         } else {
             this.props.updateUniverse();
@@ -74,6 +79,9 @@ class StockList extends Component{
                                     alt="x-icon"
                                     onClick={this.modifyStocksSwitch}/>
                             </div>
+                            <div>
+                                {this.state.error && this.state.error}
+                            </div>
                         </div>
                         <ul className="universe-list stock-list">
                             {this.props.currentUniverse.stocks.map((stock, key)=>(
@@ -82,7 +90,7 @@ class StockList extends Component{
                                         {stock}
                                         <div>
                                             <img
-                                                src={minus}
+                                                src={x_icon}
                                                 className="stock-remove-button"
                                                 alt="x-icon"
                                                 onClick={(e) => this.handleRemoveStock(e, stock)}/>
@@ -92,7 +100,7 @@ class StockList extends Component{
                             ))}
                         </ul>
                     </div>
-                    <div>
+                    <div className="add-stocks">
                         <AddStocks enable={this.state.addingStocks} handleModifyStocks={this.handleModifyingStocks} universe={this.props.currentUniverse}/>
                     </div>
                 </div>
