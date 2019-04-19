@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Select from 'react-select';
 import { Dropdown } from 'semantic-ui-react';
 import AsyncSelect from 'react-select/lib/Async';
+import '../../assets/universe.css';
 import api from '../../utils/api';
 
 const sampleStocks = ["AAPL", "BA", "TSLA", "TTWO", "DGAZ", "GDL", "UGAZ"];
@@ -20,7 +21,8 @@ class AddStocks extends Component{
     }
 
     handleChange = (e, { searchQuery, value }) => {
-        this.setState({searchQuery: "", value});
+        console.log('value', value);
+        this.setState({ value });
     };
 
     handleSearchChange = async (e, { searchQuery }) => {
@@ -71,6 +73,7 @@ class AddStocks extends Component{
                             searchQuery={searchQuery}
                             selection
                             value={value}
+
                         />
                         <input className="submit-button" type="submit"/>
                         <div className="errorClass">

@@ -76,7 +76,7 @@ class StockList extends Component{
                                 <img
                                     src={plus}
                                     className="universe-add"
-                                    alt="x-icon"
+                                    alt="plus-icon"
                                     onClick={this.modifyStocksSwitch}/>
                             </div>
                             <div>

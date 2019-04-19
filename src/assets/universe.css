@@ -109,3 +109,30 @@
 .submit-button:hover {
   opacity: .60;
 }
+
+input.search {
+  width: 100% !important;
+
+}
+
+.search {
+  background: none !important;
+}
+
+.menu {
+  overflow: scroll;
+  cursor: pointer;
+  max-height: 200px;
+}
+
+.search span:hover {
+  opacity: .8;
+}
+
+.search .sizer {
+  display: none;
+}
+
+.search a.ui.active.label, .search a.ui.label {
+  display: none !important;
+}
