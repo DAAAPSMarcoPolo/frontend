@@ -10,10 +10,16 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) =
                         className={`tab select-backtest ${backtestSelected
                             .backtest.id === backtest.backtest.id && 'active'}`}
                         key={i}
-                        onClick={() => selectBacktest(i, backtest.backtest.id)}
+                        onClick={() => selectBacktest(i, backtest.backtest.id,)}
                     >
                         {' '}
-                        <div style={{color: `${isLive ? '#FA6353' : '#44E8AE'}`, display: 'inline'}}>•&nbsp;</div>{backtest.backtest.id}
+                        <div style={{color: `${isLive ? '#FA6353' : '#44E8AE'}`, display: 'inline'}}>•&nbsp;</div>{`${new Date(
+                                    backtest.backtest.created_at
+                                ).getFullYear()}-${new Date(
+                                    backtest.backtest.created_at
+                                ).getMonth()+1}-${new Date(
+                                    backtest.backtest.created_at
+                                ).getDate()}`}
                     </li>
                 ))}
         </ul>
@@ -42,7 +48,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) =
                                     el.buy_time
                                 ).getFullYear()}-${new Date(
                                     el.buy_time
-                                ).getMonth()}-${new Date(
+                                ).getMonth()+1}-${new Date(
                                     el.buy_time
                                 ).getDate()}`}
                             </td>
@@ -55,7 +61,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) =
                                     el.sell_time
                                 ).getFullYear()}-${new Date(
                                     el.sell_time
-                                ).getMonth()}-${new Date(
+                                ).getMonth()+1}-${new Date(
                                     el.sell_time
                                 ).getDate()}`}
                             </td>

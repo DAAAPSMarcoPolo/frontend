@@ -222,3 +222,16 @@ p {
   margin: 10px 0px;
   font-family: 'Proxima Nova', sans-serif;
 }
+
+.BacktestModeNav {
+    font-family: 'Proxima Nova', sans-serif;
+}
+
+.transactionGraph {
+    table-layout: auto;
+    border-radius: 0px 5px;
+    width: 100%;
+    background: #282828;
+    overflow: scroll;
+    min-height:500px;
+}
