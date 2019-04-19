@@ -18,7 +18,7 @@
 .nav {
     display: flex;
     font-family: 'Rufina', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     z-index: 5;
 }
 
@@ -67,6 +67,7 @@
     background-color: #1f1f1f;
     color: white;
     border-radius: 0px;
+    min-width: 500px;
     /* position: fixed;
     height: 100vh;
     display: inline-block;
