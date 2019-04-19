@@ -1,26 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
 import edit from '../../assets/images/edit-icon.png';
-import { withCookies, Cookies } from 'react-cookie';
-import { instanceOf } from 'prop-types';
-import {
-    saveToLocalStorage,
-    getFromLocalStorage
-} from '../../utils/localstorage';
 
 class User extends Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies)
-    };
-
     constructor(props) {
         super(props);
         this.state = {
             imagePreviewUrl: null,
-            username: 'Username',
-            tokenExpired: false
+            username: 'Username'
         };
         this.getProfilePicture = this.getProfilePicture.bind(this);
         this.getUserInfo = this.getUserInfo.bind(this);
@@ -39,28 +27,15 @@ class User extends Component {
     getUserInfo = async () => {
         const res = await api.Get('/api/user/settings/');
         const { user } = res.data;
-        if (user && user.username) {
-            saveToLocalStorage({ user });
+        if (user.username) {
             this.setState({ username: user.username });
-        } else if (!user) {
-            this.logout();
         }
     };
-
-    logout = () => {
-        const { cookies } = this.props;
-        cookies.set('isAuthenticated', false);
-        cookies.set('isAdmin', false);
-        cookies.remove('jwt');
-        cookies.remove('email');
-        this.setState({ tokenExpired: true });
-    };
-
     addDefaultSrc(ev) {
         ev.target.src = `${edit}`;
     }
     render() {
-        if (this.props.isAuthenticated === 'true' && !this.state.tokenExpired) {
+        if (this.props.isAuthenticated === 'true') {
             return (
                 <Link className="user" to="/settings">
                     <div className="profile-nav">
@@ -76,7 +51,7 @@ class User extends Component {
                     <p>{this.state.username}</p>
                 </Link>
             );
-        } else return <Redirect to="/login" />;
+        } else return null;
     }
 }
-export default withCookies(User);
+export default User;
