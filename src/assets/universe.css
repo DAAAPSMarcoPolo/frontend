@@ -1,5 +1,6 @@
 .stock-list {
-    color: black;
+  color: white;
+  width: 100%;
 }
 
 .choose-universe .panel-title {
@@ -22,4 +23,89 @@
 .choose-universe .selected {
   color: white;
   background-color: #3ECC9A;
+}
+
+.universe-pane {
+  margin: 10px;
+}
+
+.universe-list{
+  color: white;
+  list-style: none;
+  padding-left: 0;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.universe-list-item {
+  color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.universe-list-item:hover {
+  opacity: .5;
+}
+
+.universe-list-item.selected {
+  color: #3ECC9A;
+  border-style: solid;
+  border-radius: 30px;
+}
+
+.universe-list-item.selected:hover {
+  opacity: 1;
+}
+
+.flex-container{
+  display: flex;
+}
+
+.flex-container.stocks{
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-container.stock-list{
+}
+
+.universe-add{
+  max-width: 20px;
+  position: relative;
+  left: 10px;
+  top: 3px;
+}
+
+.universe-add:hover{
+  opacity: .5;
+}
+
+.multiselect {
+  margin-left: 30px;
+  width: 300px;
+  color: black;
+}
+
+#newUniverseName {
+  text-transform: none;
+}
+
+.stock-remove-button {
+  position: relative;
+  left: 10px;
+  width: 1em;
+}
+
+.stock-remove-button:hover {
+  opacity: .50;
+}
+
+.add-stocks {
+  padding-left: 50px;
+  min-width: 100%;
+}
+
+.submit-button:hover {
+  opacity: .60;
 }

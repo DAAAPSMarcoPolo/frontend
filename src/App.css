@@ -153,7 +153,8 @@ ul, li {
 
 .con {
     padding: 20px;
-    max-width: 400px;
+    min-width: 500px;
+    max-width: 600px;
     background: #1F1F1F;
     border-radius: 5px;
     margin-bottom: 20px;

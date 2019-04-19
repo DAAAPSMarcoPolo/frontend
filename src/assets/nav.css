@@ -6,9 +6,9 @@
     cursor: pointer;
 }
 .navwrap {
-  display: flex;
-  justify-content: space-between;
-  width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
 }
 
 .bar-con {
@@ -18,12 +18,12 @@
 .nav {
     display: flex;
     font-family: 'Rufina', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     z-index: 5;
 }
 
 .nav a {
-  line-height: 30px;
+    line-height: 30px;
 }
 .contain:hover {
     opacity: 1;
@@ -67,6 +67,7 @@
     background-color: #1f1f1f;
     color: white;
     border-radius: 0px;
+    min-width: 175px;
     /* position: fixed;
     height: 100vh;
     display: inline-block;
