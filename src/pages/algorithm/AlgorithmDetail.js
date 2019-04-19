@@ -243,6 +243,7 @@ class AlgorithmDetail extends Component {
         stats.num_days = diffDays + 4;
         stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
         stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
+        stats.backtestHistoryMode = this.state.stats.backtestHistoryMode
         this.setState({ backtestSelected, stats });
         console.log('backtestSelected', backtestSelected);
         return;
