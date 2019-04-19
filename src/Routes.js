@@ -9,8 +9,8 @@ import ProtectedRoute from './ProtectedRoute';
 import Upload from './pages/upload/Upload';
 import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
 import AlgorithmList from './pages/algorithm/AlgorithmList';
-import Universe from "./pages/universe/Universe";
-import NotFound from "./pages/NotFound";
+import Universe from './pages/universe/Universe';
+import NotFound from './pages/NotFound';
 
 const Routes = () => (
     <Switch>
