@@ -196,7 +196,6 @@ class AlgorithmDetail extends Component {
     };
 
     selectBacktest = (i, id) => {
-        console.log(this.state.backtestSelected)
         const backtestSelected = this.state.backtests[i];
         if (
             this.state.backtestSelected &&

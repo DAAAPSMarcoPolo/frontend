@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../assets/algo.css';
-import { AreaChart, Area, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 
 const BacktestGraph = ({ backtests, backtestSelected, selectBacktest, isLive }) => (
@@ -29,10 +29,11 @@ const BacktestGraph = ({ backtests, backtestSelected, selectBacktest, isLive }) 
         {backtestSelected.graph.length ? (
             <ResponsiveContainer className="transactionGraph nav-overflow">
             <AreaChart data={backtestSelected.graph}>
-                <Area dot={false}type="monotone" dataKey="value" stroke="#3ecc9a" fill='#82f2cb' />
+                <Area animationDuration={3500} dot={false}type="monotone" dataKey="value" stroke="#3ecc9a" fill='#82f2cb' />
                 <CartesianGrid stroke="#ccc" />
                 <XAxis dataKey="date" />
                 <YAxis />
+                <Tooltip formatter={(value) => value} />
             </AreaChart>
         </ResponsiveContainer>
         ) : 'Backtest was run before graphing functionality was implemented'
