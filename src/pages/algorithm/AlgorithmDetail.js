@@ -209,6 +209,7 @@ class AlgorithmDetail extends Component {
         let backtestSelected = this.state.backtestSelected;
         backtestSelected.votes = res.data.votes;
         backtests[i] = backtestSelected;
+        console.log(res);
         this.setState({ backtests, backtestSelected });
         console.log(backtests);
         console.log(i);
