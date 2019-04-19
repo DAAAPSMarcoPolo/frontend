@@ -68,7 +68,7 @@ const Algo = ({
                 <p className="col-1 boundaries-algo secondary-text">${start}</p>
                 <p className="col-1 boundaries-algo secondary-text">${end}</p>
                 <p className="col-2 boundaries-algo secondary-text">
-                    {sharpe}%
+                    {sharpe}
                 </p>
                 <p className="col-3 boundaries-algo secondary-text">
                     <span role="img" aria-label="Approval">

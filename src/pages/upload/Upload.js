@@ -130,6 +130,7 @@ class Upload extends Component {
                     Uploaded!
                 </button>
             );
+            return (<Redirect to="/algorithms"/>);
         } else if (this.state.uploadButtonStatus === 'Error') {
             uploadButton = (
                 <button

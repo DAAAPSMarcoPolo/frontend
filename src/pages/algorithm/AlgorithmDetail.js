@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
+import BacktestGraph from './BacktestGraph';
 import LiveInstanceList from './LiveInstanceList';
 import LiveInstanceForm from './LiveInstanceForm';
 import CancelLiveInstanceForm from './CancelLiveInstanceForm';
@@ -35,10 +36,11 @@ class AlgorithmDetail extends Component {
               num_days: 4,
               start_date: '4/9/2019',
               end_data: '--',
-              percent_gain: '76%'
+              percent_gain: '76%',
+              backtestHistoryMode: true
             },
             loading: true,
-            isLive: false
+            isLive: false,
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -54,6 +56,7 @@ class AlgorithmDetail extends Component {
         this.selectBacktest = this.selectBacktest.bind(this);
         this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
+        this.toggleBacktestmode = this.toggleBacktestmode.bind(this);
     }
     async componentDidMount() {
         Promise.all([this.getBacktestList(), this.getLiveInstanceList(), this.getAlgorithmDetails()]).then(
@@ -188,7 +191,12 @@ class AlgorithmDetail extends Component {
         return;
     };
 
+    toggleBacktestmode = () => {
+        this.setState({stats: {...this.state.stats, ['backtestHistoryMode']: !this.state.stats.backtestHistoryMode}});
+    };
+
     selectBacktest = (i, id) => {
+        console.log(this.state.backtestSelected)
         const backtestSelected = this.state.backtests[i];
         if (
             this.state.backtestSelected &&
@@ -393,16 +401,31 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                       <div>
-                        <BacktestList
+                        {!this.state.stats.backtestHistoryMode ?(
+                            <BacktestList
+                                id={algoID}
+                                backtests={this.state.backtests}
+                                backtestSelected={this.state.backtestSelected}
+                                selectBacktest={this.selectBacktest}
+                                isLive={false}
+                            />
+                        )
+                            
+                        :
+                        <BacktestGraph
                             id={algoID}
                             backtests={this.state.backtests}
                             backtestSelected={this.state.backtestSelected}
                             selectBacktest={this.selectBacktest}
                             isLive={false}
                         />
+                        }
+                        
+                        
                         <Stats
                           start={this.state.algo_details.created_at}
                           data={this.state.stats}
+                          toggleMode={this.toggleBacktestmode}
                         />
                         <BacktestVote data={this.state.backtestSelected} />
                       </div>
