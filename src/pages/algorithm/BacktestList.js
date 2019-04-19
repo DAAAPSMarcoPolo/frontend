@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../assets/algo.css';
 
-const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
+const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) => (
     <div className="backtest margins">
         <ul className="nav-tabs nav-overflow scroll-hide">
             {backtests &&
@@ -10,23 +10,32 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                         className={`tab select-backtest ${backtestSelected
                             .backtest.id === backtest.backtest.id && 'active'}`}
                         key={i}
-                        onClick={() => selectBacktest(i, backtest.backtest.id)}
+                        onClick={() => selectBacktest(i, backtest.backtest.id,)}
                     >
                         {' '}
-                        {backtest.backtest.id}
+                        <div style={{color: `${isLive ? '#FA6353' : '#44E8AE'}`, display: 'inline'}}>•&nbsp;</div>{`${new Date(
+                                    backtest.backtest.created_at
+                                ).getFullYear()}-${new Date(
+                                    backtest.backtest.created_at
+                                ).getMonth()+1}-${new Date(
+                                    backtest.backtest.created_at
+                                ).getDate()}`}
                     </li>
                 ))}
         </ul>
         <div className="padding">
             <table className="transaction-table nav-overflow">
-                <tr>
-                    <th>Stock</th>
-                    <th>Buy Price</th>
-                    <th>Buy Date</th>
-                    <th>Quantity</th>
-                    <th>Sell Price</th>
-                    <th>Sell Date</th>
-                </tr>
+              <thead>
+                  <tr>
+                      <th>Stock</th>
+                      <th>Buy Price</th>
+                      <th>Buy Date</th>
+                      <th>Quantity</th>
+                      <th>Sell Price</th>
+                      <th>Sell Date</th>
+                  </tr>
+                </thead>
+                <tbody>
                 {backtestSelected.trades &&
                     backtestSelected.trades.map((el, i) => (
                         <tr key={i}>
@@ -39,7 +48,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                                     el.buy_time
                                 ).getFullYear()}-${new Date(
                                     el.buy_time
-                                ).getMonth()}-${new Date(
+                                ).getMonth()+1}-${new Date(
                                     el.buy_time
                                 ).getDate()}`}
                             </td>
@@ -52,12 +61,13 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest }) => (
                                     el.sell_time
                                 ).getFullYear()}-${new Date(
                                     el.sell_time
-                                ).getMonth()}-${new Date(
+                                ).getMonth()+1}-${new Date(
                                     el.sell_time
                                 ).getDate()}`}
                             </td>
                         </tr>
                     ))}
+                    </tbody>
             </table>
         </div>
     </div>

@@ -1,27 +1,29 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import ChooseUniverse from '../universe/ChooseUniverse';
+import ModalWrapper from '../components/ModalWrapper';
 import 'react-datepicker/dist/react-datepicker.css';
-import x from '../../assets/images/x-icon.png';
 
 const BacktestForm = ({
     submitForm,
-    exitForm,
     parent,
     error,
-    handleSelectUniverse
+    handleSelectUniverse,
+    showModal,
+    toggleState,
+    name
 }) => {
     return (
-        <div className="con rel">
-            <img
-                className="icon roster"
-                src={x}
-                alt="x-icon"
-                onClick={exitForm}
-            />
-            <h3>Start a new Backtest</h3>
-            <form onSubmit={submitForm} autocomplete="off">
-                <input type="hidden" value="something" />
+        <ModalWrapper
+            title="Start a new Backtest"
+            width={800}
+            showOk={true}
+            showModal={showModal}
+            toggleState={toggleState}
+            name={name}
+        >
+            <div className="errorClass"> {error && error}</div>
+            <form onSubmit={submitForm}>
                 <div>
                     <DatePicker
                         selected={parent.state.startDate}
@@ -51,7 +53,7 @@ const BacktestForm = ({
                 </div>
                 <button type="submit">Submit</button>
             </form>
-        </div>
+        </ModalWrapper>
     );
 };
 

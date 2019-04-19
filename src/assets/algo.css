@@ -118,16 +118,22 @@ p {
 }
 
 .percent {
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 100%;
-    border: 3px solid #3ecc9a;
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    top: 59px;
-    right: 55px;
+  font-size: 64px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 100%;
+  border: 3px solid #3ecc9a;
+  width: 170px;
+  height: 170px;
+  position: absolute;
+  top: 72px;
+  right: 55px;
+}
+.live-stats .percent {
+  font-size: 50px;
+  top: 25px;
+  width: 150px;
+  height: 150px;
 }
 .title-info {
     display: inline-block;
@@ -199,4 +205,33 @@ p {
 .percent h1 {
     font-weight: bolder;
     font-size: 30px;
+}
+
+.toggleLive {
+  border: 3px solid #3ecc9a;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #3ecc9a;
+}
+
+.click {
+  cursor: pointer;
+}
+
+.isLiveNav {
+  margin: 10px 0px;
+  font-family: 'Proxima Nova', sans-serif;
+}
+
+.BacktestModeNav {
+    font-family: 'Proxima Nova', sans-serif;
+}
+
+.transactionGraph {
+    table-layout: auto;
+    border-radius: 0px 5px;
+    width: 100%;
+    background: #282828;
+    overflow: scroll;
+    min-height:500px;
 }
