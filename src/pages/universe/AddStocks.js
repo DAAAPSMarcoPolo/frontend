@@ -22,7 +22,8 @@ class AddStocks extends Component{
 
     handleChange = (e, { searchQuery, value }) => {
         console.log('value', value);
-        this.setState({ value });
+        //this.setState({ value });
+        this.props.updateValues(value);
     };
 
     handleSearchChange = async (e, { searchQuery }) => {
@@ -53,33 +54,27 @@ class AddStocks extends Component{
 
     render(){
         if (this.props.enable === false){
-            return null;
+            return (<div></div>);
         } else {
-            const { searchQuery, value, availableStocks } = this.state;
+            const { searchQuery, availableStocks } = this.state;
+            const values = this.props.values;
             return(
                 <div>
-                    <form
-                        onSubmit={(e) => {
-                            this.setState({value: [], searchQuery: ""});
-                            this.props.handleModifyStocks(e, value)
-                        }}>
-                        <Dropdown
-                            fluid
-                            multiple
-                            onChange={this.handleChange}
-                            onSearchChange={this.handleSearchChange}
-                            options={availableStocks}
-                            search
-                            searchQuery={searchQuery}
-                            selection
-                            value={value}
+                    <Dropdown
+                        fluid
+                        multiple
+                        onChange={this.handleChange}
+                        onSearchChange={this.handleSearchChange}
+                        options={availableStocks}
+                        search
+                        searchQuery={searchQuery}
+                        selection
+                        value={values}
 
-                        />
-                        <input className="submit-button" type="submit"/>
-                        <div className="errorClass">
-                            {this.state.error && this.state.error}
-                        </div>
-                    </form>
+                    />
+                    <div className="errorClass">
+                        {this.state.error && this.state.error}
+                    </div>
                 </div>
             );
         }
