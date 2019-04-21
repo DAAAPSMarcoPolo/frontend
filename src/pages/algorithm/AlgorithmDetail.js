@@ -7,6 +7,7 @@ import LiveInstanceList from './LiveInstanceList';
 import LiveInstanceForm from './LiveInstanceForm';
 import CancelLiveInstanceForm from './CancelLiveInstanceForm';
 import BacktestVote from './BacktestVote';
+import SortingButtons from './SortingButtons';
 import api from '../../utils/api.js';
 import Stats from './Stats';
 import LiveStats from './LiveStats';
@@ -42,7 +43,8 @@ class AlgorithmDetail extends Component {
                 backtestHistoryMode: true
             },
             loading: true,
-            isLive: false
+            isLive: false,
+            backtestSortMetric: null
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -59,7 +61,9 @@ class AlgorithmDetail extends Component {
         this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
         this.toggleBacktestmode = this.toggleBacktestmode.bind(this);
+        this.selectSortMetric = this.selectSortMetric.bind(this);
     }
+
     async componentDidMount() {
         Promise.all([
             this.getBacktestList(),
@@ -69,9 +73,9 @@ class AlgorithmDetail extends Component {
             this.setState({ loading: false });
         });
     }
+
     getBacktestList = async () => {
         const { algoID } = this.props.match.params;
-        console.log('algoId', algoID);
         // GET /api/algorithm/
         const res = await api.Get(`/strategybacktests/${algoID}`);
         console.log('getBacktestList', res);
@@ -92,6 +96,7 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
+
     getAlgorithmDetails = async () => {
         const res = await api.Get(`/algorithm/${this.state.strategy}`);
         console.log('Algorithm Details', res);
@@ -106,6 +111,7 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
+
     getBacktestDetail = async () => {
         const response = await api.Get(
             '/backtest/' + this.state.backtestSelected + '/'
@@ -114,6 +120,7 @@ class AlgorithmDetail extends Component {
         this.setState({ transactions: response.data.trades });
         console.log('this.state.transactions', this.state.transactions);
     };
+
     getLiveInstanceList = async () => {
         // GET /api/live/<strategy_id>
         const res = await api.Get(`/live/${this.state.strategy}`);
@@ -139,11 +146,13 @@ class AlgorithmDetail extends Component {
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
+
     toggleLiveInstanceForm = () => {
         this.setState({
             showLiveInstanceForm: !this.state.showLiveInstanceForm
         });
     };
+
     toggleLive = () => {
         this.setState({ isLive: !this.state.isLive });
         if (this.state.algo_details.live) {
@@ -158,6 +167,7 @@ class AlgorithmDetail extends Component {
             }, 5000);
         }
     };
+
     selectLiveInstance = (i, id) => {
         const liveInstanceSelected = this.state.liveInstances[i];
         if (
@@ -210,7 +220,17 @@ class AlgorithmDetail extends Component {
     };
 
     selectBacktest = (i, id) => {
-        const backtestSelected = this.state.backtests[i];
+        let backtestSelected = null;
+        this.state.backtests.map((item, i) =>{
+           if (item.backtest.id === id){
+               backtestSelected = item;
+           }
+        });
+
+        if (backtestSelected === null){
+            backtestSelected = this.state.backtests[0];
+        }
+
         if (
             this.state.backtestSelected &&
             id === this.state.backtestSelected.backtest.id
@@ -245,7 +265,6 @@ class AlgorithmDetail extends Component {
         stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
         stats.backtestHistoryMode = this.state.stats.backtestHistoryMode
         this.setState({ backtestSelected, stats });
-        console.log('backtestSelected', backtestSelected);
         return;
     };
 
@@ -280,6 +299,7 @@ class AlgorithmDetail extends Component {
             this.getBacktestList();
         }
     };
+
     createLiveInstance = async e => {
         e.preventDefault();
         e.persist();
@@ -307,6 +327,7 @@ class AlgorithmDetail extends Component {
             this.getLiveInstanceList();
         }
     };
+
     stopLiveInstance = async e => {
         e.preventDefault();
         e.persist();
@@ -341,10 +362,12 @@ class AlgorithmDetail extends Component {
     handleEndDateSelect(endDate) {
         this.setState({ endDate });
     }
+
     handleSelectUniverse = async (id, e) => {
         e.persist();
         await this.setState({ universeId: id });
     };
+
     castVote = async vote => {
         const bt_id = this.state.backtestSelected.backtest.id;
         const formData = {
@@ -387,6 +410,12 @@ class AlgorithmDetail extends Component {
         console.log(backtests);
         console.log(i);
         console.log(backtestSelected);
+    };
+
+    selectSortMetric = (e, metric) =>{
+        e.preventDefault();
+        e.persist();
+        this.setState({backtestSortMetric: metric});
     };
 
     render() {
@@ -478,7 +507,8 @@ class AlgorithmDetail extends Component {
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
                             {!this.state.stats.backtestHistoryMode ? (
-                                <BacktestList
+                                <div>
+                                    <BacktestList
                                     id={algoID}
                                     backtests={this.state.backtests}
                                     backtestSelected={
@@ -486,7 +516,10 @@ class AlgorithmDetail extends Component {
                                     }
                                     selectBacktest={this.selectBacktest}
                                     isLive={false}
-                                />
+                                    sortMetric={this.state.backtestSortMetric}
+                                    />
+                                    <SortingButtons updateMetric={this.selectSortMetric}/>
+                                </div>
                             ) : (
                                 <BacktestGraph
                                     id={algoID}

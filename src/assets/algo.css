@@ -245,3 +245,7 @@ p {
     position: relative;
     left: 5px;
 }
+
+.sort-button{
+    max-width: 200px;
+}

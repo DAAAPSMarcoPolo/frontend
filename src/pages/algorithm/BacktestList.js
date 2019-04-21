@@ -26,55 +26,63 @@ class BacktestList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            sortMetric: null,
-            sortStatus: null,
-            sortedTrades: null
+            tradeSortMetric: null,
+            tradeSortStatus: null,
+            sortedTrades: null,
+            backtestSortMetric: null,
+            backtestSortStatus: null,
+            sortedBacktests: null
         };
-        this.selectMetric = this.selectMetric.bind();
-        this.sortBacktest = this.sortBacktest.bind();
+        this.selectTradeSortMetric = this.selectTradeSortMetric.bind();
+        this.sortTrades = this.sortTrades.bind();
     }
 
     componentDidMount() {
-        this.setState({sortedTrades: Array.from(this.props.backtestSelected.trades)});
+        this.setState({
+            sortedTrades: Array.from(this.props.backtestSelected.trades),
+            sortedBacktests: Array.from(this.props.backtests)
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.backtestSelected !== null){
             if (prevProps.backtestSelected.backtest.id !== this.props.backtestSelected.backtest.id){
-                console.log("did update:", prevProps.backtestSelected, this.props.backtestSelected);
                 this.setState({sortedTrades: Array.from(this.props.backtestSelected.trades)})
             }
         } else if (this.props.backtestSelected !== null) {
-            console.log("did update:", prevProps.backtestSelected, this.props.backtestSelected);
             this.setState({sortedTrades: Array.from(this.props.backtestSelected.trades)})
+        }
+
+        if (prevProps.sortMetric !== this.props.sortMetric){
+            this.sortBacktests()
         }
     }
 
-    selectMetric = (e, metric) => {
-        let status; //= this.state.sortStatus;
-        if (this.state.sortMetric === metric){
-            switch(this.state.sortStatus){
+    selectTradeSortMetric = (e, metric) => {
+        let status;
+        if (this.state.tradeSortMetric === metric){
+            switch(this.state.tradeSortStatus){
                 case null:
-                    this.setState({sortStatus:'descending'});
+                    this.setState({tradeSortStatus:'descending'});
                     status = "descending";
                     break;
                 case 'descending':
-                    this.setState({sortStatus:'ascending'});
+                    this.setState({tradeSortStatus:'ascending'});
                     status = "ascending";
                     break;
                 case 'ascending':
-                    this.setState({sortStatus:null});
+                    this.setState({tradeSortStatus:null});
                     status = null;
                     break;
             }
         } else {
-            this.setState({sortMetric: metric, sortStatus:'descending'});
+            this.setState({tradeSortMetric: metric, tradeSortStatus:'descending'});
             status = "descending";
         }
-        this.sortBacktest(metric, status);
+        this.sortTrades(metric, status);
     };
 
-    sortBacktest = (metric, status) =>{
+    sortTrades = (metric, status) =>{
         let trades = this.state.sortedTrades;
         if (status == null){
             this.setState({sortedTrades: Array.from(this.props.backtestSelected.trades)});
@@ -157,12 +165,45 @@ class BacktestList extends Component {
         this.setState({sortedTrades: trades});
     };
 
+    sortBacktests = () =>{
+        let sortFunction;
+        switch(this.props.sortMetric){
+            case null:
+                sortFunction = (a, b)=>{
+                    let dayA = new Date(a.backtest.created_at);
+                    let dayB = new Date(b.backtest.created_at);
+                    return (dayA - dayB) * -1;
+                };
+                break;
+            case "sharpe":
+                sortFunction = (a, b)=>{
+                    return (a.backtest.sharpe - b.backtest.sharpe) * -1;
+                };
+                break;
+            case "date":
+                sortFunction = (a, b)=>{
+                    let dayA = new Date(a.backtest.created_at);
+                    let dayB = new Date(b.backtest.created_at);
+                    return (dayA - dayB) * -1;
+                };
+                break;
+            case "gain":
+                sortFunction = (a, b)=>{
+                    return (a.backtest.pct_gain - b.backtest.pct_gain) * -1;
+                };
+                break;
+        }
+        let sortedBacktests = this.state.sortedBacktests;
+        sortedBacktests.sort(sortFunction);
+        this.setState({sortedBacktests: sortedBacktests});
+    };
+
     render(){
         return(
             <div className="backtest margins">
                 <ul className="nav-tabs nav-overflow scroll-hide">
-                    {this.props.backtests &&
-                    this.props.backtests.map((backtest, i) => (
+                    {this.state.sortedBacktests &&
+                    this.state.sortedBacktests.map((backtest, i) => (
                         <li
                             className={`tab select-backtest ${this.props.backtestSelected
                                 .backtest.id === backtest.backtest.id && 'active'}`}
@@ -184,12 +225,12 @@ class BacktestList extends Component {
                     <table className="transaction-table nav-overflow">
                         <thead>
                         <tr>
-                            <th onClick={(e) => this.selectMetric(e, "symbol")}>Stock{sortingIcon("symbol", this.state.sortMetric, this.state.sortStatus)}</th>
-                            <th onClick={(e) => this.selectMetric(e, "buy_price")}>Buy Price{sortingIcon("buy_price", this.state.sortMetric, this.state.sortStatus)}</th>
-                            <th onClick={(e) => this.selectMetric(e, "buy_time")}>Buy Date{sortingIcon("buy_time", this.state.sortMetric, this.state.sortStatus)}</th>
-                            <th onClick={(e) => this.selectMetric(e, "qty")}>Quantity{sortingIcon("qty", this.state.sortMetric, this.state.sortStatus)}</th>
-                            <th onClick={(e) => this.selectMetric(e, "sell_price")}>Sell Price{sortingIcon("sell_price", this.state.sortMetric, this.state.sortStatus)}</th>
-                            <th onClick={(e) => this.selectMetric(e, "sell_time")}>Sell Date{sortingIcon("sell_time", this.state.sortMetric, this.state.sortStatus)}</th>
+                            <th onClick={(e) => this.selectTradeSortMetric(e, "symbol")}>Stock{sortingIcon("symbol", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
+                            <th onClick={(e) => this.selectTradeSortMetric(e, "buy_price")}>Buy Price{sortingIcon("buy_price", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
+                            <th onClick={(e) => this.selectTradeSortMetric(e, "buy_time")}>Buy Date{sortingIcon("buy_time", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
+                            <th onClick={(e) => this.selectTradeSortMetric(e, "qty")}>Quantity{sortingIcon("qty", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
+                            <th onClick={(e) => this.selectTradeSortMetric(e, "sell_price")}>Sell Price{sortingIcon("sell_price", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
+                            <th onClick={(e) => this.selectTradeSortMetric(e, "sell_time")}>Sell Date{sortingIcon("sell_time", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
                         </tr>
                         </thead>
                         <tbody>
