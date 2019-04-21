@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import api from '../../utils/api';
 import '../../assets/universe.css'
-import AddStocks from './AddStocks';
 
 class AddUniverse extends Component{
     constructor(props){

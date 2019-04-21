@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import Select from 'react-select';
 import { Dropdown } from 'semantic-ui-react';
-import AsyncSelect from 'react-select/lib/Async';
 import '../../assets/universe.css';
 import api from '../../utils/api';
 
