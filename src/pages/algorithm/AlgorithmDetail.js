@@ -10,6 +10,7 @@ import BacktestVote from './BacktestVote';
 import api from '../../utils/api.js';
 import Stats from './Stats';
 import LiveStats from './LiveStats';
+import BacktestUniverse from './BacktestUniverse';
 import '../../assets/algo.css';
 import { getFromLocalStorage } from '../../utils/localstorage';
 
@@ -241,9 +242,11 @@ class AlgorithmDetail extends Component {
         stats.sharpe = backtestSelected.backtest.sharpe;
         stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
         stats.num_days = diffDays + 4;
-        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
-        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
+        stats.start_date = `${start.getMonth()+1}-${start.getDate()}-${start.getFullYear()}`;
+        stats.end_date = `${end.getMonth()+1}-${end.getDate()}-${end.getFullYear()}`;
         stats.backtestHistoryMode = this.state.stats.backtestHistoryMode
+        console.log(backtestSelected)
+        stats.universe = backtestSelected.backtest.universe
         this.setState({ backtestSelected, stats });
         console.log('backtestSelected', backtestSelected);
         return;
@@ -507,6 +510,9 @@ class AlgorithmDetail extends Component {
                             <BacktestVote
                                 data={this.state.backtestSelected}
                                 castVote={this.castVote}
+                            />
+                            <BacktestUniverse
+                                universe={this.state.stats.universe}
                             />
                         </div>
                     )}
