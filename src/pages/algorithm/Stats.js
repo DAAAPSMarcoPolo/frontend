@@ -29,13 +29,11 @@ const Stats = ( props ) => (
                 <th>Length of Test</th>
                 <th>Start</th>
                 <th>End</th>
-                <th>Universe</th>
             </tr>
             <tr>
                 <td>{props.data.num_days} Days</td>
                 <td>{props.data.start_date}</td>
                 <td>{props.data.end_date}</td>
-                <td>{props.data.universe.name}</td>
             </tr>
           </tbody>
         </table>
