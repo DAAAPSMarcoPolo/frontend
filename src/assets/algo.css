@@ -248,4 +248,9 @@ p {
 
 .sort-button{
     max-width: 200px;
+    background: none;
+}
+
+.sort-button.selected{
+    border: 3px solid #3ecc9a;
 }

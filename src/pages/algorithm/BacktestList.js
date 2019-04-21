@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../../assets/algo.css';
 import {ReactComponent as SortIcon} from "../../assets/images/sort-icon.svg";
+
 const sortingIcon = (metric, currMetric, status) => {
     if (metric === currMetric){
         switch(status){
@@ -28,10 +29,7 @@ class BacktestList extends Component {
         this.state = {
             tradeSortMetric: null,
             tradeSortStatus: null,
-            sortedTrades: null,
-            backtestSortMetric: null,
-            backtestSortStatus: null,
-            sortedBacktests: null
+            sortedTrades: null
         };
         this.selectTradeSortMetric = this.selectTradeSortMetric.bind();
         this.sortTrades = this.sortTrades.bind();
@@ -40,7 +38,6 @@ class BacktestList extends Component {
     componentDidMount() {
         this.setState({
             sortedTrades: Array.from(this.props.backtestSelected.trades),
-            sortedBacktests: Array.from(this.props.backtests)
         });
     }
 
@@ -51,10 +48,6 @@ class BacktestList extends Component {
             }
         } else if (this.props.backtestSelected !== null) {
             this.setState({sortedTrades: Array.from(this.props.backtestSelected.trades)})
-        }
-
-        if (prevProps.sortMetric !== this.props.sortMetric){
-            this.sortBacktests()
         }
     }
 
@@ -165,45 +158,12 @@ class BacktestList extends Component {
         this.setState({sortedTrades: trades});
     };
 
-    sortBacktests = () =>{
-        let sortFunction;
-        switch(this.props.sortMetric){
-            case null:
-                sortFunction = (a, b)=>{
-                    let dayA = new Date(a.backtest.created_at);
-                    let dayB = new Date(b.backtest.created_at);
-                    return (dayA - dayB) * -1;
-                };
-                break;
-            case "sharpe":
-                sortFunction = (a, b)=>{
-                    return (a.backtest.sharpe - b.backtest.sharpe) * -1;
-                };
-                break;
-            case "date":
-                sortFunction = (a, b)=>{
-                    let dayA = new Date(a.backtest.created_at);
-                    let dayB = new Date(b.backtest.created_at);
-                    return (dayA - dayB) * -1;
-                };
-                break;
-            case "gain":
-                sortFunction = (a, b)=>{
-                    return (a.backtest.pct_gain - b.backtest.pct_gain) * -1;
-                };
-                break;
-        }
-        let sortedBacktests = this.state.sortedBacktests;
-        sortedBacktests.sort(sortFunction);
-        this.setState({sortedBacktests: sortedBacktests});
-    };
-
     render(){
         return(
             <div className="backtest margins">
                 <ul className="nav-tabs nav-overflow scroll-hide">
-                    {this.state.sortedBacktests &&
-                    this.state.sortedBacktests.map((backtest, i) => (
+                    {this.props.backtests &&
+                    this.props.backtests.map((backtest, i) => (
                         <li
                             className={`tab select-backtest ${this.props.backtestSelected
                                 .backtest.id === backtest.backtest.id && 'active'}`}
