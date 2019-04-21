@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Select from 'react-select';
 import { Dropdown } from 'semantic-ui-react';
 import AsyncSelect from 'react-select/lib/Async';
+import '../../assets/universe.css';
 import api from '../../utils/api';
 
 const sampleStocks = ["AAPL", "BA", "TSLA", "TTWO", "DGAZ", "GDL", "UGAZ"];
@@ -20,7 +21,9 @@ class AddStocks extends Component{
     }
 
     handleChange = (e, { searchQuery, value }) => {
-        this.setState({searchQuery: "", value});
+        console.log('value', value);
+        //this.setState({ value });
+        this.props.updateValues(value);
     };
 
     handleSearchChange = async (e, { searchQuery }) => {
@@ -51,32 +54,27 @@ class AddStocks extends Component{
 
     render(){
         if (this.props.enable === false){
-            return null;
+            return (<div></div>);
         } else {
-            const { searchQuery, value, availableStocks } = this.state;
+            const { searchQuery, availableStocks } = this.state;
+            const values = this.props.values;
             return(
                 <div>
-                    <form
-                        onSubmit={(e) => {
-                            this.setState({value: [], searchQuery: ""});
-                            this.props.handleModifyStocks(e, value)
-                        }}>
-                        <Dropdown
-                            fluid
-                            multiple
-                            onChange={this.handleChange}
-                            onSearchChange={this.handleSearchChange}
-                            options={availableStocks}
-                            search
-                            searchQuery={searchQuery}
-                            selection
-                            value={value}
-                        />
-                        <input className="submit-button" type="submit"/>
-                        <div className="errorClass">
-                            {this.state.error && this.state.error}
-                        </div>
-                    </form>
+                    <Dropdown
+                        fluid
+                        multiple
+                        onChange={this.handleChange}
+                        onSearchChange={this.handleSearchChange}
+                        options={availableStocks}
+                        search
+                        searchQuery={searchQuery}
+                        selection
+                        value={values}
+
+                    />
+                    <div className="errorClass">
+                        {this.state.error && this.state.error}
+                    </div>
                 </div>
             );
         }
