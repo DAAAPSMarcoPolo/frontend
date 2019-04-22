@@ -476,7 +476,11 @@ class AlgorithmDetail extends Component {
                     ) : null}
                     <div className="errorClass">
                         {' '}
-                        {this.state.error && this.state.error}
+                        {this.state.error && this.state.error ? (
+                            <div class="alert">
+                            {this.state.error}
+                          </div>
+                        ): null}
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
