@@ -2,7 +2,7 @@ import React from 'react';
 import ModalWrapper from '../components/ModalWrapper';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const LiveInstanceForm = ({ submitForm, parent, error, showModal, toggleState, name }) => {
+const LiveInstanceForm = ({ submitForm, parent, error, showModal, toggleState, name, funds }) => {
     return (
       <ModalWrapper
             title="Create a Live Instance"
@@ -17,7 +17,9 @@ const LiveInstanceForm = ({ submitForm, parent, error, showModal, toggleState, n
                     {error && error}
                 </div>
                 <form onSubmit={submitForm}>
-                    <input type="text" placeholder="Initial Funds" name="initial_funds" required/>
+                    <label name="initial_funds">Initial Funds</label>
+                    <p>You currently have ${funds} to invest.</p>
+                    <input type="number" placeholder="Initial Funds" name="initial_funds" min="0" max={funds} required/>
                     <button type="submit">Submit</button>
                 </form>
         </ModalWrapper>

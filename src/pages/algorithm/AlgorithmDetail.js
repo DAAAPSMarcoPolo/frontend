@@ -43,7 +43,8 @@ class AlgorithmDetail extends Component {
                 backtestHistoryMode: true
             },
             loading: true,
-            isLive: false
+            isLive: false,
+            funds: 0,
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -56,6 +57,7 @@ class AlgorithmDetail extends Component {
         this.getAlgorithmDetails = this.getAlgorithmDetails.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.getLiveInstanceList = this.getLiveInstanceList.bind(this);
+        this.geAvailableFunds = this.geAvailableFunds.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
         this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
@@ -65,7 +67,8 @@ class AlgorithmDetail extends Component {
         Promise.all([
             this.getBacktestList(),
             this.getLiveInstanceList(),
-            this.getAlgorithmDetails()
+            this.getAlgorithmDetails(),
+            this.geAvailableFunds()
         ]).then(() => {
             this.setState({ loading: false });
         });
@@ -136,7 +139,21 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
-
+    geAvailableFunds = async () => {
+      const res = await api.Get('/buyingpower');
+      if (res.status !== 200) {
+        setTimeout(() => {
+            this.setState({ error: res.statusText });
+        }, 5000);
+      } else if (res.data.value) {
+          this.setState({
+              funds: res.data.value
+          });
+      }
+      setTimeout(() => {
+          this.setState({ error: null });
+      }, 5000);
+    }
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
@@ -450,6 +467,7 @@ class AlgorithmDetail extends Component {
                             showModal={this.state.showLiveInstanceForm}
                             toggleState={this.toggleLiveInstanceForm}
                             name="Live Instance"
+                            funds={this.state.funds}
                         />
                     ) : (
                         <button
