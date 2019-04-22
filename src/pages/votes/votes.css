@@ -1,0 +1,18 @@
+.vote-btn-grp {
+    display: inline-block;
+}
+
+.vote-btn-grp .vote-btn {
+    width: 50px;
+}
+
+.vote-btn {
+    max-width: 50px;
+    background: none;
+    border: 2px solid #3ecc9a;
+    margin-right: 0.5rem;
+}
+
+.vote-btn:disabled.current-vote {
+    background: #3ecc9a;
+}

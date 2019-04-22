@@ -235,3 +235,12 @@ p {
     overflow: scroll;
     min-height:500px;
 }
+
+/* The alert message box */
+.alert {
+    padding: 20px;
+    background-color: #3ecc9a; /* Red */
+    color: white;
+    margin-bottom: 15px;
+  }
+  

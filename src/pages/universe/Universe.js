@@ -93,7 +93,7 @@ class Universe extends Component {
 
     render(){
         return (
-            <div className="container flex-container">
+            <div className="container flex-container con">
                 <div className="universe-pane">
                     <div className="flex-container">
                         <h2>Universes</h2>

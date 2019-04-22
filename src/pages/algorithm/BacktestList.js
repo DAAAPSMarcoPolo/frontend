@@ -33,6 +33,7 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) =
                       <th>Quantity</th>
                       <th>Sell Price</th>
                       <th>Sell Date</th>
+                      <th>P/L</th>/th>
                   </tr>
                 </thead>
                 <tbody>
@@ -64,6 +65,9 @@ const BacktestList = ({ backtests, backtestSelected, selectBacktest, isLive }) =
                                 ).getMonth()+1}-${new Date(
                                     el.sell_time
                                 ).getDate()}`}
+                            </td>
+                            <td className="tab trans-col">
+                                {(100*(el.sell_price-el.buy_price)/el.buy_price).toFixed(2)} %
                             </td>
                         </tr>
                     ))}
