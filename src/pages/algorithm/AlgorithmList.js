@@ -49,6 +49,7 @@ class AlgorithmList extends Component {
                       end={algo.best_backtest.end_cash}
                       sharpe={algo.best_backtest.sharpe}
                       complete={algo.best_backtest.complete}
+                      status={algo.algo_details.live}
                     />
                   </Link> )
                 }

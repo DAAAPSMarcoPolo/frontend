@@ -378,3 +378,20 @@ h1 {
     text-shadow:
       .25em 0 0 white,
       .5em 0 0 white;}}
+
+
+.borderGreen {
+  border-left: #3ECC9A;
+  border-left-style: solid;
+  border-left-width: thick;
+}
+.borderRed {
+  border-left: #FA6353;
+  border-left-style: solid;
+  border-left-width: thick;
+}
+.borderYellow {
+  border-left: #FFEA4B;
+  border-left-style: solid;
+  border-left-width: thick;
+}

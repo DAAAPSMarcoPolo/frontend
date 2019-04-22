@@ -14,7 +14,8 @@ const Algo = ({
     start,
     end,
     sharpe,
-    complete
+    complete,
+    status
 }) => {
     return (
         // TODO name, created on, how many backtests
@@ -24,7 +25,7 @@ const Algo = ({
         // current vote status if available
         // latest backtest started
         // link to detailed view
-        <div className="card algo-card">
+        <div className={`card algo-card ${status ? 'borderGreen' : 'borderRed'}`}>
             {/* row one */}
             <div className="row">
                 <p className="col-5 boundaries-algo">

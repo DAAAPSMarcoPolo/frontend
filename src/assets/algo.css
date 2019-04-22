@@ -49,9 +49,6 @@
     font-size: 0.7rem;
     font-weight: bold;
     color: rgb(233, 233, 233);
-    border-left: green;
-    border-left-style: solid;
-    border-left-width: thick;
     margin-bottom: 20px;
 }
 
@@ -243,4 +240,3 @@ p {
     color: white;
     margin-bottom: 15px;
   }
-  
