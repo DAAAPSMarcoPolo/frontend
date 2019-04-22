@@ -11,6 +11,7 @@ import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
 import AlgorithmList from './pages/algorithm/AlgorithmList';
 import Universe from './pages/universe/Universe';
 import NotFound from './pages/NotFound';
+import Votes from './pages/votes/Votes';
 
 const Routes = () => (
     <Switch>
@@ -25,6 +26,7 @@ const Routes = () => (
         <ProtectedRoute path="/settings" component={Settings} />
         <ProtectedRoute path="/dashboard" component={Dashboard} />
         <ProtectedRoute path="/upload" component={Upload} />
+        <ProtectedRoute path="/votes" component={Votes} />
         <ProtectedRoute
             path={`/algorithms/:algoID`}
             component={AlgorithmDetail}
