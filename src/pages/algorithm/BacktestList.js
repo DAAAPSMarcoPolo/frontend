@@ -153,6 +153,17 @@ class BacktestList extends Component {
                     }
                 };
                 break;
+            case'p_l':
+            sortFunction = (first, second) =>{
+                if (status === "descending") {
+                    return (first.p_l - second.p_l) * -1;
+                } else if (status === "ascending"){
+                    return (first.p_l - second.p_l);
+                } else {
+                    return 0;
+                }
+            };
+            break;
         }
         trades.sort(sortFunction);
         this.setState({sortedTrades: trades});
@@ -191,6 +202,7 @@ class BacktestList extends Component {
                             <th onClick={(e) => this.selectTradeSortMetric(e, "qty")}>Quantity{sortingIcon("qty", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
                             <th onClick={(e) => this.selectTradeSortMetric(e, "sell_price")}>Sell Price{sortingIcon("sell_price", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
                             <th onClick={(e) => this.selectTradeSortMetric(e, "sell_time")}>Sell Date{sortingIcon("sell_time", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
+                            <th onClick={(e) => this.selectTradeSortMetric(e, "p_l")}>P/L{sortingIcon("p_l", this.state.tradeSortMetric, this.state.tradeSortStatus)}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -222,6 +234,9 @@ class BacktestList extends Component {
                                     ).getMonth()+1}-${new Date(
                                         el.sell_time
                                     ).getDate()}`}
+                                </td>
+                                <td className="tab trans-col">
+                                {(100*el.p_l).toFixed(2)} %
                                 </td>
                             </tr>
                         ))}
