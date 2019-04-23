@@ -543,7 +543,7 @@ class AlgorithmDetail extends Component {
         });
         currentSet = currentSet.map((item, key) =>{
             if (filters.user){
-                if (item.backtest.user === getFromLocalStorage("user").id){
+                if (item != null && item.backtest.user === getFromLocalStorage("user").id){
                     return item;
                 } else {
                     return;
