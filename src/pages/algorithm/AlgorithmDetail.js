@@ -13,6 +13,7 @@ import LiveStats from './LiveStats';
 import BacktestUniverse from './BacktestUniverse';
 import '../../assets/algo.css';
 import { getFromLocalStorage } from '../../utils/localstorage';
+import queryString from 'query-string';
 
 class AlgorithmDetail extends Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class AlgorithmDetail extends Component {
             },
             loading: true,
             isLive: false,
-            funds: 0,
+            funds: 0
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -89,7 +90,14 @@ class AlgorithmDetail extends Component {
             });
             console.log('backtests', this.state.backtests);
         }
-        if (this.state.backtestCount > 0) {
+        const queryParams = queryString.parse(this.props.location.search);
+        let key;
+        if (queryParams.backtest) {
+            key = this.findBacktestKey(parseInt(queryParams.backtest));
+        }
+        if (this.state.backtestCount > 0 && key) {
+            this.selectBacktest(key, queryParams.backtest);
+        } else if (this.state.backtestCount > 0) {
             this.selectBacktest(0, -1);
         }
         setTimeout(() => {
@@ -140,20 +148,20 @@ class AlgorithmDetail extends Component {
         }, 5000);
     };
     geAvailableFunds = async () => {
-      const res = await api.Get('/buyingpower');
-      if (res.status !== 200) {
+        const res = await api.Get('/buyingpower');
+        if (res.status !== 200) {
+            setTimeout(() => {
+                this.setState({ error: res.statusText });
+            }, 5000);
+        } else if (res.data.value) {
+            this.setState({
+                funds: res.data.value
+            });
+        }
         setTimeout(() => {
-            this.setState({ error: res.statusText });
+            this.setState({ error: null });
         }, 5000);
-      } else if (res.data.value) {
-          this.setState({
-              funds: res.data.value
-          });
-      }
-      setTimeout(() => {
-          this.setState({ error: null });
-      }, 5000);
-    }
+    };
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
@@ -227,6 +235,15 @@ class AlgorithmDetail extends Component {
         });
     };
 
+    findBacktestKey = id => {
+        let i;
+        for (i = 0; i < this.state.backtests.length; i++) {
+            if (this.state.backtests[i].backtest.id === id) {
+                return i;
+            }
+        }
+    };
+
     selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
         if (
@@ -259,11 +276,13 @@ class AlgorithmDetail extends Component {
         stats.sharpe = backtestSelected.backtest.sharpe;
         stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
         stats.num_days = diffDays + 4;
-        stats.start_date = `${start.getMonth()+1}-${start.getDate()}-${start.getFullYear()}`;
-        stats.end_date = `${end.getMonth()+1}-${end.getDate()}-${end.getFullYear()}`;
-        stats.backtestHistoryMode = this.state.stats.backtestHistoryMode
-        console.log(backtestSelected)
-        stats.universe = backtestSelected.backtest.universe
+        stats.start_date = `${start.getMonth() +
+            1}-${start.getDate()}-${start.getFullYear()}`;
+        stats.end_date = `${end.getMonth() +
+            1}-${end.getDate()}-${end.getFullYear()}`;
+        stats.backtestHistoryMode = this.state.stats.backtestHistoryMode;
+        console.log(backtestSelected);
+        stats.universe = backtestSelected.backtest.universe;
         this.setState({ backtestSelected, stats });
         console.log('backtestSelected', backtestSelected);
         return;
@@ -495,10 +514,8 @@ class AlgorithmDetail extends Component {
                     <div className="errorClass">
                         {' '}
                         {this.state.error && this.state.error ? (
-                            <div class="alert">
-                            {this.state.error}
-                          </div>
-                        ): null}
+                            <div class="alert">{this.state.error}</div>
+                        ) : null}
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
