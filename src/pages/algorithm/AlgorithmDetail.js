@@ -480,9 +480,13 @@ class AlgorithmDetail extends Component {
                 break;
         }
         let sortedBacktests = this.state.filteredBacktests;
-        sortedBacktests.sort(sortFunction);
-        this.setState({filteredBacktests: sortedBacktests, performSort: false});
-        this.selectBacktest(0, sortedBacktests[0].backtest.id);
+        if (sortedBacktests.length < 1){
+            console.log("Figure out how to show no backtests")
+        } else {
+            sortedBacktests.sort(sortFunction);
+            this.setState({filteredBacktests: sortedBacktests, performSort: false});
+            this.selectBacktest(0, sortedBacktests[0].backtest.id);
+        }
     };
 
     filterBacktests = () => {
@@ -491,7 +495,7 @@ class AlgorithmDetail extends Component {
         const filters = this.state.filters;
         this.state.backtests.map((item, key) => {
             if (filters.vote && filters.user){
-                if (item.backtest.vote_status === "" && /*item.backtest.user ===*/ true){
+                if (item.backtest.vote_status === "" && item.backtest.user === getFromLocalStorage("user").id){
                     filteredBacktests.push(item);
                 }
             } else if (filters.vote) {
@@ -499,7 +503,7 @@ class AlgorithmDetail extends Component {
                     filteredBacktests.push(item);
                 }
             } else if (filters.user) {
-                if (/*item.backtest.user ===*/ true){
+                if (item.backtest.user === getFromLocalStorage("user").id){
                     filteredBacktests.push(item);
                 }
             } else {
