@@ -12,8 +12,10 @@ import BacktestFilters from './BacktestFilters';
 import api from '../../utils/api.js';
 import Stats from './Stats';
 import LiveStats from './LiveStats';
+import BacktestUniverse from './BacktestUniverse';
 import '../../assets/algo.css';
 import { getFromLocalStorage } from '../../utils/localstorage';
+import queryString from 'query-string';
 
 class AlgorithmDetail extends Component {
     constructor(props) {
@@ -54,6 +56,7 @@ class AlgorithmDetail extends Component {
                 user: false
             },
             noBacktests: false
+            funds: 0
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -66,6 +69,7 @@ class AlgorithmDetail extends Component {
         this.getAlgorithmDetails = this.getAlgorithmDetails.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.getLiveInstanceList = this.getLiveInstanceList.bind(this);
+        this.geAvailableFunds = this.geAvailableFunds.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
         this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
@@ -79,7 +83,8 @@ class AlgorithmDetail extends Component {
         Promise.all([
             this.getBacktestList(),
             this.getLiveInstanceList(),
-            this.getAlgorithmDetails()
+            this.getAlgorithmDetails(),
+            this.geAvailableFunds()
         ]).then(() => {
             this.setState({ loading: false, filteredBacktests: Array.from(this.state.backtests)});
         });
@@ -109,7 +114,14 @@ class AlgorithmDetail extends Component {
             });
             console.log('backtests', this.state.backtests);
         }
-        if (this.state.backtestCount > 0) {
+        const queryParams = queryString.parse(this.props.location.search);
+        let key;
+        if (queryParams.backtest) {
+            key = this.findBacktestKey(parseInt(queryParams.backtest));
+        }
+        if (this.state.backtestCount > 0 && key) {
+            this.selectBacktest(key, queryParams.backtest);
+        } else if (this.state.backtestCount > 0) {
             this.selectBacktest(0, -1);
         }
         setTimeout(() => {
@@ -162,7 +174,21 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
-
+    geAvailableFunds = async () => {
+        const res = await api.Get('/buyingpower');
+        if (res.status !== 200) {
+            setTimeout(() => {
+                this.setState({ error: res.statusText });
+            }, 5000);
+        } else if (res.data.value) {
+            this.setState({
+                funds: res.data.value
+            });
+        }
+        setTimeout(() => {
+            this.setState({ error: null });
+        }, 5000);
+    };
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
@@ -239,6 +265,15 @@ class AlgorithmDetail extends Component {
         });
     };
 
+    findBacktestKey = id => {
+        let i;
+        for (i = 0; i < this.state.backtests.length; i++) {
+            if (this.state.backtests[i].backtest.id === id) {
+                return i;
+            }
+        }
+    };
+
     selectBacktest = (i, id) => {
         let backtestSelected = null;
         this.state.backtests.map((item, i) =>{
@@ -281,9 +316,13 @@ class AlgorithmDetail extends Component {
         stats.sharpe = backtestSelected.backtest.sharpe;
         stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
         stats.num_days = diffDays + 4;
-        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
-        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
-        stats.backtestHistoryMode = this.state.stats.backtestHistoryMode
+        stats.start_date = `${start.getMonth() +
+            1}-${start.getDate()}-${start.getFullYear()}`;
+        stats.end_date = `${end.getMonth() +
+            1}-${end.getDate()}-${end.getFullYear()}`;
+        stats.backtestHistoryMode = this.state.stats.backtestHistoryMode;
+        console.log(backtestSelected);
+        stats.universe = backtestSelected.backtest.universe;
         this.setState({ backtestSelected, stats });
         return;
     };
@@ -620,6 +659,7 @@ class AlgorithmDetail extends Component {
                             showModal={this.state.showLiveInstanceForm}
                             toggleState={this.toggleLiveInstanceForm}
                             name="Live Instance"
+                            funds={this.state.funds}
                         />
                     ) : (
                         <button
@@ -646,7 +686,9 @@ class AlgorithmDetail extends Component {
                     ) : null}
                     <div className="errorClass">
                         {' '}
-                        {this.state.error && this.state.error}
+                        {this.state.error && this.state.error ? (
+                            <div class="alert">{this.state.error}</div>
+                        ) : null}
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
@@ -693,6 +735,9 @@ class AlgorithmDetail extends Component {
                                     <BacktestVote
                                         data={this.state.backtestSelected}
                                         castVote={this.castVote}
+                                    />
+                                    <BacktestUniverse
+                                        universe={this.state.stats.universe}
                                     />
                                 </div>
                             )}
