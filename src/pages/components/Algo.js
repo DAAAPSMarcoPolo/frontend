@@ -17,6 +17,8 @@ const Algo = ({
     complete,
     status
 }) => {
+    const date = new Date(created_at);
+    const created = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`;
     return (
         // TODO name, created on, how many backtests
         // best backtest (and performance)
@@ -47,7 +49,7 @@ const Algo = ({
             {/* row two */}
             <div className="row">
                 <p className="col-5 boundaries-algo secondary-text">
-                    Created on by User {user}
+                    Created on {created} by User {user}
                 </p>
                 <p className="col-1 boundaries-algo">Start</p>
                 <p className="col-1 boundaries-algo">End</p>

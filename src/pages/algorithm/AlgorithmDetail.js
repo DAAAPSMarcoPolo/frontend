@@ -475,8 +475,8 @@ class AlgorithmDetail extends Component {
                             onClick={this.toggleLiveInstanceForm}
                         >
                             {!this.state.isLive
-                                ? 'Create new Live Instance'
-                                : 'Cancel Live Instance'}
+                                ? 'New Live Instance'
+                                : 'Cancel sLive Instance'}
                         </button>
                     )}
                     {this.state.isLive && this.state.showLiveInstanceForm ? (
