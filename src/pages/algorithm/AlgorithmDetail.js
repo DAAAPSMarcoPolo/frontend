@@ -48,9 +48,12 @@ class AlgorithmDetail extends Component {
             backtestSortMetric: "date",
             filteredBacktests: null,
             filters: {
-                vote: false,
+                vote_pending: false,
+                vote_approved: false,
+                vote_denied: false,
                 user: false
-            }
+            },
+            noBacktests: false
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -239,9 +242,9 @@ class AlgorithmDetail extends Component {
     selectBacktest = (i, id) => {
         let backtestSelected = null;
         this.state.backtests.map((item, i) =>{
-           if (item.backtest.id === id){
-               backtestSelected = item;
-           }
+            if (item.backtest.id === id){
+                backtestSelected = item;
+            }
         });
 
         if (backtestSelected === null){
@@ -440,8 +443,20 @@ class AlgorithmDetail extends Component {
         e.persist();
         let filters = this.state.filters;
         switch(filter){
-            case "vote":
-                filters.vote = !filters.vote;
+            case "vote_pending":
+                filters.vote_pending = !filters.vote_pending;
+                filters.vote_approved = false;
+                filters.vote_denied = false;
+                break;
+            case "vote_approved":
+                filters.vote_approved = !filters.vote_approved;
+                filters.vote_pending = false;
+                filters.vote_denied = false;
+                break;
+            case "vote_denied":
+                filters.vote_denied = !filters.vote_denied;
+                filters.vote_pending = false;
+                filters.vote_approved = false;
                 break;
             case "user":
                 filters.user = !filters.user;
@@ -481,36 +496,70 @@ class AlgorithmDetail extends Component {
         }
         let sortedBacktests = this.state.filteredBacktests;
         if (sortedBacktests.length < 1){
+            this.setState({noBacktests: true, performSort: false});
             console.log("Figure out how to show no backtests")
         } else {
             sortedBacktests.sort(sortFunction);
-            this.setState({filteredBacktests: sortedBacktests, performSort: false});
+            this.setState({filteredBacktests: sortedBacktests, noBacktests:false, performSort: false});
             this.selectBacktest(0, sortedBacktests[0].backtest.id);
         }
     };
 
     filterBacktests = () => {
         console.log("Filtering");
-        let filteredBacktests = [];
         const filters = this.state.filters;
-        this.state.backtests.map((item, key) => {
-            if (filters.vote && filters.user){
-                if (item.backtest.vote_status === "" && item.backtest.user === getFromLocalStorage("user").id){
-                    filteredBacktests.push(item);
-                }
-            } else if (filters.vote) {
+        let currentSet = this.state.backtests.map((item, key) =>{
+            if (filters.vote_pending){
                 if (item.backtest.vote_status === ""){
-                    filteredBacktests.push(item);
-                }
-            } else if (filters.user) {
-                if (item.backtest.user === getFromLocalStorage("user").id){
-                    filteredBacktests.push(item);
+                    return item;
+                } else {
+                    return;
                 }
             } else {
-                filteredBacktests.push(item);
+                return item;
             }
         });
-        this.setState({filteredBacktests: filteredBacktests, performSort: true, performFilter: false})
+        currentSet = currentSet.map((item, key) =>{
+            if (filters.vote_approved){
+                if (item.backtest.vote_status === "approved"){
+                    return item;
+                } else {
+                    return;
+                }
+            } else {
+                return item;
+            }
+        });
+        currentSet = currentSet.map((item, key) =>{
+            if (filters.vote_denied){
+                if (item.backtest.vote_status === "denied"){
+                    return item;
+                } else {
+                    return;
+                }
+            } else {
+                return item;
+            }
+        });
+        currentSet = currentSet.map((item, key) =>{
+            if (filters.user){
+                if (item.backtest.user === getFromLocalStorage("user").id){
+                    return item;
+                } else {
+                    return;
+                }
+            } else {
+                return item;
+            }
+        });
+        let filteredSet = [];
+        currentSet.map((item, key)=>{
+            if (item != null){
+                filteredSet.push(item);
+            }
+        });
+        console.log(filteredSet);
+        this.setState({filteredBacktests: filteredSet, performSort: true, performFilter: false})
     };
 
     render() {
@@ -532,14 +581,14 @@ class AlgorithmDetail extends Component {
                             <p
                                 onClick={this.toggleLive}
                                 className={`${!this.state.isLive &&
-                                    'toggleLive'} click`}
+                                'toggleLive'} click`}
                             >
                                 Backtest
                             </p>
                             <p
                                 onClick={this.toggleLive}
                                 className={`${this.state.isLive &&
-                                    'toggleLive'} marginLeft click`}
+                                'toggleLive'} marginLeft click`}
                             >
                                 Live
                             </p>
@@ -601,40 +650,52 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
-                            {!this.state.stats.backtestHistoryMode ? (
-                                <div>
-                                    <BacktestList
-                                    id={algoID}
-                                    backtests={this.state.filteredBacktests}
-                                    backtestSelected={
-                                        this.state.backtestSelected
-                                    }
-                                    selectBacktest={this.selectBacktest}
-                                    isLive={false}
-                                    />
-                                </div>
-                            ) : (
-                                <BacktestGraph
-                                    id={algoID}
-                                    backtests={this.state.filteredBacktests}
-                                    backtestSelected={
-                                        this.state.backtestSelected
-                                    }
-                                    selectBacktest={this.selectBacktest}
-                                    isLive={false}
-                                />
-                            )}
                             <SortingButtons updateMetric={this.selectSortMetric} currentMetric={this.state.backtestSortMetric}/>
                             <BacktestFilters updateFilter={this.selectFilter} currentFilters={this.state.filters}/>
-                            <Stats
-                                start={this.state.algo_details.created_at}
-                                data={this.state.stats}
-                                toggleMode={this.toggleBacktestmode}
-                            />
-                            <BacktestVote
-                                data={this.state.backtestSelected}
-                                castVote={this.castVote}
-                            />
+                            {this.state.noBacktests ? (
+                                <h2>No Backtests to show</h2>
+                            ) : (
+                                <div>
+                                    {!this.state.stats.backtestHistoryMode ? (
+                                        <div>
+                                            <BacktestList
+                                                id={algoID}
+                                                backtests={this.state.filteredBacktests}
+                                                backtestSelected={
+                                                    this.state.backtestSelected
+                                                }
+                                                selectBacktest={this.selectBacktest}
+                                                isLive={false}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <BacktestGraph
+                                            id={algoID}
+                                            backtests={this.state.filteredBacktests}
+                                            backtestSelected={
+                                                this.state.backtestSelected
+                                            }
+                                            selectBacktest={this.selectBacktest}
+                                            isLive={false}
+                                        />
+                                    )}
+                                </div>
+                            )}
+                            {this.state.noBacktests ? (
+                                null
+                            ) : (
+                                <div>
+                                    <Stats
+                                        start={this.state.algo_details.created_at}
+                                        data={this.state.stats}
+                                        toggleMode={this.toggleBacktestmode}
+                                    />
+                                    <BacktestVote
+                                        data={this.state.backtestSelected}
+                                        castVote={this.castVote}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
                     {this.state.isLive && this.state.liveInstanceSelected && (
