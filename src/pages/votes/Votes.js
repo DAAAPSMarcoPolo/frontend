@@ -8,7 +8,8 @@ class Votes extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            votes: null
+            votes: null,
+            vote_data: null
         };
         this.getUserVotes = this.getUserVotes.bind(this);
         this.pendingBtns = this.pendingBtns.bind(this);
@@ -24,9 +25,9 @@ class Votes extends Component {
     async getUserVotes() {
         const user = getFromLocalStorage('user');
         const response = await api.Get(`/user/${user.id}/votes`);
-        const { votes } = response.data;
-        this.setState({ votes });
-        console.log(votes);
+        const { votes, vote_data } = response.data;
+        this.setState({ votes, vote_data });
+        console.log(response.data);
     }
 
     castVote = async (vote, backtest) => {
@@ -99,20 +100,48 @@ class Votes extends Component {
         return (
             <div>
                 <ul>
-                    {this.state.votes &&
-                        this.state.votes.map((vote, i) => (
-                            <li className="vote-row" key={i}>
-                                <div className="d-inline-block mr-2">
-                                    Backtest id: {vote.backtest},
-                                </div>
-                                <div className="d-inline-block">
-                                    Vote:{' '}
-                                    {vote.vote === null
-                                        ? this.pendingBtns(vote.backtest)
-                                        : vote.vote
-                                        ? this.acceptedBtns(vote.backtest)
-                                        : this.deniedBtns(vote.backtest)}
-                                </div>
+                    {this.state.vote_data &&
+                        // strategy level
+                        this.state.vote_data.map((strategy, i) => (
+                            <li key={i}>
+                                {strategy.algorithm_name}
+                                <ul>
+                                    {/* backtest level */}
+                                    {strategy.backtests.map((backtest, j) => (
+                                        <li className="vote-row" key={j}>
+                                            <div className="d-inline-block mr-2">
+                                                Backtest id:{' '}
+                                                <a
+                                                    href={`/algorithms/${
+                                                        strategy.algorithm_id
+                                                    }?backtest=${backtest.id}`}
+                                                >
+                                                    {backtest.id}
+                                                </a>
+                                                ,
+                                            </div>
+                                            <div className="d-inline-block mr-2">
+                                                Vote status:{' '}
+                                                {backtest.vote_status},
+                                            </div>
+                                            <div className="d-inline-block">
+                                                Vote:{' '}
+                                                {backtest.backtestvote__vote ===
+                                                null
+                                                    ? this.pendingBtns(
+                                                          backtest.id
+                                                      )
+                                                    : backtest.backtestvote__vote
+                                                    ? this.acceptedBtns(
+                                                          backtest.id
+                                                      )
+                                                    : this.deniedBtns(
+                                                          backtest.id
+                                                      )}
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
                             </li>
                         ))}
                 </ul>

@@ -7,12 +7,15 @@ import LiveInstanceList from './LiveInstanceList';
 import LiveInstanceForm from './LiveInstanceForm';
 import CancelLiveInstanceForm from './CancelLiveInstanceForm';
 import BacktestVote from './BacktestVote';
+import SortingButtons from './SortingButtons';
+import BacktestFilters from './BacktestFilters';
 import api from '../../utils/api.js';
 import Stats from './Stats';
 import LiveStats from './LiveStats';
 import BacktestUniverse from './BacktestUniverse';
 import '../../assets/algo.css';
 import { getFromLocalStorage } from '../../utils/localstorage';
+import queryString from 'query-string';
 
 class AlgorithmDetail extends Component {
     constructor(props) {
@@ -43,7 +46,17 @@ class AlgorithmDetail extends Component {
                 backtestHistoryMode: true
             },
             loading: true,
-            isLive: false
+            isLive: false,
+            backtestSortMetric: "date",
+            filteredBacktests: null,
+            filters: {
+                vote_pending: false,
+                vote_approved: false,
+                vote_denied: false,
+                user: false
+            },
+            noBacktests: false,
+            funds: 0
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -56,23 +69,38 @@ class AlgorithmDetail extends Component {
         this.getAlgorithmDetails = this.getAlgorithmDetails.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.getLiveInstanceList = this.getLiveInstanceList.bind(this);
+        this.geAvailableFunds = this.geAvailableFunds.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
         this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
         this.toggleBacktestmode = this.toggleBacktestmode.bind(this);
+        this.selectSortMetric = this.selectSortMetric.bind(this);
+        this.sortBacktests = this.sortBacktests.bind(this);
+        this.filterBacktests = this.filterBacktests.bind(this);
     }
+
     async componentDidMount() {
         Promise.all([
             this.getBacktestList(),
             this.getLiveInstanceList(),
-            this.getAlgorithmDetails()
+            this.getAlgorithmDetails(),
+            this.geAvailableFunds()
         ]).then(() => {
-            this.setState({ loading: false });
+            this.setState({ loading: false, filteredBacktests: Array.from(this.state.backtests)});
         });
     }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.backtestSortMetric !== this.state.backtestSortMetric || this.state.performSort){
+            this.sortBacktests()
+        }
+        if ((prevState.filters.vote !== this.state.filters.vote) || (prevState.filters.user !== this.state.filters.user) || this.state.performFilter){
+            this.filterBacktests()
+        }
+    }
+
     getBacktestList = async () => {
         const { algoID } = this.props.match.params;
-        console.log('algoId', algoID);
         // GET /api/algorithm/
         const res = await api.Get(`/strategybacktests/${algoID}`);
         console.log('getBacktestList', res);
@@ -86,13 +114,21 @@ class AlgorithmDetail extends Component {
             });
             console.log('backtests', this.state.backtests);
         }
-        if (this.state.backtestCount > 0) {
+        const queryParams = queryString.parse(this.props.location.search);
+        let key;
+        if (queryParams.backtest) {
+            key = this.findBacktestKey(parseInt(queryParams.backtest));
+        }
+        if (this.state.backtestCount > 0 && key) {
+            this.selectBacktest(key, queryParams.backtest);
+        } else if (this.state.backtestCount > 0) {
             this.selectBacktest(0, -1);
         }
         setTimeout(() => {
             this.setState({ error: null });
         }, 5000);
     };
+
     getAlgorithmDetails = async () => {
         const res = await api.Get(`/algorithm/${this.state.strategy}`);
         console.log('Algorithm Details', res);
@@ -107,6 +143,7 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
+
     getBacktestDetail = async () => {
         const response = await api.Get(
             '/backtest/' + this.state.backtestSelected + '/'
@@ -115,6 +152,7 @@ class AlgorithmDetail extends Component {
         this.setState({ transactions: response.data.trades });
         console.log('this.state.transactions', this.state.transactions);
     };
+
     getLiveInstanceList = async () => {
         // GET /api/live/<strategy_id>
         const res = await api.Get(`/live/${this.state.strategy}`);
@@ -136,15 +174,31 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
-
+    geAvailableFunds = async () => {
+        const res = await api.Get('/buyingpower');
+        if (res.status !== 200) {
+            setTimeout(() => {
+                this.setState({ error: res.statusText });
+            }, 5000);
+        } else if (res.data.value) {
+            this.setState({
+                funds: res.data.value
+            });
+        }
+        setTimeout(() => {
+            this.setState({ error: null });
+        }, 5000);
+    };
     toggleBacktestForm = () => {
         this.setState({ showBacktestForm: !this.state.showBacktestForm });
     };
+
     toggleLiveInstanceForm = () => {
         this.setState({
             showLiveInstanceForm: !this.state.showLiveInstanceForm
         });
     };
+
     toggleLive = () => {
         this.setState({ isLive: !this.state.isLive });
         if (this.state.algo_details.live) {
@@ -159,6 +213,7 @@ class AlgorithmDetail extends Component {
             }, 5000);
         }
     };
+
     selectLiveInstance = (i, id) => {
         const liveInstanceSelected = this.state.liveInstances[i];
         if (
@@ -210,8 +265,27 @@ class AlgorithmDetail extends Component {
         });
     };
 
+    findBacktestKey = id => {
+        let i;
+        for (i = 0; i < this.state.backtests.length; i++) {
+            if (this.state.backtests[i].backtest.id === id) {
+                return i;
+            }
+        }
+    };
+
     selectBacktest = (i, id) => {
-        const backtestSelected = this.state.backtests[i];
+        let backtestSelected = null;
+        this.state.backtests.map((item, i) =>{
+            if (item.backtest.id === id){
+                backtestSelected = item;
+            }
+        });
+
+        if (backtestSelected === null){
+            backtestSelected = this.state.backtests[0];
+        }
+
         if (
             this.state.backtestSelected &&
             id === this.state.backtestSelected.backtest.id
@@ -242,13 +316,14 @@ class AlgorithmDetail extends Component {
         stats.sharpe = backtestSelected.backtest.sharpe;
         stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
         stats.num_days = diffDays + 4;
-        stats.start_date = `${start.getMonth()+1}-${start.getDate()}-${start.getFullYear()}`;
-        stats.end_date = `${end.getMonth()+1}-${end.getDate()}-${end.getFullYear()}`;
-        stats.backtestHistoryMode = this.state.stats.backtestHistoryMode
-        console.log(backtestSelected)
-        stats.universe = backtestSelected.backtest.universe
+        stats.start_date = `${start.getMonth() +
+            1}-${start.getDate()}-${start.getFullYear()}`;
+        stats.end_date = `${end.getMonth() +
+            1}-${end.getDate()}-${end.getFullYear()}`;
+        stats.backtestHistoryMode = this.state.stats.backtestHistoryMode;
+        console.log(backtestSelected);
+        stats.universe = backtestSelected.backtest.universe;
         this.setState({ backtestSelected, stats });
-        console.log('backtestSelected', backtestSelected);
         return;
     };
 
@@ -283,6 +358,7 @@ class AlgorithmDetail extends Component {
             this.getBacktestList();
         }
     };
+
     createLiveInstance = async e => {
         e.preventDefault();
         e.persist();
@@ -310,6 +386,7 @@ class AlgorithmDetail extends Component {
             this.getLiveInstanceList();
         }
     };
+
     stopLiveInstance = async e => {
         e.preventDefault();
         e.persist();
@@ -344,10 +421,12 @@ class AlgorithmDetail extends Component {
     handleEndDateSelect(endDate) {
         this.setState({ endDate });
     }
+
     handleSelectUniverse = async (id, e) => {
         e.persist();
         await this.setState({ universeId: id });
     };
+
     castVote = async vote => {
         const bt_id = this.state.backtestSelected.backtest.id;
         const formData = {
@@ -392,6 +471,136 @@ class AlgorithmDetail extends Component {
         console.log(backtestSelected);
     };
 
+    selectSortMetric = (e, metric) =>{
+        e.preventDefault();
+        e.persist();
+        this.setState({backtestSortMetric: metric});
+    };
+
+    selectFilter = (e, filter) => {
+        e.preventDefault();
+        e.persist();
+        let filters = this.state.filters;
+        switch(filter){
+            case "vote_pending":
+                filters.vote_pending = !filters.vote_pending;
+                filters.vote_approved = false;
+                filters.vote_denied = false;
+                break;
+            case "vote_approved":
+                filters.vote_approved = !filters.vote_approved;
+                filters.vote_pending = false;
+                filters.vote_denied = false;
+                break;
+            case "vote_denied":
+                filters.vote_denied = !filters.vote_denied;
+                filters.vote_pending = false;
+                filters.vote_approved = false;
+                break;
+            case "user":
+                filters.user = !filters.user;
+                break;
+        }
+        this.setState({filters, performFilter: true});
+    };
+
+    sortBacktests = () =>{
+        console.log("Sorting");
+        let sortFunction;
+        switch(this.state.backtestSortMetric){
+            case null:
+                sortFunction = (a, b)=>{
+                    let dayA = new Date(a.backtest.created_at);
+                    let dayB = new Date(b.backtest.created_at);
+                    return (dayA - dayB) * -1;
+                };
+                break;
+            case "sharpe":
+                sortFunction = (a, b)=>{
+                    return (a.backtest.sharpe - b.backtest.sharpe) * -1;
+                };
+                break;
+            case "date":
+                sortFunction = (a, b)=>{
+                    let dayA = new Date(a.backtest.created_at);
+                    let dayB = new Date(b.backtest.created_at);
+                    return (dayA - dayB) * -1;
+                };
+                break;
+            case "gain":
+                sortFunction = (a, b)=>{
+                    return (a.backtest.pct_gain - b.backtest.pct_gain) * -1;
+                };
+                break;
+        }
+        let sortedBacktests = this.state.filteredBacktests;
+        if (sortedBacktests.length < 1){
+            this.setState({noBacktests: true, performSort: false});
+            console.log("Figure out how to show no backtests")
+        } else {
+            sortedBacktests.sort(sortFunction);
+            this.setState({filteredBacktests: sortedBacktests, noBacktests:false, performSort: false});
+            this.selectBacktest(0, sortedBacktests[0].backtest.id);
+        }
+    };
+
+    filterBacktests = () => {
+        console.log("Filtering");
+        const filters = this.state.filters;
+        let currentSet = this.state.backtests.map((item, key) =>{
+            if (filters.vote_pending){
+                if (item.backtest.vote_status === ""){
+                    return item;
+                } else {
+                    return;
+                }
+            } else {
+                return item;
+            }
+        });
+        currentSet = currentSet.map((item, key) =>{
+            if (filters.vote_approved){
+                if (item.backtest.vote_status === "approved"){
+                    return item;
+                } else {
+                    return;
+                }
+            } else {
+                return item;
+            }
+        });
+        currentSet = currentSet.map((item, key) =>{
+            if (filters.vote_denied){
+                if (item.backtest.vote_status === "denied"){
+                    return item;
+                } else {
+                    return;
+                }
+            } else {
+                return item;
+            }
+        });
+        currentSet = currentSet.map((item, key) =>{
+            if (filters.user){
+                if (item != null && item.backtest.user === getFromLocalStorage("user").id){
+                    return item;
+                } else {
+                    return;
+                }
+            } else {
+                return item;
+            }
+        });
+        let filteredSet = [];
+        currentSet.map((item, key)=>{
+            if (item != null){
+                filteredSet.push(item);
+            }
+        });
+        console.log(filteredSet);
+        this.setState({filteredBacktests: filteredSet, performSort: true, performFilter: false})
+    };
+
     render() {
         const { algoID } = this.props.match.params;
         if (!this.state.loading) {
@@ -411,14 +620,14 @@ class AlgorithmDetail extends Component {
                             <p
                                 onClick={this.toggleLive}
                                 className={`${!this.state.isLive &&
-                                    'toggleLive'} click`}
+                                'toggleLive'} click`}
                             >
                                 Backtest
                             </p>
                             <p
                                 onClick={this.toggleLive}
                                 className={`${this.state.isLive &&
-                                    'toggleLive'} marginLeft click`}
+                                'toggleLive'} marginLeft click`}
                             >
                                 Live
                             </p>
@@ -450,6 +659,7 @@ class AlgorithmDetail extends Component {
                             showModal={this.state.showLiveInstanceForm}
                             toggleState={this.toggleLiveInstanceForm}
                             name="Live Instance"
+                            funds={this.state.funds}
                         />
                     ) : (
                         <button
@@ -476,44 +686,61 @@ class AlgorithmDetail extends Component {
                     ) : null}
                     <div className="errorClass">
                         {' '}
-                        {this.state.error && this.state.error}
+                        {this.state.error && this.state.error ? (
+                            <div class="alert">{this.state.error}</div>
+                        ) : null}
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
-                            {!this.state.stats.backtestHistoryMode ? (
-                                <BacktestList
-                                    id={algoID}
-                                    backtests={this.state.backtests}
-                                    backtestSelected={
-                                        this.state.backtestSelected
-                                    }
-                                    selectBacktest={this.selectBacktest}
-                                    isLive={false}
-                                />
+                            <SortingButtons updateMetric={this.selectSortMetric} currentMetric={this.state.backtestSortMetric}/>
+                            <BacktestFilters updateFilter={this.selectFilter} currentFilters={this.state.filters}/>
+                            {this.state.noBacktests ? (
+                                <h2>No Backtests to show</h2>
                             ) : (
-                                <BacktestGraph
-                                    id={algoID}
-                                    backtests={this.state.backtests}
-                                    backtestSelected={
-                                        this.state.backtestSelected
-                                    }
-                                    selectBacktest={this.selectBacktest}
-                                    isLive={false}
-                                />
+                                <div>
+                                    {!this.state.stats.backtestHistoryMode ? (
+                                        <div>
+                                            <BacktestList
+                                                id={algoID}
+                                                backtests={this.state.filteredBacktests}
+                                                backtestSelected={
+                                                    this.state.backtestSelected
+                                                }
+                                                selectBacktest={this.selectBacktest}
+                                                isLive={false}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <BacktestGraph
+                                            id={algoID}
+                                            backtests={this.state.filteredBacktests}
+                                            backtestSelected={
+                                                this.state.backtestSelected
+                                            }
+                                            selectBacktest={this.selectBacktest}
+                                            isLive={false}
+                                        />
+                                    )}
+                                </div>
                             )}
-
-                            <Stats
-                                start={this.state.algo_details.created_at}
-                                data={this.state.stats}
-                                toggleMode={this.toggleBacktestmode}
-                            />
-                            <BacktestVote
-                                data={this.state.backtestSelected}
-                                castVote={this.castVote}
-                            />
-                            <BacktestUniverse
-                                universe={this.state.stats.universe}
-                            />
+                            {this.state.noBacktests ? (
+                                null
+                            ) : (
+                                <div>
+                                    <Stats
+                                        start={this.state.algo_details.created_at}
+                                        data={this.state.stats}
+                                        toggleMode={this.toggleBacktestmode}
+                                    />
+                                    <BacktestVote
+                                        data={this.state.backtestSelected}
+                                        castVote={this.castVote}
+                                    />
+                                    <BacktestUniverse
+                                        universe={this.state.stats.universe}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
                     {this.state.isLive && this.state.liveInstanceSelected && (
