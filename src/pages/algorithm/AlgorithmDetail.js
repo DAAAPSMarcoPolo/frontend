@@ -55,7 +55,7 @@ class AlgorithmDetail extends Component {
                 vote_denied: false,
                 user: false
             },
-            noBacktests: false
+            noBacktests: false,
             funds: 0
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
