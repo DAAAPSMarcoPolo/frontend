@@ -707,8 +707,8 @@ class AlgorithmDetail extends Component {
                             onClick={this.toggleLiveInstanceForm}
                         >
                             {!this.state.isLive
-                                ? 'Create new Live Instance'
-                                : 'Cancel Live Instance'}
+                              ? 'New Live Instance'
+                              : 'Cancel sLive Instance'}
                         </button>
                     )}
                     {this.state.isLive && this.state.showLiveInstanceForm ? (
@@ -732,7 +732,7 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
-                            
+
                             {this.state.noBacktests ? (
                                 <h2>No Backtests to show</h2>
                             ) : (
