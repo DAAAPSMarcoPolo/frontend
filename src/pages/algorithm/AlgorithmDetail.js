@@ -761,7 +761,7 @@ class AlgorithmDetail extends Component {
                                 </div>
                             )}
                             {this.state.noBacktests ? null : (
-                                <div className="flex-container">
+                                <div className="flex-container b">
                                     <Stats
                                         start={
                                             this.state.algo_details.created_at

@@ -23,7 +23,7 @@ const LiveStats = ({ data }) => (
             </tr>
 
             <tr>
-                <th>Live Since</th>  
+                <th>Live Since</th>
             </tr>
             <tr>
             {`${new Date(
@@ -37,7 +37,7 @@ const LiveStats = ({ data }) => (
             </tr>
           </tbody>
         </table>
-        <div className="percent">
+        <div className={`percent ${parseInt(data.pct_gain) <= 0 ? 'percentRed' : 'percentGreen'}`}>
             <div className="margin-auto">
                 <p className="subtext">Percent Gain</p>
                 <h1>{(100*data.pct_gain).toFixed(2)}%</h1>
