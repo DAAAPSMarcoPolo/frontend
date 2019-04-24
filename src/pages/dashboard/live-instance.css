@@ -15,6 +15,10 @@
     font-weight: bold;
 }
 
+.live-card:hover {
+    opacity: 0.8;
+}
+
 .live-card .grey {
     color: #838383;
 }

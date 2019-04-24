@@ -9,10 +9,12 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             error: null,
-            strategies: null
+            strategies: null,
+            collapsed: true
         };
         this.getDashboardData = this.getDashboardData.bind(this);
         this.toggleCollapse = this.toggleCollapse.bind(this);
+        this.toggleAll = this.toggleAll.bind(this);
     }
 
     async getDashboardData() {
@@ -40,6 +42,15 @@ class Dashboard extends Component {
         this.setState({ strategies });
     }
 
+    toggleAll() {
+        const strategies = this.state.strategies;
+        for (const key in strategies) {
+            strategies[key]['collapsed'] = !this.state.collapsed;
+        }
+
+        this.setState({ strategies, collapsed: !this.state.collapsed });
+    }
+
     componentDidMount() {
         this.getDashboardData();
     }
@@ -52,6 +63,11 @@ class Dashboard extends Component {
         }
         return (
             <div>
+                <div className="text-right header-link">
+                    <div onClick={this.toggleAll}>
+                        {this.state.collapsed ? 'expand all' : 'collapse all'}
+                    </div>
+                </div>
                 {this.state.strategies &&
                     this.state.strategies.map((strategy, i) => (
                         <StrategyComponent

@@ -21,6 +21,10 @@
     color: #838383;
 }
 
+.strategy-card:hover {
+    opacity: 0.9;
+}
+
 .strategy-card .link:hover {
     text-decoration: underline;
     opacity: 0.8;
@@ -29,4 +33,15 @@
 .collapsed {
     display: none;
     overflow: hidden;
+}
+
+.header-link {
+    color: #838383;
+    text-decoration: underline;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.header-link:hover {
+    opacity: 0.8;
 }
