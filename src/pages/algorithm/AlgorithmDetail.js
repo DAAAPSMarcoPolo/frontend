@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Redirect } from 'react-router-dom';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
 import BacktestGraph from './BacktestGraph';
@@ -56,7 +57,8 @@ class AlgorithmDetail extends Component {
                 user: false
             },
             noBacktests: false,
-            funds: 0
+            funds: 0,
+            redirect: false
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -86,10 +88,16 @@ class AlgorithmDetail extends Component {
             this.getAlgorithmDetails(),
             this.getAvailableFunds()
         ]).then(() => {
-            this.setState({
+            if (this.state.error) {
+              this.setState({
+                redirect: true
+              });
+            } else {
+              this.setState({
                 loading: false,
                 filteredBacktests: Array.from(this.state.backtests)
-            });
+              });
+            }
         });
     }
 
@@ -116,6 +124,7 @@ class AlgorithmDetail extends Component {
         console.log('getBacktestList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 response: true,
@@ -144,6 +153,7 @@ class AlgorithmDetail extends Component {
         console.log('Algorithm Details', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 algo_details: res.data.algo_details
@@ -158,6 +168,10 @@ class AlgorithmDetail extends Component {
         const response = await api.Get(
             '/backtest/' + this.state.backtestSelected + '/'
         );
+        if (response.status !== 200) {
+            this.setState({ error: response.statusText });
+            return;
+        }
         console.log('transform', response);
         this.setState({ transactions: response.data.trades });
         console.log('this.state.transactions', this.state.transactions);
@@ -172,6 +186,7 @@ class AlgorithmDetail extends Component {
         console.log('getLiveInstanceList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 response: true,
@@ -245,35 +260,6 @@ class AlgorithmDetail extends Component {
         ) {
             return;
         }
-        /*
-        const li = liveInstanceSelected.live_instance;
-
-        const start = new Date(li.start_date);
-        const end = new Date(li.end_date);
-        const timeDiff = Math.abs(end.getTime() - start.getTime());
-        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        const per_gain = (
-            ((li.end_cash - li.initial_cash) / li.initial_cash) *
-            100
-        ).toFixed(2);
-        // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
-
-        const stats = {};
-        stats.initial_cash =
-            '$ ' +
-            this.numberWithCommas(
-                liveInstanceSelected.live_instance.initial_cash.toFixed(2)
-            );
-        stats.end_cash =
-            '$ ' +
-            this.numberWithCommas(
-                liveInstanceSelected.live_instance.end_cash.toFixed(2)
-            );
-        stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
-        stats.num_days = diffDays + 4;
-        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
-        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
-        */
         this.setState({ liveInstanceSelected });
         console.log('liveInstanceSelected', liveInstanceSelected);
         return;
@@ -645,7 +631,9 @@ class AlgorithmDetail extends Component {
 
     render() {
         const { algoID } = this.props.match.params;
-        if (!this.state.loading) {
+        if (this.state.redirect === true) {
+            return <Redirect to="/algorithms" />;
+        } else if (!this.state.loading) {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
@@ -782,7 +770,7 @@ class AlgorithmDetail extends Component {
                                 </div>
                             )}
                             {this.state.noBacktests ? null : (
-                                <div>
+                                <div className="flex-container b">
                                     <Stats
                                         start={
                                             this.state.algo_details.created_at
