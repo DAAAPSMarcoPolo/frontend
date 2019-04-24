@@ -113,9 +113,7 @@ class Login extends Component {
                     const { cookies } = this.props;
                     cookies.set('isAuthenticated', true);
                     cookies.set('isAdmin', data.isAdmin);
-                    cookies.set('login', true);
                     cookies.set('jwt', data.token);
-                    cookies.set('token', '');
                 }
                 break;
             case 400:
@@ -130,7 +128,7 @@ class Login extends Component {
             case 401:
                 deleteFromLocalStorage('token');
                 const { cookies } = this.props;
-                cookies.set('isAuthenticated', false, { path: '/' });
+                cookies.remove('isAuthenticated');
                 break;
             case 404:
                 this.setState({ error: 'Invalid credentials.' });

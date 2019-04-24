@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withCookies, Cookies } from 'react-cookie';
+import { deleteFromLocalStorage } from '../../utils/localstorage';
 import { Link } from 'react-router-dom';
 import x from '../../assets/images/x-icon.png';
 import { instanceOf } from 'prop-types';
@@ -27,10 +28,11 @@ class Nav extends Component {
     };
     logout = () => {
         const { cookies } = this.props;
-        cookies.set('isAuthenticated', false);
-        cookies.set('isAdmin', false);
+        cookies.remove('isAuthenticated');
+        cookies.remove('isAdmin');
         cookies.remove('jwt');
         cookies.remove('email');
+        deleteFromLocalStorage('token');
     };
 
     render() {

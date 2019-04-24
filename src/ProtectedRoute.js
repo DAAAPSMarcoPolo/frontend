@@ -9,6 +9,7 @@ const ProtectedRoute = ({ component: Component, cookies, ...props }) => {
     const isAuthenticated = cookies.get('isAuthenticated');
     const isAdmin = cookies.get('isAdmin');
 
+    console.log(isAuthenticated);
     return (
         <Route
             {...props}
