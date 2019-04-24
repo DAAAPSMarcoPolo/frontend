@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Stats = ( props ) => (
-    <div className="con rel">
+    <div className="con rel backtest-flex-child">
         <h3>Statistics</h3>
         <table className="con-table left">
           <thead>

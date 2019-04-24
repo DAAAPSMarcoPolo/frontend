@@ -2,7 +2,7 @@ import React from 'react';
 import '../../assets/algo.css';
 
 const BacktestUniverse = ({ universe }) => (
-  <div className="con rel con-overflow">
+  <div className="con rel con-overflow backtest-flex-child">
   <h3>Universe: {universe.name}</h3>
   <table className="con-table left">
     <thead>

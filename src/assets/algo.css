@@ -127,7 +127,7 @@ p {
   width: 170px;
   height: 170px;
   position: absolute;
-  top: 63px;
+  top: 85px;
   right: 34px;
 }
 
@@ -233,7 +233,7 @@ p {
 .BacktestModeNav {
     font-family: 'Proxima Nova', sans-serif;
     position: absolute;
-    top: 0px;
+    top: 20px;
     right: 20px;
 }
 
@@ -274,6 +274,7 @@ p {
   max-width: 400px;
 }
 
-.flex-container div {
+.backtest-flex-child {
   margin: 20px 20px 0px 0px;
+  overflow: scroll;
 }
