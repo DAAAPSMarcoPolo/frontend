@@ -649,7 +649,7 @@ class AlgorithmDetail extends Component {
                     <div className="title-info">
                         <h3>{this.state.algo_details.name}</h3>
                             <h5>
-                              {this.state.backtestCount} Backtests Total | {this.state.liveInstanceCount} Livetests Total
+                              {this.state.backtestCount} Backtests Total | {this.state.liveInstanceCount} Live Instances Total
                             </h5>
                         <p>{this.state.algo_details.description}</p>
                         <div className="nav isLiveNav">
