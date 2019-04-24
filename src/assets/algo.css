@@ -127,7 +127,7 @@ p {
   width: 170px;
   height: 170px;
   position: absolute;
-  top: 50px;
+  top: 63px;
   right: 34px;
 }
 
@@ -232,6 +232,9 @@ p {
 
 .BacktestModeNav {
     font-family: 'Proxima Nova', sans-serif;
+    position: absolute;
+    top: 0px;
+    right: 20px;
 }
 
 .transactionGraph {
