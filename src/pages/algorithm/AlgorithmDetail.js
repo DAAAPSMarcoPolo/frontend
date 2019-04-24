@@ -91,11 +91,11 @@ class AlgorithmDetail extends Component {
             console.log('backtests', this.state.backtests);
         }
         const queryParams = queryString.parse(this.props.location.search);
-        let key;
+        let key = null;
         if (queryParams.backtest) {
             key = this.findBacktestKey(parseInt(queryParams.backtest));
         }
-        if (this.state.backtestCount > 0 && key) {
+        if (this.state.backtestCount > 0 && key !== null) {
             this.selectBacktest(key, queryParams.backtest);
         } else if (this.state.backtestCount > 0) {
             this.selectBacktest(0, -1);
@@ -139,6 +139,16 @@ class AlgorithmDetail extends Component {
                 liveInstances: res.data
             });
             console.log('liveInstances', this.state.liveInstances);
+        }
+        const queryParams = queryString.parse(this.props.location.search);
+        let key = null;
+        if (queryParams.liveinstance) {
+            key = this.findLiveInstanceKey(parseInt(queryParams.liveinstance));
+        }
+        console.log('key: ' + key);
+        if (this.state.liveInstanceCount > 0 && key !== null) {
+            this.selectLiveInstance(key, queryParams.liveinstance);
+            this.setState({ isLive: true });
         }
         if (this.state.liveInstanceCount > 0) {
             this.selectLiveInstance(0, -1);
@@ -244,6 +254,15 @@ class AlgorithmDetail extends Component {
         }
     };
 
+    findLiveInstanceKey = id => {
+        let i;
+        for (i = 0; i < this.state.liveInstances.length; i++) {
+            if (this.state.liveInstances[i].live_instance.id === id) {
+                return i;
+            }
+        }
+    };
+
     selectBacktest = (i, id) => {
         const backtestSelected = this.state.backtests[i];
         if (
@@ -281,10 +300,10 @@ class AlgorithmDetail extends Component {
         stats.end_date = `${end.getMonth() +
             1}-${end.getDate()}-${end.getFullYear()}`;
         stats.backtestHistoryMode = this.state.stats.backtestHistoryMode;
-        console.log(backtestSelected);
+        //console.log(backtestSelected);
         stats.universe = backtestSelected.backtest.universe;
         this.setState({ backtestSelected, stats });
-        console.log('backtestSelected', backtestSelected);
+        //console.log('backtestSelected', backtestSelected);
         return;
     };
 
