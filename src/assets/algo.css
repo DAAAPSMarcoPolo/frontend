@@ -271,7 +271,6 @@ p {
 .flex-container .con {
   min-width: 400px;
   max-height: 400px;
-  max-width: 400px;
 }
 
 .backtest-flex-child {

@@ -36,8 +36,8 @@ const Algo = ({
                         <p>#{algoId}</p>
                     </Link>
                 </p>
-                <p className="col-3 boundaries-algo">
-                    ALGO {approved ? 'APPROVED' : 'PENDING'}
+                <p className="col-7 boundaries-algo">
+                     Best Backest&nbsp;<span className="secondary-text algo-link">#{best_backtest ? best_backtest : 'No Backtest Created'}</span>
                 </p>
             </div>
             {/* row two */}
@@ -45,49 +45,27 @@ const Algo = ({
                 <p className="col-5 boundaries-algo secondary-text">
                      Created on {created} by User {user}
                 </p>
-                <p className="col-1 boundaries-algo">Start</p>
-                <p className="col-1 boundaries-algo">End</p>
-                <p className="col-2 boundaries-algo">Sharpe</p>
-
-                <p className="col-3 boundaries-algo secondary-text">
-                    <span role="img" aria-label="Approval">
-                        ✔️
-                    </span>{' '}
-                    3 Approvals
-                </p>
+                <p className="col-2 boundaries-algo">Start</p>
+                <p className="col-2 boundaries-algo">End</p>
+                <p className="col-3 boundaries-algo">Sharpe</p>
             </div>
             {/* row three */}
             <div className="row">
-                <div className="col-4 boundaries-algo">
+                <div className="col-5 boundaries-algo">
                   <p>Status:&nbsp;
-                  <span className="secondary-text">
-                   {
-                      (!best_backtest)
-                      ? 'No Backtests Created'
-                      : (complete)
-                      ? 'Backtest Complete'
-                      : 'Backest in Progress'
-                    }
-                    </span>
-                    </p>
-                    <p className="secondary-text">
+                    <span className="secondary-text">
                     {
                       (!status)
                       ? 'No Live Instances Created'
                       : 'Live Instance in Progress'
                     }
-                    </p>
+                    </span>
+                  </p>
                 </div>
-                <p className="col-1 boundaries-algo secondary-text">${start}</p>
-                <p className="col-1 boundaries-algo secondary-text">${end}</p>
-                <p className="col-2 boundaries-algo secondary-text">
-                    {sharpe}
-                </p>
+                <p className="col-2 boundaries-algo secondary-text">${start}</p>
+                <p className="col-2 boundaries-algo secondary-text">${end}</p>
                 <p className="col-3 boundaries-algo secondary-text">
-                    <span role="img" aria-label="Approval">
-                        ✖️
-                    </span>{' '}
-                    1 Denial
+                    {sharpe}
                 </p>
             </div>
             <div className="arrow-background" />
