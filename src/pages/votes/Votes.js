@@ -3,19 +3,19 @@ import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
 import './votes.css';
 import { getFromLocalStorage } from '../../utils/localstorage';
+import VoteComponent from './VoteComponent';
 
 class Votes extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            votes: null,
-            vote_data: null
+            vote_data: null,
+            collapsed: true
         };
         this.getUserVotes = this.getUserVotes.bind(this);
-        this.pendingBtns = this.pendingBtns.bind(this);
-        this.acceptedBtns = this.acceptedBtns.bind(this);
-        this.deniedBtns = this.deniedBtns.bind(this);
         this.castVote = this.castVote.bind(this);
+        this.toggleCollapseAll = this.toggleCollapseAll.bind(this);
+        this.toggleCollapse = this.toggleCollapse.bind(this);
     }
 
     componentDidMount() {
@@ -25,16 +25,33 @@ class Votes extends Component {
     async getUserVotes() {
         const user = getFromLocalStorage('user');
         const response = await api.Get(`/user/${user.id}/votes`);
-        const { votes, vote_data } = response.data;
-        this.setState({ votes, vote_data });
+        const { vote_data } = response.data;
+        const old_vote_data = this.state.vote_data;
+        for (const key in vote_data) {
+            if (
+                old_vote_data &&
+                old_vote_data.hasOwnProperty(key) &&
+                vote_data.hasOwnProperty(key)
+            ) {
+                vote_data[key]['collapsed'] = old_vote_data[key]['collapsed'];
+            } else if (vote_data.hasOwnProperty(key)) {
+                vote_data[key]['collapsed'] = true;
+            }
+        }
+        this.setState({ vote_data });
         console.log(response.data);
     }
 
     castVote = async (vote, backtest) => {
+        if (vote === 'accept' && backtest.backtestvote__vote === true) {
+            return;
+        } else if (vote === 'deny' && backtest.backtestvote__vote === false) {
+            return;
+        }
         const formData = {
             vote
         };
-        const res = await api.Post(`/backtest/${backtest}/vote`, formData);
+        const res = await api.Post(`/backtest/${backtest.id}/vote`, formData);
         if (res.status === 200) {
             await this.getUserVotes();
         } else {
@@ -45,109 +62,106 @@ class Votes extends Component {
         }
     };
 
-    pendingBtns(backtest) {
-        return (
-            <div className="vote-btn-grp">
-                <button
-                    className="vote-btn"
-                    onClick={() => this.castVote('approve', backtest)}
-                >
-                    ✓
-                </button>
-                <button
-                    className="vote-btn"
-                    onClick={() => this.castVote('deny', backtest)}
-                >
-                    ×
-                </button>
-            </div>
-        );
+    toggleCollapse(s_id) {
+        const { vote_data } = this.state;
+        for (const key in vote_data) {
+            if (
+                vote_data.hasOwnProperty(key) &&
+                vote_data[key]['algorithm_id'] === s_id
+            ) {
+                vote_data[key]['collapsed'] = !vote_data[key]['collapsed'];
+            }
+        }
+        this.setState({ vote_data });
     }
 
-    acceptedBtns(backtest) {
-        return (
-            <div className="vote-btn-grp">
-                <button className="vote-btn current-vote" disabled={true}>
-                    ✓
-                </button>
-                <button
-                    className="vote-btn"
-                    onClick={() => this.castVote('deny', backtest)}
-                >
-                    ×
-                </button>
-            </div>
-        );
-    }
-
-    deniedBtns(backtest) {
-        return (
-            <div className="vote-btn-grp">
-                <button
-                    className="vote-btn"
-                    onClick={() => this.castVote('accept', backtest)}
-                >
-                    ✓
-                </button>
-                <button className="vote-btn current-vote" disabled={true}>
-                    ×
-                </button>
-            </div>
-        );
+    toggleCollapseAll() {
+        const { vote_data } = this.state;
+        for (const key in vote_data) {
+            if (vote_data.hasOwnProperty(key)) {
+                vote_data[key]['collapsed'] = !this.state.collapsed;
+            }
+        }
+        this.setState({ collapsed: !this.state.collapsed, vote_data });
     }
 
     render() {
         return (
             <div>
-                <ul>
+                <div>
+                    {this.state.vote_data && (
+                        <div className="text-right">
+                            <div
+                                onClick={this.toggleCollapseAll}
+                                className="toggle-text"
+                            >
+                                {this.state.collapsed
+                                    ? 'expand all'
+                                    : 'collapse all'}
+                            </div>
+                        </div>
+                    )}
                     {this.state.vote_data &&
-                        // strategy level
                         this.state.vote_data.map((strategy, i) => (
-                            <li key={i}>
-                                {strategy.algorithm_name}
-                                <ul>
-                                    {/* backtest level */}
-                                    {strategy.backtests.map((backtest, j) => (
-                                        <li className="vote-row" key={j}>
-                                            <div className="d-inline-block mr-2">
-                                                Backtest id:{' '}
-                                                <a
-                                                    href={`/algorithms/${
-                                                        strategy.algorithm_id
-                                                    }?backtest=${backtest.id}`}
-                                                >
-                                                    {backtest.id}
-                                                </a>
-                                                ,
-                                            </div>
-                                            <div className="d-inline-block mr-2">
-                                                Vote status:{' '}
-                                                {backtest.vote_status},
-                                            </div>
-                                            <div className="d-inline-block">
-                                                Vote:{' '}
-                                                {backtest.backtestvote__vote ===
-                                                null
-                                                    ? this.pendingBtns(
-                                                          backtest.id
-                                                      )
-                                                    : backtest.backtestvote__vote
-                                                    ? this.acceptedBtns(
-                                                          backtest.id
-                                                      )
-                                                    : this.deniedBtns(
-                                                          backtest.id
-                                                      )}
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
+                            <div key={i}>
+                                <div
+                                    className="card strategy-card mt-3"
+                                    onClick={() => {
+                                        this.toggleCollapse(
+                                            strategy.algorithm_id
+                                        );
+                                    }}
+                                >
+                                    <div className="row">
+                                        <div className="col-3">
+                                            {strategy.algorithm_name}
+                                        </div>
+                                        <div className="col-3 text-center">
+                                            {getCount(strategy, 'approved')}{' '}
+                                            approved
+                                        </div>
+                                        <div className="col-3 text-center">
+                                            {getCount(strategy, '')} pending
+                                        </div>
+                                        <div className="col-3 text-right">
+                                            {getCount(strategy, 'denied')}{' '}
+                                            denied
+                                        </div>
+                                    </div>
+                                </div>
+                                {strategy.backtests.map((backtest, j) => (
+                                    <div
+                                        className={
+                                            strategy.collapsed
+                                                ? 'collapsed'
+                                                : ''
+                                        }
+                                        key={j}
+                                    >
+                                        <VoteComponent
+                                            backtest={backtest}
+                                            strategy={strategy}
+                                            castVote={this.castVote}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         ))}
-                </ul>
+                </div>
             </div>
         );
     }
 }
+
+const getCount = (strategy, status) => {
+    let count = 0;
+    strategy.backtests.forEach(backtest => {
+        console.log(backtest);
+        if (backtest.vote_status === status) {
+            count++;
+        }
+    });
+    return count;
+};
 
 export default Votes;
