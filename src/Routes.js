@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router';
 import Login from './pages/login/Login';
 import PasswordReset from './pages/login/PasswordReset';
 import Settings from './pages/admin/Settings';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/dashboard/Dashboard';
 import ProtectedRoute from './ProtectedRoute';
 import Upload from './pages/upload/Upload';
 import AlgorithmDetail from './pages/algorithm/AlgorithmDetail';
@@ -27,7 +27,7 @@ const Routes = () => (
             path={`/algorithms/:algoID`}
             component={AlgorithmDetail}
         />
-        <ProtectedRoute path="/algorithms" component={AlgorithmList}/>
+        <ProtectedRoute path="/algorithms" component={AlgorithmList} />
         <ProtectedRoute path="/universes" component={Universe} />
         <Route path="*" component={NotFound} />
         />

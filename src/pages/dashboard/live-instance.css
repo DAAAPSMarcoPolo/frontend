@@ -1,0 +1,61 @@
+.live-card {
+    width: 700px;
+    background-color: #282828;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    color: rgb(233, 233, 233);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.headers {
+    font-weight: bold;
+}
+
+.live-card:hover {
+    opacity: 0.8;
+}
+
+.live-card .grey {
+    color: #838383;
+}
+
+.live-card .link {
+    color: #838383;
+}
+
+.live-card .link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.live-card:hover {
+    text-decoration: none;
+}
+
+.border-green {
+    border-left: #44e8ae;
+    border-left-style: solid;
+    border-left-width: thick;
+}
+
+.border-blue {
+    border-left: #2196e4;
+    border-left-style: solid;
+    border-left-width: thick;
+}
+
+.border-yellow {
+    border-left: #d8e844;
+    border-left-style: solid;
+    border-left-width: thick;
+}
+
+.border-red {
+    border-left: #c52727;
+    border-left-style: solid;
+    border-left-width: thick;
+}

@@ -1,0 +1,47 @@
+.strategy-card {
+    width: 700px;
+    background-color: #282828;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    color: rgb(233, 233, 233);
+    /* border-left: green; */
+    border-bottom-style: solid;
+    border-bottom-width: thick;
+    cursor: pointer;
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.strategy-card .link {
+    color: #838383;
+}
+
+.strategy-card:hover {
+    opacity: 0.9;
+}
+
+.strategy-card .link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+.collapsed {
+    display: none;
+    overflow: hidden;
+}
+
+.header-link {
+    color: #838383;
+    text-decoration: underline;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.header-link:hover {
+    opacity: 0.8;
+}

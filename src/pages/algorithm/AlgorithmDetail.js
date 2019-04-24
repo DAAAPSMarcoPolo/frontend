@@ -47,7 +47,7 @@ class AlgorithmDetail extends Component {
             },
             loading: true,
             isLive: false,
-            backtestSortMetric: "date",
+            backtestSortMetric: 'date',
             filteredBacktests: null,
             filters: {
                 vote_pending: false,
@@ -86,16 +86,26 @@ class AlgorithmDetail extends Component {
             this.getAlgorithmDetails(),
             this.geAvailableFunds()
         ]).then(() => {
-            this.setState({ loading: false, filteredBacktests: Array.from(this.state.backtests)});
+            this.setState({
+                loading: false,
+                filteredBacktests: Array.from(this.state.backtests)
+            });
         });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.backtestSortMetric !== this.state.backtestSortMetric || this.state.performSort){
-            this.sortBacktests()
+        if (
+            prevState.backtestSortMetric !== this.state.backtestSortMetric ||
+            this.state.performSort
+        ) {
+            this.sortBacktests();
         }
-        if ((prevState.filters.vote !== this.state.filters.vote) || (prevState.filters.user !== this.state.filters.user) || this.state.performFilter){
-            this.filterBacktests()
+        if (
+            prevState.filters.vote !== this.state.filters.vote ||
+            prevState.filters.user !== this.state.filters.user ||
+            this.state.performFilter
+        ) {
+            this.filterBacktests();
         }
     }
 
@@ -115,11 +125,11 @@ class AlgorithmDetail extends Component {
             console.log('backtests', this.state.backtests);
         }
         const queryParams = queryString.parse(this.props.location.search);
-        let key;
+        let key = null;
         if (queryParams.backtest) {
             key = this.findBacktestKey(parseInt(queryParams.backtest));
         }
-        if (this.state.backtestCount > 0 && key) {
+        if (this.state.backtestCount > 0 && key !== null) {
             this.selectBacktest(key, queryParams.backtest);
         } else if (this.state.backtestCount > 0) {
             this.selectBacktest(0, -1);
@@ -166,6 +176,16 @@ class AlgorithmDetail extends Component {
                 liveInstances: res.data
             });
             console.log('liveInstances', this.state.liveInstances);
+        }
+        const queryParams = queryString.parse(this.props.location.search);
+        let key = null;
+        if (queryParams.liveinstance) {
+            key = this.findLiveInstanceKey(parseInt(queryParams.liveinstance));
+        }
+        console.log('key: ' + key);
+        if (this.state.liveInstanceCount > 0 && key !== null) {
+            this.selectLiveInstance(key, queryParams.liveinstance);
+            this.setState({ isLive: true });
         }
         if (this.state.liveInstanceCount > 0) {
             this.selectLiveInstance(0, -1);
@@ -274,15 +294,24 @@ class AlgorithmDetail extends Component {
         }
     };
 
+    findLiveInstanceKey = id => {
+        let i;
+        for (i = 0; i < this.state.liveInstances.length; i++) {
+            if (this.state.liveInstances[i].live_instance.id === id) {
+                return i;
+            }
+        }
+    };
+
     selectBacktest = (i, id) => {
         let backtestSelected = null;
-        this.state.backtests.map((item, i) =>{
-            if (item.backtest.id === id){
+        this.state.backtests.map((item, i) => {
+            if (item.backtest.id === id) {
                 backtestSelected = item;
             }
         });
 
-        if (backtestSelected === null){
+        if (backtestSelected === null) {
             backtestSelected = this.state.backtests[0];
         }
 
@@ -321,10 +350,9 @@ class AlgorithmDetail extends Component {
         stats.end_date = `${end.getMonth() +
             1}-${end.getDate()}-${end.getFullYear()}`;
         stats.backtestHistoryMode = this.state.stats.backtestHistoryMode;
-        console.log(backtestSelected);
+        //console.log(backtestSelected);
         stats.universe = backtestSelected.backtest.universe;
         this.setState({ backtestSelected, stats });
-        return;
     };
 
     numberWithCommas(x) {
@@ -471,85 +499,89 @@ class AlgorithmDetail extends Component {
         console.log(backtestSelected);
     };
 
-    selectSortMetric = (e, metric) =>{
+    selectSortMetric = (e, metric) => {
         e.preventDefault();
         e.persist();
-        this.setState({backtestSortMetric: metric});
+        this.setState({ backtestSortMetric: metric });
     };
 
     selectFilter = (e, filter) => {
         e.preventDefault();
         e.persist();
         let filters = this.state.filters;
-        switch(filter){
-            case "vote_pending":
+        switch (filter) {
+            case 'vote_pending':
                 filters.vote_pending = !filters.vote_pending;
                 filters.vote_approved = false;
                 filters.vote_denied = false;
                 break;
-            case "vote_approved":
+            case 'vote_approved':
                 filters.vote_approved = !filters.vote_approved;
                 filters.vote_pending = false;
                 filters.vote_denied = false;
                 break;
-            case "vote_denied":
+            case 'vote_denied':
                 filters.vote_denied = !filters.vote_denied;
                 filters.vote_pending = false;
                 filters.vote_approved = false;
                 break;
-            case "user":
+            case 'user':
                 filters.user = !filters.user;
                 break;
         }
-        this.setState({filters, performFilter: true});
+        this.setState({ filters, performFilter: true });
     };
 
-    sortBacktests = () =>{
-        console.log("Sorting");
+    sortBacktests = () => {
+        console.log('Sorting');
         let sortFunction;
-        switch(this.state.backtestSortMetric){
+        switch (this.state.backtestSortMetric) {
             case null:
-                sortFunction = (a, b)=>{
+                sortFunction = (a, b) => {
                     let dayA = new Date(a.backtest.created_at);
                     let dayB = new Date(b.backtest.created_at);
                     return (dayA - dayB) * -1;
                 };
                 break;
-            case "sharpe":
-                sortFunction = (a, b)=>{
+            case 'sharpe':
+                sortFunction = (a, b) => {
                     return (a.backtest.sharpe - b.backtest.sharpe) * -1;
                 };
                 break;
-            case "date":
-                sortFunction = (a, b)=>{
+            case 'date':
+                sortFunction = (a, b) => {
                     let dayA = new Date(a.backtest.created_at);
                     let dayB = new Date(b.backtest.created_at);
                     return (dayA - dayB) * -1;
                 };
                 break;
-            case "gain":
-                sortFunction = (a, b)=>{
+            case 'gain':
+                sortFunction = (a, b) => {
                     return (a.backtest.pct_gain - b.backtest.pct_gain) * -1;
                 };
                 break;
         }
         let sortedBacktests = this.state.filteredBacktests;
-        if (sortedBacktests.length < 1){
-            this.setState({noBacktests: true, performSort: false});
-            console.log("Figure out how to show no backtests")
+        if (sortedBacktests.length < 1) {
+            this.setState({ noBacktests: true, performSort: false });
+            console.log('Figure out how to show no backtests');
         } else {
             sortedBacktests.sort(sortFunction);
-            this.setState({filteredBacktests: sortedBacktests, noBacktests:false, performSort: false});
+            this.setState({
+                filteredBacktests: sortedBacktests,
+                noBacktests: false,
+                performSort: false
+            });
             this.selectBacktest(0, sortedBacktests[0].backtest.id);
         }
     };
 
     filterBacktests = () => {
-        console.log("Filtering");
+        console.log('Filtering');
         const filters = this.state.filters;
-        let currentSet = this.state.backtests.map((item, key) =>{
-            if (filters.vote_pending){
-                if (item.backtest.vote_status === ""){
+        let currentSet = this.state.backtests.map((item, key) => {
+            if (filters.vote_pending) {
+                if (item.backtest.vote_status === '') {
                     return item;
                 } else {
                     return;
@@ -558,9 +590,9 @@ class AlgorithmDetail extends Component {
                 return item;
             }
         });
-        currentSet = currentSet.map((item, key) =>{
-            if (filters.vote_approved){
-                if (item.backtest.vote_status === "approved"){
+        currentSet = currentSet.map((item, key) => {
+            if (filters.vote_approved) {
+                if (item.backtest.vote_status === 'approved') {
                     return item;
                 } else {
                     return;
@@ -569,9 +601,9 @@ class AlgorithmDetail extends Component {
                 return item;
             }
         });
-        currentSet = currentSet.map((item, key) =>{
-            if (filters.vote_denied){
-                if (item.backtest.vote_status === "denied"){
+        currentSet = currentSet.map((item, key) => {
+            if (filters.vote_denied) {
+                if (item.backtest.vote_status === 'denied') {
                     return item;
                 } else {
                     return;
@@ -580,9 +612,12 @@ class AlgorithmDetail extends Component {
                 return item;
             }
         });
-        currentSet = currentSet.map((item, key) =>{
-            if (filters.user){
-                if (item != null && item.backtest.user === getFromLocalStorage("user").id){
+        currentSet = currentSet.map((item, key) => {
+            if (filters.user) {
+                if (
+                    item != null &&
+                    item.backtest.user === getFromLocalStorage('user').id
+                ) {
                     return item;
                 } else {
                     return;
@@ -592,13 +627,17 @@ class AlgorithmDetail extends Component {
             }
         });
         let filteredSet = [];
-        currentSet.map((item, key)=>{
-            if (item != null){
+        currentSet.map((item, key) => {
+            if (item != null) {
                 filteredSet.push(item);
             }
         });
         console.log(filteredSet);
-        this.setState({filteredBacktests: filteredSet, performSort: true, performFilter: false})
+        this.setState({
+            filteredBacktests: filteredSet,
+            performSort: true,
+            performFilter: false
+        });
     };
 
     render() {
@@ -620,14 +659,14 @@ class AlgorithmDetail extends Component {
                             <p
                                 onClick={this.toggleLive}
                                 className={`${!this.state.isLive &&
-                                'toggleLive'} click`}
+                                    'toggleLive'} click`}
                             >
                                 Backtest
                             </p>
                             <p
                                 onClick={this.toggleLive}
                                 className={`${this.state.isLive &&
-                                'toggleLive'} marginLeft click`}
+                                    'toggleLive'} marginLeft click`}
                             >
                                 Live
                             </p>
@@ -692,8 +731,14 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
-                            <SortingButtons updateMetric={this.selectSortMetric} currentMetric={this.state.backtestSortMetric}/>
-                            <BacktestFilters updateFilter={this.selectFilter} currentFilters={this.state.filters}/>
+                            <SortingButtons
+                                updateMetric={this.selectSortMetric}
+                                currentMetric={this.state.backtestSortMetric}
+                            />
+                            <BacktestFilters
+                                updateFilter={this.selectFilter}
+                                currentFilters={this.state.filters}
+                            />
                             {this.state.noBacktests ? (
                                 <h2>No Backtests to show</h2>
                             ) : (
@@ -702,18 +747,24 @@ class AlgorithmDetail extends Component {
                                         <div>
                                             <BacktestList
                                                 id={algoID}
-                                                backtests={this.state.filteredBacktests}
+                                                backtests={
+                                                    this.state.filteredBacktests
+                                                }
                                                 backtestSelected={
                                                     this.state.backtestSelected
                                                 }
-                                                selectBacktest={this.selectBacktest}
+                                                selectBacktest={
+                                                    this.selectBacktest
+                                                }
                                                 isLive={false}
                                             />
                                         </div>
                                     ) : (
                                         <BacktestGraph
                                             id={algoID}
-                                            backtests={this.state.filteredBacktests}
+                                            backtests={
+                                                this.state.filteredBacktests
+                                            }
                                             backtestSelected={
                                                 this.state.backtestSelected
                                             }
@@ -723,12 +774,12 @@ class AlgorithmDetail extends Component {
                                     )}
                                 </div>
                             )}
-                            {this.state.noBacktests ? (
-                                null
-                            ) : (
+                            {this.state.noBacktests ? null : (
                                 <div>
                                     <Stats
-                                        start={this.state.algo_details.created_at}
+                                        start={
+                                            this.state.algo_details.created_at
+                                        }
                                         data={this.state.stats}
                                         toggleMode={this.toggleBacktestmode}
                                     />

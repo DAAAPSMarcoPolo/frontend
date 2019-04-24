@@ -13,12 +13,16 @@ class Nav extends Component {
 
     constructor(props) {
         super(props);
+        const { cookies } = this.props;
+        const navOpen = cookies.get('navOpen') === 'false' ? false : true;
         this.state = {
-            open: true
+            open: navOpen
         };
     }
 
     updateisOpen = () => {
+        const { cookies } = this.props;
+        cookies.set('navOpen', !this.state.open);
         this.setState({ open: !this.state.open });
     };
     logout = () => {
