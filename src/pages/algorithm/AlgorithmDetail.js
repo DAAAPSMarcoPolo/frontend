@@ -648,13 +648,9 @@ class AlgorithmDetail extends Component {
                 <div className="fullWidth">
                     <div className="title-info">
                         <h3>{this.state.algo_details.name}</h3>
-                        {!this.state.isLive ? (
-                            <h5>{this.state.backtestCount} Backtests Total</h5>
-                        ) : (
                             <h5>
-                                {this.state.liveInstanceCount} Livetests Total
+                              {this.state.backtestCount} Backtests Total | {this.state.liveInstanceCount} Livetests Total
                             </h5>
-                        )}
                         <p>{this.state.algo_details.description}</p>
                         <div className="nav isLiveNav">
                             <p
@@ -688,7 +684,7 @@ class AlgorithmDetail extends Component {
                             className="maxWidth position-corner greenButton marginLeft"
                             onClick={this.toggleBacktestForm}
                         >
-                            Create new Backtest
+                            New Backtest
                         </button>
                     )}
                     {this.state.showLiveInstanceForm ? (
@@ -708,7 +704,7 @@ class AlgorithmDetail extends Component {
                         >
                             {!this.state.isLive
                               ? 'New Live Instance'
-                              : 'Cancel sLive Instance'}
+                              : 'Cancel Live Instance'}
                         </button>
                     )}
                     {this.state.isLive && this.state.showLiveInstanceForm ? (
