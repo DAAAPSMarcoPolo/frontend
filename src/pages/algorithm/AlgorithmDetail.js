@@ -243,35 +243,6 @@ class AlgorithmDetail extends Component {
         ) {
             return;
         }
-        /*
-        const li = liveInstanceSelected.live_instance;
-
-        const start = new Date(li.start_date);
-        const end = new Date(li.end_date);
-        const timeDiff = Math.abs(end.getTime() - start.getTime());
-        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        const per_gain = (
-            ((li.end_cash - li.initial_cash) / li.initial_cash) *
-            100
-        ).toFixed(2);
-        // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
-
-        const stats = {};
-        stats.initial_cash =
-            '$ ' +
-            this.numberWithCommas(
-                liveInstanceSelected.live_instance.initial_cash.toFixed(2)
-            );
-        stats.end_cash =
-            '$ ' +
-            this.numberWithCommas(
-                liveInstanceSelected.live_instance.end_cash.toFixed(2)
-            );
-        stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
-        stats.num_days = diffDays + 4;
-        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
-        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
-        */
         this.setState({ liveInstanceSelected });
         console.log('liveInstanceSelected', liveInstanceSelected);
         return;
