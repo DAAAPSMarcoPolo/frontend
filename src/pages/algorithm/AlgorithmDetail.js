@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Redirect } from 'react-router-dom';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
 import BacktestGraph from './BacktestGraph';
@@ -56,7 +57,8 @@ class AlgorithmDetail extends Component {
                 user: false
             },
             noBacktests: false,
-            funds: 0
+            funds: 0,
+            redirect: false
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
@@ -86,10 +88,16 @@ class AlgorithmDetail extends Component {
             this.getAlgorithmDetails(),
             this.geAvailableFunds()
         ]).then(() => {
-            this.setState({
+            if (this.state.error) {
+              this.setState({
+                redirect: true
+              });
+            } else {
+              this.setState({
                 loading: false,
                 filteredBacktests: Array.from(this.state.backtests)
-            });
+              });
+            }
         });
     }
 
@@ -116,6 +124,7 @@ class AlgorithmDetail extends Component {
         console.log('getBacktestList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 response: true,
@@ -144,6 +153,7 @@ class AlgorithmDetail extends Component {
         console.log('Algorithm Details', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 algo_details: res.data.algo_details
@@ -158,6 +168,10 @@ class AlgorithmDetail extends Component {
         const response = await api.Get(
             '/backtest/' + this.state.backtestSelected + '/'
         );
+        if (response.status !== 200) {
+            this.setState({ error: response.statusText });
+            return;
+        }
         console.log('transform', response);
         this.setState({ transactions: response.data.trades });
         console.log('this.state.transactions', this.state.transactions);
@@ -170,6 +184,7 @@ class AlgorithmDetail extends Component {
         console.log('getLiveInstanceList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 response: true,
@@ -614,7 +629,9 @@ class AlgorithmDetail extends Component {
 
     render() {
         const { algoID } = this.props.match.params;
-        if (!this.state.loading) {
+        if (this.state.redirect === true) {
+            return <Redirect to="/algorithms" />;
+        } else if (!this.state.loading) {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
