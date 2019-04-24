@@ -23,7 +23,7 @@ class Nav extends Component {
 
     updateisOpen = () => {
         const { cookies } = this.props;
-        cookies.set('navOpen', !this.state.open);
+        cookies.set('navOpen', !this.state.open, { path: '/' });
         this.setState({ open: !this.state.open });
     };
     logout = () => {

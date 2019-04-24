@@ -111,9 +111,9 @@ class Login extends Component {
                     saveToLocalStorage({ user: data.user });
                     this.setState({ redirectToReferrer: true });
                     const { cookies } = this.props;
-                    cookies.set('isAuthenticated', true);
-                    cookies.set('isAdmin', data.isAdmin);
-                    cookies.set('jwt', data.token);
+                    cookies.set('isAuthenticated', true, { path: '/' });
+                    cookies.set('isAdmin', data.isAdmin, { path: '/' });
+                    cookies.set('jwt', data.token, { path: '/' });
                 }
                 break;
             case 400:
