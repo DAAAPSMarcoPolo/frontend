@@ -661,11 +661,11 @@ class AlgorithmDetail extends Component {
                                 Create new Backtest
                             </button>
                         }
-                        {this.state.isLive &&
+                        {this.state.isLive && this.state.liveInstanceSelected.live_instance.live ?
                           <button className="maxWidth position-corner greenButton" onClick={this.toggleCancelLiveInstanceForm}>
                             Cancel Live Instance
                           </button>
-                        }
+                        : null}
                         <h3>{this.state.algo_details.name}</h3>
                         <h5>
                             {this.state.backtestCount} Backtests Total |{' '}
