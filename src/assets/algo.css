@@ -197,7 +197,7 @@ p {
 }
 
 .backtest {
-    max-width: 1200px;
+    width: 100%;
 }
 .backtest .padding {
     background: #282828;

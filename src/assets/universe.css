@@ -60,6 +60,7 @@
 
 .flex-container{
   display: flex;
+  flex-wrap: wrap;
 }
 
 .con.flex-container{
@@ -176,4 +177,11 @@ input.search {
   color: #3ecc9a;
   font-style: italic;
   opacity: .6;
+}
+
+.flex-container div:not(:first-child) {
+  margin: 10px;
+}
+.flex-container div:first-child {
+  margin: 10px 10px 10px 0px;
 }
