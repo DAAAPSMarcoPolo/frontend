@@ -69,7 +69,7 @@ class AlgorithmDetail extends Component {
         this.getAlgorithmDetails = this.getAlgorithmDetails.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.getLiveInstanceList = this.getLiveInstanceList.bind(this);
-        this.geAvailableFunds = this.geAvailableFunds.bind(this);
+        this.getAvailableFunds = this.getAvailableFunds.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
         this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
@@ -84,7 +84,7 @@ class AlgorithmDetail extends Component {
             this.getBacktestList(),
             this.getLiveInstanceList(),
             this.getAlgorithmDetails(),
-            this.geAvailableFunds()
+            this.getAvailableFunds()
         ]).then(() => {
             this.setState({
                 loading: false,
@@ -165,8 +165,10 @@ class AlgorithmDetail extends Component {
 
     getLiveInstanceList = async () => {
         // GET /api/live/<strategy_id>
-        console.log('this.state.strategy')
-        const res = await api.Get(`/strategyliveinstances/${this.state.strategy}/`);
+        console.log('this.state.strategy');
+        const res = await api.Get(
+            `/strategyliveinstances/${this.state.strategy}/`
+        );
         console.log('getLiveInstanceList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
@@ -195,7 +197,7 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
-    geAvailableFunds = async () => {
+    getAvailableFunds = async () => {
         const res = await api.Get('/buyingpower');
         if (res.status !== 200) {
             setTimeout(() => {
@@ -406,7 +408,7 @@ class AlgorithmDetail extends Component {
             };
             const res = await api.Post('/live/', formData);
             if (res.status !== 200) {
-                this.setState({ error: res.statusText, isLive: true });
+                this.setState({ error: res.data.error, isLive: true });
                 setTimeout(() => {
                     this.setState({ error: null });
                 }, 5000);
@@ -681,14 +683,15 @@ class AlgorithmDetail extends Component {
                                 onClick={this.toggleLiveInstanceForm}
                             >
                                 {!this.state.isLive
-                                  ? 'New Live Instance'
-                                  : 'Cancel Live Instance'}
+                                    ? 'New Live Instance'
+                                    : 'Cancel Live Instance'}
                             </button>
                         )}
                         <h3>{this.state.algo_details.name}</h3>
-                            <h5>
-                              {this.state.backtestCount} Backtests Total | {this.state.liveInstanceCount} Live Instances Total
-                            </h5>
+                        <h5>
+                            {this.state.backtestCount} Backtests Total |{' '}
+                            {this.state.liveInstanceCount} Live Instances Total
+                        </h5>
                         <p>{this.state.algo_details.description}</p>
                         <div className="nav isLiveNav">
                             <p
@@ -728,7 +731,6 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
-
                             {this.state.noBacktests ? (
                                 <h2>No Backtests to show</h2>
                             ) : (
@@ -736,12 +738,19 @@ class AlgorithmDetail extends Component {
                                     {!this.state.stats.backtestHistoryMode ? (
                                         <div>
                                             <SortingButtons
-                                                updateMetric={this.selectSortMetric}
-                                                currentMetric={this.state.backtestSortMetric}
+                                                updateMetric={
+                                                    this.selectSortMetric
+                                                }
+                                                currentMetric={
+                                                    this.state
+                                                        .backtestSortMetric
+                                                }
                                             />
                                             <BacktestFilters
                                                 updateFilter={this.selectFilter}
-                                                currentFilters={this.state.filters}
+                                                currentFilters={
+                                                    this.state.filters
+                                                }
                                             />
                                             <BacktestList
                                                 id={algoID}

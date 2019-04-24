@@ -47,7 +47,7 @@ const LiveInstanceComponent = ({ strategy, backtest, live_instance }) => {
                         </Link>
                     </div>
                     <div className="col-5">
-                        {live_instance.live ? 'Running' : 'Paused'}
+                        {live_instance.live ? 'Running' : 'Stopped'}
                     </div>
                     <div className="col-3">
                         {backtest.vote_status === ''

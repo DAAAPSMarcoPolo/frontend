@@ -15,7 +15,7 @@ class App extends Component {
         const res = await api.Get('/');
         if (res.status === 401) {
             const { cookies } = this.props;
-            cookies.set('isAuthenticated', false);
+            cookies.remove('isAuthenticated');
         }
     }
 
