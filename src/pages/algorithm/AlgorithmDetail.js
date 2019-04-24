@@ -165,7 +165,8 @@ class AlgorithmDetail extends Component {
 
     getLiveInstanceList = async () => {
         // GET /api/live/<strategy_id>
-        const res = await api.Get(`/live/${this.state.strategy}`);
+        console.log('this.state.strategy')
+        const res = await api.Get(`/strategyliveinstances/${this.state.strategy}/`);
         console.log('getLiveInstanceList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });

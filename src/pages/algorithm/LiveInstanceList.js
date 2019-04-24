@@ -13,7 +13,7 @@ const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInsta
                         onClick={() => selectLiveInstance(i, live.live_instance.id)}
                     >
                         {' '}
-                        <div style={{color: `${isLive ? '#44E8AE' : '#FA6353'}`, display: 'inline'}}>•&nbsp;</div>
+                        <div style={{color: `${live.live_instance.live ? '#44E8AE' : '#FA6353'}`, display: 'inline'}}>•&nbsp;</div>
                         {live.live_instance.id}
                     </li>
                 ))}
