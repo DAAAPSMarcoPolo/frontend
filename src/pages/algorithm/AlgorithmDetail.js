@@ -739,13 +739,13 @@ class AlgorithmDetail extends Component {
                                     {!this.state.stats.backtestHistoryMode ? (
                                         <div>
                                             <SortingButtons
-                                updateMetric={this.selectSortMetric}
-                                currentMetric={this.state.backtestSortMetric}
-                            />
-                            <BacktestFilters
-                                updateFilter={this.selectFilter}
-                                currentFilters={this.state.filters}
-                            />
+                                                updateMetric={this.selectSortMetric}
+                                                currentMetric={this.state.backtestSortMetric}
+                                            />
+                                            <BacktestFilters
+                                                updateFilter={this.selectFilter}
+                                                currentFilters={this.state.filters}
+                                            />
                                             <BacktestList
                                                 id={algoID}
                                                 backtests={
