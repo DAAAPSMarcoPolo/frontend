@@ -49,9 +49,6 @@
     font-size: 0.7rem;
     font-weight: bold;
     color: rgb(233, 233, 233);
-    border-left: green;
-    border-left-style: solid;
-    border-left-width: thick;
     margin-bottom: 20px;
 }
 
@@ -144,7 +141,7 @@ p {
 }
 
 .maxWidth {
-    max-width: 300px;
+    max-width: 230px;
 }
 
 .list-group-item {

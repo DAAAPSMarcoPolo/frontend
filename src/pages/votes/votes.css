@@ -1,18 +1,63 @@
-.vote-btn-grp {
-    display: inline-block;
-}
-
-.vote-btn-grp .vote-btn {
-    width: 50px;
-}
-
-.vote-btn {
+.vote-card .vote-btn {
     max-width: 50px;
     background: none;
-    border: 2px solid #3ecc9a;
-    margin-right: 0.5rem;
+    border: none;
+    display: inline-block;
+    padding: 0 0.25rem;
+    margin: 0;
+    opacity: 0.4;
+    cursor: pointer;
 }
 
-.vote-btn:disabled.current-vote {
-    background: #3ecc9a;
+.vote-card .vote-btn.active {
+    opacity: 1;
+    cursor: default;
+}
+
+.vote-btn img {
+    width: 30px;
+}
+
+.toggle-text {
+    display: inline-block;
+    color: #838383;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.strategy-card {
+    width: 700px;
+    background-color: #282828;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    color: rgb(233, 233, 233);
+    /* border-left: green; */
+    border-bottom-style: solid;
+    border-bottom-width: thick;
+    cursor: pointer;
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.vote-card {
+    width: 700px;
+    background-color: #282828;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    color: rgb(233, 233, 233);
+    /* border-left: green; */
+    /* border-bottom-style: solid;
+    border-bottom-width: thick; */
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
 }

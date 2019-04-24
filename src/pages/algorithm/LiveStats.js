@@ -12,31 +12,35 @@ const LiveStats = ({ data }) => (
           </thead>
           <tbody>
             <tr>
-                <td>{data.initial_cash}</td>
+                <td>{data.live_instance.starting_cash}</td>
             </tr>
             <tr>
-                <th>End Amount</th>
+                <th>Current Cash</th>
             </tr>
             <tr>
-                <td>{data.end_cash}</td>
+                <td>{(data.live_instance.starting_cash+
+                    data.live_instance.starting_cash*data.pct_gain).toFixed(2)}</td>
             </tr>
 
             <tr>
-                <th>Length of Test</th>
-                <th>Start</th>
-                <th>End</th>
+                <th>Live Since</th>  
             </tr>
             <tr>
-                <td>{data.num_days}</td>
-                <td>{data.start_date}</td>
-                <td>{data.end_date}</td>
+            {`${new Date(
+                    data.live_instance.created_at
+                ).getFullYear()}-${new Date(
+                    data.live_instance.created_at
+                ).getMonth()+1}-${new Date(
+                    data.live_instance.created_at
+                ).getDate()}`
+            }
             </tr>
           </tbody>
         </table>
         <div className="percent">
             <div className="margin-auto">
                 <p className="subtext">Percent Gain</p>
-                <h1>{data.percent_gain}%</h1>
+                <h1>{(100*data.pct_gain).toFixed(2)}%</h1>
             </div>
         </div>
     </div>

@@ -63,11 +63,15 @@ class Dashboard extends Component {
         }
         return (
             <div>
-                <div className="text-right header-link">
-                    <div onClick={this.toggleAll}>
-                        {this.state.collapsed ? 'expand all' : 'collapse all'}
+                {this.state.strategies && (
+                    <div className="text-right header-link">
+                        <div onClick={this.toggleAll}>
+                            {this.state.collapsed
+                                ? 'expand all'
+                                : 'collapse all'}
+                        </div>
                     </div>
-                </div>
+                )}
                 {this.state.strategies &&
                     this.state.strategies.map((strategy, i) => (
                         <StrategyComponent
