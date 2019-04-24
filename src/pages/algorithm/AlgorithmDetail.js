@@ -682,7 +682,7 @@ class AlgorithmDetail extends Component {
                             >
                                 {!this.state.isLive
                                   ? 'New Live Instance'
-                                  : 'Cancel sLive Instance'}
+                                  : 'Cancel Live Instance'}
                             </button>
                         )}
                         <h3>{this.state.algo_details.name}</h3>
