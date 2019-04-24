@@ -647,14 +647,48 @@ class AlgorithmDetail extends Component {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
-                        <h3>{this.state.algo_details.name}</h3>
-                        {!this.state.isLive ? (
-                            <h5>{this.state.backtestCount} Backtests Total</h5>
+                        {!this.state.isLive && this.state.showBacktestForm ? (
+                            <BacktestForm
+                                error={this.state.error}
+                                submitForm={this.createBacktest}
+                                parent={this}
+                                handleSelectUniverse={this.handleSelectUniverse}
+                                showModal={this.state.showBacktestForm}
+                                toggleState={this.toggleBacktestForm}
+                                name="Backtest"
+                            />
                         ) : (
-                            <h5>
-                                {this.state.liveInstanceCount} Livetests Total
-                            </h5>
+                            <button
+                                className="maxWidth position-corner greenButton marginLeft"
+                                onClick={this.toggleBacktestForm}
+                            >
+                                Create new Backtest
+                            </button>
                         )}
+                        {this.state.showLiveInstanceForm ? (
+                            <LiveInstanceForm
+                                error={this.state.error}
+                                submitForm={this.createLiveInstance}
+                                parent={this}
+                                showModal={this.state.showLiveInstanceForm}
+                                toggleState={this.toggleLiveInstanceForm}
+                                name="Live Instance"
+                                funds={this.state.funds}
+                            />
+                        ) : (
+                            <button
+                                className="maxWidth position-corner greenButton"
+                                onClick={this.toggleLiveInstanceForm}
+                            >
+                                {!this.state.isLive
+                                  ? 'New Live Instance'
+                                  : 'Cancel Live Instance'}
+                            </button>
+                        )}
+                        <h3>{this.state.algo_details.name}</h3>
+                            <h5>
+                              {this.state.backtestCount} Backtests Total | {this.state.liveInstanceCount} Live Instances Total
+                            </h5>
                         <p>{this.state.algo_details.description}</p>
                         <div className="nav isLiveNav">
                             <p
@@ -673,44 +707,6 @@ class AlgorithmDetail extends Component {
                             </p>
                         </div>
                     </div>
-                    {!this.state.isLive && this.state.showBacktestForm ? (
-                        <BacktestForm
-                            error={this.state.error}
-                            submitForm={this.createBacktest}
-                            parent={this}
-                            handleSelectUniverse={this.handleSelectUniverse}
-                            showModal={this.state.showBacktestForm}
-                            toggleState={this.toggleBacktestForm}
-                            name="Backtest"
-                        />
-                    ) : (
-                        <button
-                            className="maxWidth position-corner greenButton marginLeft"
-                            onClick={this.toggleBacktestForm}
-                        >
-                            Create new Backtest
-                        </button>
-                    )}
-                    {this.state.showLiveInstanceForm ? (
-                        <LiveInstanceForm
-                            error={this.state.error}
-                            submitForm={this.createLiveInstance}
-                            parent={this}
-                            showModal={this.state.showLiveInstanceForm}
-                            toggleState={this.toggleLiveInstanceForm}
-                            name="Live Instance"
-                            funds={this.state.funds}
-                        />
-                    ) : (
-                        <button
-                            className="maxWidth position-corner greenButton"
-                            onClick={this.toggleLiveInstanceForm}
-                        >
-                            {!this.state.isLive
-                                ? 'Create new Live Instance'
-                                : 'Cancel Live Instance'}
-                        </button>
-                    )}
                     {this.state.isLive && this.state.showLiveInstanceForm ? (
                         <CancelLiveInstanceForm
                             error={this.state.error}
@@ -732,7 +728,7 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
-                            
+
                             {this.state.noBacktests ? (
                                 <h2>No Backtests to show</h2>
                             ) : (
@@ -812,7 +808,7 @@ class AlgorithmDetail extends Component {
                             />
                             <LiveStats
                                 start={this.state.algo_details.created_at}
-                                data={this.state.stats}
+                                data={this.state.liveInstanceSelected}
                             />
                         </div>
                     )}

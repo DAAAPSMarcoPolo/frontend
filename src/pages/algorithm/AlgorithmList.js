@@ -35,7 +35,7 @@ class AlgorithmList extends Component {
               <div className="errorClass"> {this.state.error && this.state.error} </div>
               <ul className="list">
                 {this.state.algolist && this.state.algolist.map((algo, i) =>
-                  <Link className="transform" to={`/algorithms/${algo.algo_details.id}`}>
+                  <Link className="transform" to={`/algorithms/${algo.algo_details.id}`} key={algo.algo_details.id}>
                     <Algo
                       key={i}
                       name={algo.algo_details.name}
@@ -49,6 +49,7 @@ class AlgorithmList extends Component {
                       end={algo.best_backtest.end_cash}
                       sharpe={algo.best_backtest.sharpe}
                       complete={algo.best_backtest.complete}
+                      status={algo.algo_details.live}
                     />
                   </Link> )
                 }
