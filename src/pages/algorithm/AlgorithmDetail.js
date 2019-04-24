@@ -728,21 +728,20 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
-
+                            <SortingButtons
+                                updateMetric={this.selectSortMetric}
+                                currentMetric={this.state.backtestSortMetric}
+                            />
+                            <BacktestFilters
+                                updateFilter={this.selectFilter}
+                                currentFilters={this.state.filters}
+                            />
                             {this.state.noBacktests ? (
                                 <h2>No Backtests to show</h2>
                             ) : (
                                 <div>
                                     {!this.state.stats.backtestHistoryMode ? (
                                         <div>
-                                            <SortingButtons
-                                                updateMetric={this.selectSortMetric}
-                                                currentMetric={this.state.backtestSortMetric}
-                                            />
-                                            <BacktestFilters
-                                                updateFilter={this.selectFilter}
-                                                currentFilters={this.state.filters}
-                                            />
                                             <BacktestList
                                                 id={algoID}
                                                 backtests={
@@ -773,7 +772,7 @@ class AlgorithmDetail extends Component {
                                 </div>
                             )}
                             {this.state.noBacktests ? null : (
-                                <div>
+                                <div className="flex-container">
                                     <Stats
                                         start={
                                             this.state.algo_details.created_at

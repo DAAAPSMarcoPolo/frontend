@@ -44,6 +44,18 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
+.vote-btn {
+    line-height: 7px;
+    /* outline-width: thin; */
+    /* max-width: 36px; */
+    background: none;
+    border: 2px solid #3ecc9a;
+    /* margin-right: 0.5rem; */
+    width: 30px;
+    margin: 0px 10px 0px 0px;
+    height: 30px;
+}
+
 .vote-card {
     width: 700px;
     background-color: #282828;
@@ -60,4 +72,14 @@
     -khtml-user-select: none; /* Konqueror HTML */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.ul-votes {
+  padding: 0px;
+}
+
+.button-wrap-vote {
+  display: inline;
+width: 100%;
+margin: 0px;
 }

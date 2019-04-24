@@ -23,6 +23,8 @@
     width: 60%;
     border-radius: 10px;
     border: none;
+    max-height: 90vh;
+    overflow: scroll;
 }
 .modal-top {
     display: block;

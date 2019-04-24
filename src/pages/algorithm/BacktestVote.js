@@ -69,7 +69,7 @@ const BacktestVote = ({ data, castVote }) => {
                 );
             } else if (v.user === currUser.id) {
                 vote = (
-                    <div>
+                    <div className="button-wrap-vote">
                         <button
                             className="vote-btn"
                             onClick={() => castVote('approve')}
@@ -86,7 +86,7 @@ const BacktestVote = ({ data, castVote }) => {
                 );
             }
             votes.push(
-                <li>
+                <li className="li">
                     {v.user__username}: {vote}
                 </li>
             );
@@ -94,9 +94,9 @@ const BacktestVote = ({ data, castVote }) => {
     }
 
     return (
-        <div className="con">
+        <div className="con backtest-flex-child">
             {title}
-            <ul>{votes}</ul>
+            <ul className="ul-votes">{votes}</ul>
         </div>
     );
 };

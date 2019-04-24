@@ -60,6 +60,7 @@
 
 .flex-container{
   display: flex;
+  flex-wrap: wrap;
 }
 
 .con.flex-container{
