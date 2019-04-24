@@ -123,14 +123,19 @@ p {
   font-weight: bold;
   text-align: center;
   border-radius: 100%;
-  border: 3px solid #3ecc9a;
+  /* border: 3px solid #3ecc9a; */
   width: 170px;
   height: 170px;
   position: absolute;
   top: 85px;
   right: 34px;
 }
-
+.percentRed {
+  border: 3px solid #FA6353;
+}
+.percentGreen {
+  border: 3px solid #44E8AE;
+}
 .live-stats .percent {
   font-size: 50px;
   top: 78px;
@@ -271,7 +276,6 @@ p {
 .flex-container .con {
   min-width: 400px;
   max-height: 400px;
-  max-width: 400px;
 }
 
 .backtest-flex-child {

@@ -111,11 +111,9 @@ class Login extends Component {
                     saveToLocalStorage({ user: data.user });
                     this.setState({ redirectToReferrer: true });
                     const { cookies } = this.props;
-                    cookies.set('isAuthenticated', true);
-                    cookies.set('isAdmin', data.isAdmin);
-                    cookies.set('login', true);
-                    cookies.set('jwt', data.token);
-                    cookies.set('token', '');
+                    cookies.set('isAuthenticated', true, { path: '/' });
+                    cookies.set('isAdmin', data.isAdmin, { path: '/' });
+                    cookies.set('jwt', data.token, { path: '/' });
                 }
                 break;
             case 400:
@@ -130,7 +128,7 @@ class Login extends Component {
             case 401:
                 deleteFromLocalStorage('token');
                 const { cookies } = this.props;
-                cookies.set('isAuthenticated', false, { path: '/' });
+                cookies.remove('isAuthenticated');
                 break;
             case 404:
                 this.setState({ error: 'Invalid credentials.' });

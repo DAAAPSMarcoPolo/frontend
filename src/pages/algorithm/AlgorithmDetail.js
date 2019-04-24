@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Redirect } from 'react-router-dom';
 import BacktestForm from './BacktestForm';
 import BacktestList from './BacktestList';
 import BacktestGraph from './BacktestGraph';
@@ -56,10 +57,13 @@ class AlgorithmDetail extends Component {
                 user: false
             },
             noBacktests: false,
-            funds: 0
+            funds: 0,
+            redirect: false,
+            showCancelLiveInstanceForm: false
         };
         this.toggleBacktestForm = this.toggleBacktestForm.bind(this);
         this.toggleLiveInstanceForm = this.toggleLiveInstanceForm.bind(this);
+        this.toggleCancelLiveInstanceForm = this.toggleCancelLiveInstanceForm.bind(this);
         this.createBacktest = this.createBacktest.bind(this);
         this.createLiveInstance = this.createLiveInstance.bind(this);
         this.stopLiveInstance = this.stopLiveInstance.bind(this);
@@ -69,7 +73,7 @@ class AlgorithmDetail extends Component {
         this.getAlgorithmDetails = this.getAlgorithmDetails.bind(this);
         this.getBacktestList = this.getBacktestList.bind(this);
         this.getLiveInstanceList = this.getLiveInstanceList.bind(this);
-        this.geAvailableFunds = this.geAvailableFunds.bind(this);
+        this.getAvailableFunds = this.getAvailableFunds.bind(this);
         this.selectBacktest = this.selectBacktest.bind(this);
         this.selectLiveInstance = this.selectLiveInstance.bind(this);
         this.toggleLive = this.toggleLive.bind(this);
@@ -84,12 +88,18 @@ class AlgorithmDetail extends Component {
             this.getBacktestList(),
             this.getLiveInstanceList(),
             this.getAlgorithmDetails(),
-            this.geAvailableFunds()
+            this.getAvailableFunds()
         ]).then(() => {
-            this.setState({
+            if (this.state.error) {
+              this.setState({
+                redirect: true
+              });
+            } else {
+              this.setState({
                 loading: false,
                 filteredBacktests: Array.from(this.state.backtests)
-            });
+              });
+            }
         });
     }
 
@@ -116,6 +126,7 @@ class AlgorithmDetail extends Component {
         console.log('getBacktestList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 response: true,
@@ -144,6 +155,7 @@ class AlgorithmDetail extends Component {
         console.log('Algorithm Details', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 algo_details: res.data.algo_details
@@ -158,6 +170,10 @@ class AlgorithmDetail extends Component {
         const response = await api.Get(
             '/backtest/' + this.state.backtestSelected + '/'
         );
+        if (response.status !== 200) {
+            this.setState({ error: response.statusText });
+            return;
+        }
         console.log('transform', response);
         this.setState({ transactions: response.data.trades });
         console.log('this.state.transactions', this.state.transactions);
@@ -165,11 +181,14 @@ class AlgorithmDetail extends Component {
 
     getLiveInstanceList = async () => {
         // GET /api/live/<strategy_id>
-        console.log('this.state.strategy')
-        const res = await api.Get(`/strategyliveinstances/${this.state.strategy}/`);
+        console.log('this.state.strategy');
+        const res = await api.Get(
+            `/strategyliveinstances/${this.state.strategy}/`
+        );
         console.log('getLiveInstanceList', res);
         if (res.status !== 200) {
             this.setState({ error: res.statusText });
+            return;
         } else if (res.data) {
             this.setState({
                 response: true,
@@ -195,7 +214,7 @@ class AlgorithmDetail extends Component {
             this.setState({ error: null });
         }, 5000);
     };
-    geAvailableFunds = async () => {
+    getAvailableFunds = async () => {
         const res = await api.Get('/buyingpower');
         if (res.status !== 200) {
             setTimeout(() => {
@@ -217,6 +236,12 @@ class AlgorithmDetail extends Component {
     toggleLiveInstanceForm = () => {
         this.setState({
             showLiveInstanceForm: !this.state.showLiveInstanceForm
+        });
+    };
+
+    toggleCancelLiveInstanceForm = () => {
+        this.setState({
+            showCancelLiveInstanceForm: !this.state.showCancelLiveInstanceForm
         });
     };
 
@@ -243,35 +268,6 @@ class AlgorithmDetail extends Component {
         ) {
             return;
         }
-        /*
-        const li = liveInstanceSelected.live_instance;
-
-        const start = new Date(li.start_date);
-        const end = new Date(li.end_date);
-        const timeDiff = Math.abs(end.getTime() - start.getTime());
-        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        const per_gain = (
-            ((li.end_cash - li.initial_cash) / li.initial_cash) *
-            100
-        ).toFixed(2);
-        // accounting for weird db storage, add 4 (don't ask me why because I have no clue. but hey, it works)
-
-        const stats = {};
-        stats.initial_cash =
-            '$ ' +
-            this.numberWithCommas(
-                liveInstanceSelected.live_instance.initial_cash.toFixed(2)
-            );
-        stats.end_cash =
-            '$ ' +
-            this.numberWithCommas(
-                liveInstanceSelected.live_instance.end_cash.toFixed(2)
-            );
-        stats.percent_gain = per_gain === !NaN ? 0 : per_gain;
-        stats.num_days = diffDays + 4;
-        stats.start_date = `${start.getMonth()}-${start.getDate()}-${start.getFullYear()}`;
-        stats.end_date = `${end.getMonth()}-${end.getDate()}-${end.getFullYear()}`;
-        */
         this.setState({ liveInstanceSelected });
         console.log('liveInstanceSelected', liveInstanceSelected);
         return;
@@ -406,7 +402,7 @@ class AlgorithmDetail extends Component {
             };
             const res = await api.Post('/live/', formData);
             if (res.status !== 200) {
-                this.setState({ error: res.statusText, isLive: true });
+                this.setState({ error: res.data.error, isLive: true });
                 setTimeout(() => {
                     this.setState({ error: null });
                 }, 5000);
@@ -643,52 +639,38 @@ class AlgorithmDetail extends Component {
 
     render() {
         const { algoID } = this.props.match.params;
-        if (!this.state.loading) {
+        if (this.state.redirect === true) {
+            return <Redirect to="/algorithms" />;
+        } else if (!this.state.loading) {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
-                        {!this.state.isLive && this.state.showBacktestForm ? (
-                            <BacktestForm
-                                error={this.state.error}
-                                submitForm={this.createBacktest}
-                                parent={this}
-                                handleSelectUniverse={this.handleSelectUniverse}
-                                showModal={this.state.showBacktestForm}
-                                toggleState={this.toggleBacktestForm}
-                                name="Backtest"
-                            />
-                        ) : (
+                        {!this.state.isLive && this.state.backtestSelected.backtest.vote_status == 'approved' ?
                             <button
                                 className="maxWidth position-corner greenButton marginLeft"
+                                onClick={this.toggleLiveInstanceForm}
+                            >
+                                  New Live Instance
+                            </button>
+                        : null}
+                        {!this.state.isLive &&
+                            <button
+                                className="maxWidth position-corner greenButton"
                                 onClick={this.toggleBacktestForm}
                             >
                                 Create new Backtest
                             </button>
-                        )}
-                        {this.state.showLiveInstanceForm ? (
-                            <LiveInstanceForm
-                                error={this.state.error}
-                                submitForm={this.createLiveInstance}
-                                parent={this}
-                                showModal={this.state.showLiveInstanceForm}
-                                toggleState={this.toggleLiveInstanceForm}
-                                name="Live Instance"
-                                funds={this.state.funds}
-                            />
-                        ) : (
-                            <button
-                                className="maxWidth position-corner greenButton"
-                                onClick={this.toggleLiveInstanceForm}
-                            >
-                                {!this.state.isLive
-                                  ? 'New Live Instance'
-                                  : 'Cancel Live Instance'}
-                            </button>
-                        )}
+                        }
+                        {this.state.isLive && this.state.liveInstanceSelected.live_instance.live ?
+                          <button className="maxWidth position-corner greenButton" onClick={this.toggleCancelLiveInstanceForm}>
+                            Cancel Live Instance
+                          </button>
+                        : null}
                         <h3>{this.state.algo_details.name}</h3>
-                            <h5>
-                              {this.state.backtestCount} Backtests Total | {this.state.liveInstanceCount} Live Instances Total
-                            </h5>
+                        <h5>
+                            {this.state.backtestCount} Backtests Total |{' '}
+                            {this.state.liveInstanceCount} Live Instances Total
+                        </h5>
                         <p>{this.state.algo_details.description}</p>
                         <div className="nav isLiveNav">
                             <p
@@ -707,13 +689,35 @@ class AlgorithmDetail extends Component {
                             </p>
                         </div>
                     </div>
-                    {this.state.isLive && this.state.showLiveInstanceForm ? (
+                    {!this.state.isLive && this.state.showBacktestForm ?
+                            <BacktestForm
+                                error={this.state.error}
+                                submitForm={this.createBacktest}
+                                parent={this}
+                                handleSelectUniverse={this.handleSelectUniverse}
+                                showModal={this.state.showBacktestForm}
+                                toggleState={this.toggleBacktestForm}
+                                name="Backtest"
+                            />
+                    : null}
+                    {!this.state.isLive && this.state.showLiveInstanceForm ? (
+                        <LiveInstanceForm
+                            error={this.state.error}
+                            submitForm={this.createLiveInstance}
+                            parent={this}
+                            showModal={this.state.showLiveInstanceForm}
+                            toggleState={this.toggleLiveInstanceForm}
+                            name="Live Instance"
+                            funds={this.state.funds}
+                        />
+                    ) : null}
+                    {this.state.isLive && this.state.showCancelLiveInstanceForm ? (
                         <CancelLiveInstanceForm
                             error={this.state.error}
                             submitForm={this.stopLiveInstance}
                             parent={this}
-                            showModal={this.state.showLiveInstanceForm}
-                            toggleState={this.toggleLiveInstanceForm}
+                            showModal={this.state.showCancelLiveInstanceForm}
+                            toggleState={this.toggleCancelLiveInstanceForm}
                             name="Cancel Live Instance"
                             id={
                                 this.state.liveInstanceSelected.live_instance.id
@@ -742,6 +746,21 @@ class AlgorithmDetail extends Component {
                                 <div>
                                     {!this.state.stats.backtestHistoryMode ? (
                                         <div>
+                                            <SortingButtons
+                                                updateMetric={
+                                                    this.selectSortMetric
+                                                }
+                                                currentMetric={
+                                                    this.state
+                                                        .backtestSortMetric
+                                                }
+                                            />
+                                            <BacktestFilters
+                                                updateFilter={this.selectFilter}
+                                                currentFilters={
+                                                    this.state.filters
+                                                }
+                                            />
                                             <BacktestList
                                                 id={algoID}
                                                 backtests={
@@ -772,7 +791,7 @@ class AlgorithmDetail extends Component {
                                 </div>
                             )}
                             {this.state.noBacktests ? null : (
-                                <div className="flex-container">
+                                <div className="flex-container b">
                                     <Stats
                                         start={
                                             this.state.algo_details.created_at

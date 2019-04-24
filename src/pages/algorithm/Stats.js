@@ -41,7 +41,7 @@ const Stats = ( props ) => (
 			<p onClick={props.toggleMode} className={`${!props.data.backtestHistoryMode && 'toggleLive'} click`}>Table</p>
 			<p onClick={props.toggleMode} className={`${props.data.backtestHistoryMode && 'toggleLive'} marginLeft click`}>Graph</p>
 		</div>
-        <div className="percent">
+        <div className={`percent ${props.data.percent_gain < 0 ? 'percentRed' : 'percentGreen'}`}>
             <div className="margin-auto">
                 <p className="subtext">Percent Gain</p>
                 <h1>{props.data.percent_gain}%</h1>

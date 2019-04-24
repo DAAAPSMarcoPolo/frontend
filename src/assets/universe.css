@@ -58,11 +58,14 @@
   opacity: 1;
 }
 
-.flex-container{
-  display: flex;
+.b.flex-container{
   flex-wrap: wrap;
 }
 
+
+.flex-container{
+  display: flex;
+}
 .con.flex-container{
   max-width: 100%;
   min-width: 100%;
