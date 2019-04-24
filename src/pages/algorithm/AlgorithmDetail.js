@@ -812,7 +812,7 @@ class AlgorithmDetail extends Component {
                             />
                             <LiveStats
                                 start={this.state.algo_details.created_at}
-                                data={this.state.stats}
+                                data={this.state.liveInstanceSelected}
                             />
                         </div>
                     )}
