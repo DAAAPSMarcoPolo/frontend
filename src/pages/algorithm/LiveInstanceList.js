@@ -28,6 +28,7 @@ const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInsta
                       <th>Quantity</th>
                       <th>Close Price</th>
                       <th>Close Date</th>
+                      <th>P/L</th>
                   </tr>
               </thead>
               <tbody>
@@ -61,6 +62,14 @@ const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInsta
                                       el.close_date
                                   ).getDate()}`
                                   : '--'}
+                              </td>
+                              <td className="tab trans-col">
+                              {el.p_l !== null ?
+                              (100*el.p_l).toFixed(2)
+                              : '--'
+                            }
+                            {el.p_l !== null && ' %'}
+                                  
                               </td>
                           </tr>
                       ))}
