@@ -44,7 +44,7 @@ const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInsta
                                       el.open_date
                                   ).getFullYear()}-${new Date(
                                       el.open_date
-                                  ).getMonth()}-${new Date(
+                                  ).getMonth()+1}-${new Date(
                                       el.open_date
                                   ).getDate()}` : '--'}
                               </td>
@@ -58,7 +58,7 @@ const LiveInstanceList = ({ liveInstances, liveInstanceSelected, selectLiveInsta
                                       el.close_date
                                   ).getFullYear()}-${new Date(
                                       el.close_date
-                                  ).getMonth()}-${new Date(
+                                  ).getMonth()+1}-${new Date(
                                       el.close_date
                                   ).getDate()}`
                                   : '--'}
