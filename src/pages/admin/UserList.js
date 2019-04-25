@@ -20,13 +20,9 @@ class UserList extends Component {
         this.handleSubmitNewUser = this.handleSubmitNewUser.bind(this);
     };
 
-    componentDidMount() {
-        console.log('users', this.props.users);
-    }
 
     showConfirm = (user) => (e) => {
         e.persist();
-        console.log("e", e, "user", user);
         this.setState({showConfirm: !this.state.showConfirm, user});
     };
     removeUserWrap = (e) => {
@@ -41,8 +37,6 @@ class UserList extends Component {
     handleSubmitNewUser = async (e) => {
         e.preventDefault();
         e.persist();
-        console.log(`username: ${e.target.username.value}`);
-        console.log(`password: ${e.target.password.value}`);
         const formData = {
             "username": e.target.username.value,
             "password": e.target.password.value
@@ -53,7 +47,6 @@ class UserList extends Component {
                     return {data}
                 })
             });
-        console.log(data);
         this.props.getUsersList();
         this.setState({showAdd: !this.state.showAdd});
     };
@@ -62,7 +55,6 @@ class UserList extends Component {
     render() {
         let mappedUsers;
         if (this.props.users != null) {
-            console.log(this.props.users);
             mappedUsers = this.props.users.map((user, i) =>
                 <li className="li rel" key={i}>
                     <div className="rel">{user.username} • {user.is_active ? 'active' : 'inactive'}

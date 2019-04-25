@@ -5,7 +5,6 @@ import check_icon from '../../assets/images/check-icon.png';
 
 const VoteComponent = ({ strategy, backtest, castVote }) => {
     const { border, statusText } = selectStatus(backtest.vote_status);
-    console.log(border);
     return (
         <div className={`card vote-card mt-1 ${border}`}>
             <div className="row">

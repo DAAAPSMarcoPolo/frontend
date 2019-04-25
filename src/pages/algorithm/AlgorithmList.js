@@ -20,12 +20,10 @@ class AlgorithmList extends Component {
     getAlgorithmList = async () => {
       // GET /api/algorithm/
       const res = await api.Get('/algorithm/');
-      console.log(res);
       if (res.status !== 200) {
         this.setState({ error:res.statusText});
       } else {
         this.setState({ algolist: res.data });
-        console.log(res.data)
       }
       setTimeout(() => { this.setState({error: null}); }, 5000);
     };

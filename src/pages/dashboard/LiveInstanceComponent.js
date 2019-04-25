@@ -5,7 +5,6 @@ import './live-instance.css';
 const LiveInstanceComponent = ({ strategy, backtest, live_instance }) => {
     const border = selectBorder(backtest, live_instance);
 
-    console.log(live_instance);
     return (
         <div>
             <a
@@ -14,7 +13,7 @@ const LiveInstanceComponent = ({ strategy, backtest, live_instance }) => {
                 }`}
                 className={'card live-card mt-1' + border}
             >
-                {/* 
+                {/*
                 information available:
                     backtest: related backtest id, backtest vote status
                     live instance: id, starting cash, buying power, status

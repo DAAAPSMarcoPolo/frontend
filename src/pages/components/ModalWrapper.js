@@ -5,8 +5,6 @@ import '../../assets/modalWrapper.css';
 
 const ModalWrapper = props => {
   var showModal = props.showModal;
-  console.log('showModal', showModal, props.showModal);
-
   const handleBackgroundClick = e => {
     if (e.target === e.currentTarget) props.toggleState();
   };
