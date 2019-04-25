@@ -711,6 +711,14 @@ class AlgorithmDetail extends Component {
                     </div>
                     {!this.state.isLive && this.state.backtestSelected && (
                         <div>
+                            <SortingButtons
+                                updateMetric={this.selectSortMetric}
+                                currentMetric={this.state.backtestSortMetric}
+                            />
+                            <BacktestFilters
+                                updateFilter={this.selectFilter}
+                                currentFilters={this.state.filters}
+                            />
                             {this.state.noBacktests ? (
                                 <h2>No Backtests to show</h2>
                             ) : (
