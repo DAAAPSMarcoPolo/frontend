@@ -661,7 +661,7 @@ class AlgorithmDetail extends Component {
                                 Create new Backtest
                             </button>
                         }
-                        {this.state.isLive && this.state.liveInstanceSelected.live_instance.live ?
+                        {this.state.isLive && this.state.liveInstanceSelected !== null && this.state.liveInstanceSelected.live_instance.live ?
                           <button className="maxWidth position-corner greenButton" onClick={this.toggleCancelLiveInstanceForm}>
                             Cancel Live Instance
                           </button>
@@ -746,21 +746,6 @@ class AlgorithmDetail extends Component {
                                 <div>
                                     {!this.state.stats.backtestHistoryMode ? (
                                         <div>
-                                            <SortingButtons
-                                                updateMetric={
-                                                    this.selectSortMetric
-                                                }
-                                                currentMetric={
-                                                    this.state
-                                                        .backtestSortMetric
-                                                }
-                                            />
-                                            <BacktestFilters
-                                                updateFilter={this.selectFilter}
-                                                currentFilters={
-                                                    this.state.filters
-                                                }
-                                            />
                                             <BacktestList
                                                 id={algoID}
                                                 backtests={
@@ -810,7 +795,7 @@ class AlgorithmDetail extends Component {
                             )}
                         </div>
                     )}
-                    {this.state.isLive && this.state.liveInstanceSelected && (
+                    {this.state.isLive && this.state.liveInstanceSelected !== null && (
                         <div>
                             <LiveInstanceList
                                 id={algoID}
