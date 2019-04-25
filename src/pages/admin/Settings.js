@@ -35,12 +35,10 @@ class Settings extends Component {
     }
 
     handleRemoveUser = async (e, username) => {
-        console.log('Removing a user:', username);
         const formbody = {
             username: username
         };
         const response = await api.Delete('/users/list/', formbody);
-        console.log(response);
         if (response.status === 401) {
             if (response.message) {
                 this.setState({ error: response.message });
@@ -57,7 +55,6 @@ class Settings extends Component {
             secret_key: e.target.secret_key.value
         };
         const response = await api.Post('/alpaca/', formData);
-        console.log(response.status);
     };
 
     showAlpacaPreferences = () => {

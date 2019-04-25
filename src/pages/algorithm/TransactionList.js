@@ -24,7 +24,6 @@ class TransactionList extends Component{
             return;
         }
         const response = await api.Get("/backtest/"+ this.props.backtestId + "/");
-        console.log(response);
         this.setState({transactions: response.data.trades});
     };
 

@@ -14,7 +14,6 @@ class AddUniverse extends Component{
         e.preventDefault();
         e.persist();
         this.setState({stocklist: value});
-        console.log(value);
     };
 
     render(){

@@ -3,8 +3,6 @@ import LiveInstanceComponent from './LiveInstanceComponent';
 import { Link } from 'react-router-dom';
 import './strategy.css';
 const StrategyComponent = ({ strategy, index, toggleCollapse }) => {
-    console.log(index);
-    console.log(strategy);
     let live_count = 0;
     strategy.backtests.forEach(backtest => {
         live_count += backtest.live_instances.length;

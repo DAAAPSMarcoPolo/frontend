@@ -39,7 +39,6 @@ class Votes extends Component {
             }
         }
         this.setState({ vote_data });
-        console.log(response.data);
     }
 
     castVote = async (vote, backtest) => {
@@ -156,7 +155,6 @@ class Votes extends Component {
 const getCount = (strategy, status) => {
     let count = 0;
     strategy.backtests.forEach(backtest => {
-        console.log(backtest);
         if (backtest.vote_status === status) {
             count++;
         }

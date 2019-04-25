@@ -29,12 +29,10 @@ class Universe extends Component {
 
     getUniverses = async ()=> {
         const response = await api.Get('/universe/');
-        console.log(response);
         if (response.status === 200){
             this.setState({universeList: response.data, error:null});
         } else {
             this.setState({error: "Could not retrieve universes"})
-            console.log("Could not retrieve universe data");
         }
 
         if (this.state.currentUniverseId !== null){
@@ -49,7 +47,6 @@ class Universe extends Component {
     };
 
     updateCurrentUniverse = (id) => {
-        console.log("Getting universe:", id);
         if (this.state.universeList === null){
             this.setState({currentUniverse: null});
         }
@@ -75,13 +72,11 @@ class Universe extends Component {
         };
 
         const response = await api.Post("/universe/", formdata);
-        console.log(response);
         if (response.status === 201){
             this.changeAddUniverseState();
             this.getUniverses();
             this.setState({currentUniverseId: response.data.id});
             this.updateCurrentUniverse(response.data.id);
-            console.log(response);
         } else if (response.status === 409){
             this.setState({addUniverseError: "Cannot create universe with duplicate name"});
             setTimeout(() => { this.setState({error: null}); }, 5000);
