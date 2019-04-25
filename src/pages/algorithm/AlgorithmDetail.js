@@ -624,7 +624,7 @@ class AlgorithmDetail extends Component {
             return (
                 <div className="fullWidth">
                     <div className="title-info">
-                        {!this.state.isLive && this.state.backtestSelected.backtest.vote_status == 'approved' ?
+                        {!this.state.isLive && this.state.backtestSelected !== null && this.state.backtestSelected.backtest.vote_status == 'approved' ?
                             <button
                                 className="maxWidth position-corner greenButton marginLeft"
                                 onClick={this.toggleLiveInstanceForm}
