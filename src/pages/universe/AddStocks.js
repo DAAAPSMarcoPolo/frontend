@@ -19,8 +19,6 @@ class AddStocks extends Component{
     }
 
     handleChange = (e, { searchQuery, value }) => {
-        console.log('value', value);
-        //this.setState({ value });
         this.props.updateValues(value);
     };
 

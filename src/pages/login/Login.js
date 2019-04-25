@@ -42,9 +42,7 @@ class Login extends Component {
             password: e.target.password.value
         };
         const res = await api.Post('/auth/login/', formData, false);
-        console.log(res);
         const { data } = res;
-        console.log(data);
         switch (res.status) {
             case 200:
                 if (data.message === 'code sent') {

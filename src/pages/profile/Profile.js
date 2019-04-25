@@ -105,7 +105,6 @@ class Settings extends Component {
         const formData = new FormData();
         formData.append('avatar', this.state.file);
         const response = await api.PostFile('/profilepicture/', formData);
-        console.log(response);
         if (response.status === 200) {
             // the response returned a success
             const url = `https://marcopoloinvestment.club${response.data}`;

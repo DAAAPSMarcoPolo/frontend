@@ -69,7 +69,6 @@ class Upload extends Component {
             formData.append('name', this.state.algoName);
             formData.append('description', this.state.algoDescription);
             const response = await api.PostFile('/algofile/', formData);
-            console.log(response);
             if (response.status === 200) {
                 this.setState({
                     files: null,
