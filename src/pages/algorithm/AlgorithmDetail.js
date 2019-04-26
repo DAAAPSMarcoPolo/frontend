@@ -231,9 +231,7 @@ class AlgorithmDetail extends Component {
     };
 
     toggleCancelLiveInstanceForm = () => {
-        this.setState({
-            showCancelLiveInstanceForm: !this.state.showCancelLiveInstanceForm
-        });
+        this.setState({showCancelLiveInstanceForm: !this.state.showCancelLiveInstanceForm})
     };
 
     toggleLive = () => {
@@ -241,10 +239,10 @@ class AlgorithmDetail extends Component {
         if (this.state.algo_details.live) {
             this.setState({ isLive: !this.state.isLive });
         } else {
-            this.setState({
-                error:
-                    'No live instances yet, Create a new live instance from a backtest!'
-            });
+            // this.setState({
+            //     error:
+            //         'No live instances yet, Create a new live instance from a backtest!'
+            // });
             setTimeout(() => {
                 this.setState({ error: null });
             }, 5000);
@@ -423,7 +421,7 @@ class AlgorithmDetail extends Component {
                     this.setState({ error: null });
                 }, 5000);
             }
-            this.toggleLiveInstanceForm();
+            this.toggleCancelLiveInstanceForm();
         }
     };
 
