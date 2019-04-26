@@ -231,9 +231,7 @@ class AlgorithmDetail extends Component {
     };
 
     toggleCancelLiveInstanceForm = () => {
-        this.setState({
-            showCancelLiveInstanceForm: !this.state.showCancelLiveInstanceForm
-        });
+        this.setState({showCancelLiveInstanceForm: !this.state.showCancelLiveInstanceForm})
     };
 
     toggleLive = () => {
@@ -423,7 +421,7 @@ class AlgorithmDetail extends Component {
                     this.setState({ error: null });
                 }, 5000);
             }
-            this.toggleLiveInstanceForm();
+            this.toggleCancelLiveInstanceForm();
         }
     };
 
